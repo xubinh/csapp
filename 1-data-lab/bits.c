@@ -162,7 +162,7 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-    return !((x + 1) ^ (1 << 31));
+    return (!(x >> 31)) & (!(~(x | (1 << 31))));
 }
 /*
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -201,8 +201,8 @@ int negate(int x) {
  */
 int isAsciiDigit(int x) {
     int minus_x = (~x) + 1;
-    int inequality_left = 0x29 + minus_x;
-    int inequality_right = (~(0x39 + minus_x)) + 1;
+    int inequality_left = 0x2f + minus_x;
+    int inequality_right = ~(0x39 + minus_x);
     int result = ((inequality_left & inequality_right) >> 31) & 1;
     return result;
 }
