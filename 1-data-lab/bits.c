@@ -325,7 +325,25 @@ unsigned floatScale2(unsigned uf) {
  *   Rating: 4
  */
 int floatFloat2Int(unsigned uf) {
-    return 2;
+    int exponent = ((uf >> 23) & 0xff) - 127;
+    if (!(((exponent - 31) >> 31) & 1)) {
+        return 0x80000000u;
+    }
+    if ((exponent >> 31) & 1) {
+        return 0;
+    }
+    int significant = (uf & 0x7fffff) | 0x800000;
+    exponent = exponent - 23;
+    int result = 0;
+    if (exponent >> 31 & 1) {
+        result = significant >> (-exponent);
+    } else {
+        result = significant << exponent;
+    }
+    if ((uf >> 31) & 1) {
+        result = -result;
+    }
+    return result;
 }
 /*
  * floatPower2 - Return bit-level equivalent of the expression 2.0^x
@@ -341,5 +359,20 @@ int floatFloat2Int(unsigned uf) {
  *   Rating: 4
  */
 unsigned floatPower2(int x) {
-    return 2;
+    if (x >= 128) {
+        return 0x7f800000;
+    }
+    if (x < -126 - 32) {
+        return 0;
+    }
+    if (x >= -126) {
+        x = x + 127;
+        unsigned result = 0;
+        result = result | (x << 23);
+        return result;
+    } else {
+        x = -126 - x;
+        unsigned result = 0x800000 >> x;
+        return result;
+    }
 }
