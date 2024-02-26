@@ -188,7 +188,7 @@ int allOddBits(int x) {
  *   Rating: 2
  */
 int negate(int x) {
-    return 2;
+    return (~x) + 1;
 }
 // 3
 /*
@@ -200,7 +200,11 @@ int negate(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-    return 2;
+    int minus_x = (~x) + 1;
+    int inequality_left = 0x29 + minus_x;
+    int inequality_right = (~(0x39 + minus_x)) + 1;
+    int result = ((inequality_left & inequality_right) >> 31) & 1;
+    return result;
 }
 /*
  * conditional - same as x ? y : z
@@ -210,7 +214,15 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-    return 2;
+    x = x | (x >> 16);
+    x = x | (x >> 8);
+    x = x | (x >> 4);
+    x = x | (x >> 2);
+    x = x | (x >> 1);
+    int indicator = x & 1;
+    int not_zero = ~(indicator) + 1;
+    int zero = ~not_zero;
+    return (not_zero & y) + (zero & z);
 }
 /*
  * isLessOrEqual - if x <= y  then return 1, else return 0
@@ -220,7 +232,11 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-    return 2;
+    int different_sign = ((x ^ y) >> 31) & 1;
+    int x_negative = (x >> 31) & 1;
+    int same_sign = (~different_sign) + 2;
+    int y_bigger_than_equal_to_x = (~(((y + (~x) + 1) >> 31) & 1)) + 2;
+    return (different_sign & x_negative) | (same_sign & y_bigger_than_equal_to_x);
 }
 // 4
 /*
@@ -232,7 +248,13 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4
  */
 int logicalNeg(int x) {
-    return 2;
+    x = x | (x >> 16);
+    x = x | (x >> 8);
+    x = x | (x >> 4);
+    x = x | (x >> 2);
+    x = x | (x >> 1);
+    int genuine_result_is_true = x & 1;
+    return (~genuine_result_is_true) + 2;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -247,7 +269,19 @@ int logicalNeg(int x) {
  *  Rating: 4
  */
 int howManyBits(int x) {
-    return 0;
+    int compare_pairs = (x ^ (x << 1)) | 1;
+    int result = 0;
+    int bit_4 = !!(compare_pairs >> (16 + result));
+    result = result | (bit_4 << 4);
+    int bit_3 = !!(compare_pairs >> (8 + result));
+    result = result | (bit_3 << 3);
+    int bit_2 = !!(compare_pairs >> (4 + result));
+    result = result | (bit_2 << 2);
+    int bit_1 = !!(compare_pairs >> (2 + result));
+    result = result | (bit_1 << 1);
+    int bit_0 = !!(compare_pairs >> (1 + result));
+    result = result | (bit_0 << 0);
+    return result + 1;
 }
 // float
 /*
@@ -262,7 +296,21 @@ int howManyBits(int x) {
  *   Rating: 4
  */
 unsigned floatScale2(unsigned uf) {
-    return 2;
+    unsigned exponent = (uf >> 23) & 0x000000ff;
+    unsigned significand = uf & 0x007fffff;
+    if ((!(exponent - 255))) {
+        return uf;
+    } else if (!exponent) {
+        unsigned new_significand = significand << 1;
+        unsigned new_uf = (uf & 0xff800000) | new_significand;
+        return new_uf;
+    } else {
+        unsigned new_uf = uf + 0x00800000;
+        if (!(exponent - 254)) {
+            new_uf = new_uf & 0xff800000;
+        }
+        return new_uf;
+    }
 }
 /*
  * floatFloat2Int - Return bit-level equivalent of expression (int) f
