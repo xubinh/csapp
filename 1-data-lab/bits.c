@@ -162,7 +162,7 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-    return (!(x >> 31)) & (!(~(x | (1 << 31))));
+    return (!!(~x)) & (!((x + 1) ^ (~x)));
 }
 /*
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -214,14 +214,11 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-    x = x | (x >> 16);
-    x = x | (x >> 8);
-    x = x | (x >> 4);
-    x = x | (x >> 2);
-    x = x | (x >> 1);
-    int indicator = x & 1;
-    int not_zero = ~(indicator) + 1;
-    int zero = ~not_zero;
+    int indicator, not_zero, zero;
+    x = !!x;
+    indicator = x & 1;
+    not_zero = ~(indicator) + 1;
+    zero = ~not_zero;
     return (not_zero & y) + (zero & z);
 }
 /*
@@ -248,13 +245,13 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4
  */
 int logicalNeg(int x) {
-    x = x | (x >> 16);
-    x = x | (x >> 8);
-    x = x | (x >> 4);
-    x = x | (x >> 2);
-    x = x | (x >> 1);
-    int genuine_result_is_true = x & 1;
-    return (~genuine_result_is_true) + 2;
+    x = ~x;
+    x = x & (x >> 16);
+    x = x & (x >> 8);
+    x = x & (x >> 4);
+    x = x & (x >> 2);
+    x = x & (x >> 1);
+    return x & 1;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -269,17 +266,18 @@ int logicalNeg(int x) {
  *  Rating: 4
  */
 int howManyBits(int x) {
-    int compare_pairs = (x ^ (x << 1)) | 1;
-    int result = 0;
-    int bit_4 = !!(compare_pairs >> (16 + result));
+    int compare_pairs, result, bit_4, bit_3, bit_2, bit_1, bit_0;
+    compare_pairs = (x ^ (x << 1)) | 1;
+    result = 0;
+    bit_4 = !!(compare_pairs >> (16 + result));
     result = result | (bit_4 << 4);
-    int bit_3 = !!(compare_pairs >> (8 + result));
+    bit_3 = !!(compare_pairs >> (8 + result));
     result = result | (bit_3 << 3);
-    int bit_2 = !!(compare_pairs >> (4 + result));
+    bit_2 = !!(compare_pairs >> (4 + result));
     result = result | (bit_2 << 2);
-    int bit_1 = !!(compare_pairs >> (2 + result));
+    bit_1 = !!(compare_pairs >> (2 + result));
     result = result | (bit_1 << 1);
-    int bit_0 = !!(compare_pairs >> (1 + result));
+    bit_0 = !!(compare_pairs >> (1 + result));
     result = result | (bit_0 << 0);
     return result + 1;
 }
@@ -325,16 +323,17 @@ unsigned floatScale2(unsigned uf) {
  *   Rating: 4
  */
 int floatFloat2Int(unsigned uf) {
-    int exponent = ((uf >> 23) & 0xff) - 127;
+    int exponent, significant, result;
+    exponent = ((uf >> 23) & 0xff) - 127;
     if (!(((exponent - 31) >> 31) & 1)) {
         return 0x80000000u;
     }
     if ((exponent >> 31) & 1) {
         return 0;
     }
-    int significant = (uf & 0x7fffff) | 0x800000;
+    significant = (uf & 0x7fffff) | 0x800000;
     exponent = exponent - 23;
-    int result = 0;
+    result = 0;
     if (exponent >> 31 & 1) {
         result = significant >> (-exponent);
     } else {
@@ -359,6 +358,7 @@ int floatFloat2Int(unsigned uf) {
  *   Rating: 4
  */
 unsigned floatPower2(int x) {
+    unsigned result;
     if (x >= 128) {
         return 0x7f800000;
     }
@@ -367,12 +367,12 @@ unsigned floatPower2(int x) {
     }
     if (x >= -126) {
         x = x + 127;
-        unsigned result = 0;
+        result = 0;
         result = result | (x << 23);
         return result;
     } else {
         x = -126 - x;
-        unsigned result = 0x800000 >> x;
+        result = 0x800000 >> x;
         return result;
     }
 }
