@@ -162,7 +162,12 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-    return (!!(~x)) & (!((x + 1) ^ (~x)));
+    int x_plus_one = x + 1;
+    int x_complement = ~x;
+    int constraint_1 = !(x_plus_one ^ x_complement);
+    int constraint_2 = !!(~x);
+    int is_tmax = constraint_1 & constraint_2;
+    return is_tmax;
 }
 /*
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -173,12 +178,13 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-    int x_0 = x;
-    int x_2 = x_0 & (x_0 >> 16);
-    int x_4 = x_2 & (x_2 >> 8);
-    int x_8 = x_4 & (x_4 >> 4);
-    int x_16 = x_8 & (x_8 >> 2);
-    return (x_16 & 2) >> 1;
+    int x_32 = x;
+    int x_16 = x_32 & (x_32 >> 16);
+    int x_8 = x_16 & (x_16 >> 8);
+    int x_4 = x_8 & (x_8 >> 4);
+    int x_2 = x_4 & (x_4 >> 2);
+    int are_all_odd_bits = (x_2 >> 1) & 1;
+    return are_all_odd_bits;
 }
 /*
  * negate - return -x
