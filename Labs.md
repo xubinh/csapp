@@ -4,95 +4,99 @@
 
 [TOC]
 
-## Data Lab
+## 1. Data Lab
+
+### 目标
+
+填充文件 `bits.c` 中所包含的全部 13 个 puzzle 的函数框架.
 
 ### 大纲
 
-- **目标**:
+- 完成后的函数主体参考如下风格:
 
-  - 填充文件 `bits.c` 中所包含的全部 13 个 puzzle 的函数框架.
+  ```c
+  /*
+   * pow2plus1 - returns 2^x + 1, where 0 <= x <= 31
+   */
+  int pow2plus1(int x) {
+     /* exploit ability of shifts to compute powers of 2 */
+     return (1 << x) + 1;
+  }
+  
+  /*
+   * pow2plus4 - returns 2^x + 4, where 0 <= x <= 31
+   */
+  int pow2plus4(int x) {
+     /* exploit ability of shifts to compute powers of 2 */
+     int result = (1 << x);
+     result += 4;
+     return result;
+  }
+  ```
 
-  - 完成后的函数主体参考如下风格:
+#### 整数 puzzle
 
-    ```c
-    /*
-     * pow2plus1 - returns 2^x + 1, where 0 <= x <= 31
-     */
-    int pow2plus1(int x) {
-       /* exploit ability of shifts to compute powers of 2 */
-       return (1 << x) + 1;
-    }
-    
-    /*
-     * pow2plus4 - returns 2^x + 4, where 0 <= x <= 31
-     */
-    int pow2plus4(int x) {
-       /* exploit ability of shifts to compute powers of 2 */
-       int result = (1 << x);
-       result += 4;
-       return result;
-    }
-    ```
+- 仅允许使用函数形参和定义局部变量, 不允许定义全局变量.
+- 仅允许使用白话代码 (straightline code) 完成每个函数, 不允许使用任何语句, 例如循环或条件语句等.
+- 仅允许使用一元运算符 `!`, `˜`, 以及二元运算符 `&`, `ˆ`, `|`, `+`, `<<`, `>>`, **部分 puzzle 会进一步限制可用运算符的范围**.
+- 仅允许使用 0 到 255 范围内的常数.
+- 仅允许使用 `int` 类型.
+- 不允许使用宏定义.
+- 不允许定义新函数和调用任何函数.
+- 不允许使用强制类型转换.
+- 可以假设机器使用 32 位补码整数, 使用算数右移, 并且当位移量小于 0 或大于 31 时会导致无法预测的行为.
 
-- **对于整数 puzzle**:
+#### 浮点数 puzzle
 
-  - 仅允许使用函数形参和定义局部变量, 不允许定义全局变量.
-  - 仅允许使用白话代码 (straightline code) 完成每个函数, 不允许使用任何语句, 例如循环或条件语句等.
-  - 仅允许使用一元运算符 `!`, `˜`, 以及二元运算符 `&`, `ˆ`, `|`, `+`, `<<`, `>>`, **部分 puzzle 会进一步限制可用运算符的范围**.
-  - 仅允许使用 0 到 255 范围内的常数.
-  - 仅允许使用 `int` 类型.
-  - 不允许使用宏定义.
-  - 不允许定义新函数和调用任何函数.
-  - 不允许使用强制类型转换.
-  - 可以假设机器使用 32 位补码整数, 使用算数右移, 并且当位移量小于 0 或大于 31 时会导致无法预测的行为.
+- 仅允许使用条件或循环语句.
+- 仅允许使用 `int` 和 `unsigned` 数据类型.
+- 允许使用任意 `int` 和 `unsigned` 类型的常数.
+- 允许使用任意算数, 逻辑和比较运算符.
+- 不允许使用宏定义.
+- 不允许定义新函数和调用任何函数.
+- 不允许使用强制类型转换.
 
-- **对于浮点数 puzzle**:
+#### `btest` - 正确性检查工具
 
-  - 仅允许使用条件或循环语句.
-  - 仅允许使用 `int` 和 `unsigned` 数据类型.
-  - 允许使用任意 `int` 和 `unsigned` 类型的常数.
-  - 允许使用任意算数, 逻辑和比较运算符.
-  - 不允许使用宏定义.
-  - 不允许定义新函数和调用任何函数.
-  - 不允许使用强制类型转换.
+- `btest` 需要与 `bits.c` 一同编译, 用于检测所实现函数的正确性, 基本命令 (测试所有函数):
 
-- 合法性检查工具 `dlc`:
+  ```bash
+  ./btest
+  ```
 
-  - 全称 data lab checker, 用于检测函数实现是否遵循上述规则, 基本命令:
+- 每次修改 `bits.c` 之后均需要重新编译 `btest`.
 
-    ```bash
-    ./dlc bits.c
-    ```
+- 可以使用选项 `-f` 来单独指定一个函数进行测试, 此外还可以通过选项 `-1`, `-2` 和 `-3` 来指定传入的实参, 命令:
 
-  - 使用选项 `-e` 输出每个函数所使用的运算符的个数, 命令:
+  ```bash
+  ./btest -f bitXor -1 4 -2 5
+  ```
 
-    ```bash
-    ./dlc -e bits.c
-    ```
+#### `dlc` - 合法性检查工具
 
-  - 使用命令 `./dlc -help` 查看文档.
+- 全称 data lab checker, 用于检测函数实现是否遵循上述规则, 基本命令:
 
-  - 程序 `dlc` 要求所有声明必须位于某个块中所有其他非声明语句之前.
+  ```bash
+  ./dlc bits.c
+  ```
 
-  - 赋值运算符 `=` 的使用次数不受限制.
+- 使用选项 `-e` 输出每个函数所使用的运算符的个数, 命令:
 
-- 正确性检查工具 `btest`:
+  ```bash
+  ./dlc -e bits.c
+  ```
 
-  - `btest` 需要与 `bits.c` 一同编译, 用于检测所实现函数的正确性, 基本命令 (测试所有函数):
+- 使用命令 `./dlc -help` 查看文档.
 
-    ```bash
-    ./btest
-    ```
+- 程序 `dlc` 要求所有声明必须位于某个块中所有其他非声明语句之前.
 
-  - 每次修改 `bits.c` 之后均需要重新编译 `btest`.
+- 赋值运算符 `=` 的使用次数不受限制.
 
-  - 可以使用选项 `-f` 来单独指定一个函数进行测试, 此外还可以通过选项 `-1`, `-2` 和 `-3` 来指定传入的实参, 命令:
+#### `driver.pl` - 最终评分工具
 
-    ```bash
-    ./btest -f bitXor -1 4 -2 5
-    ```
+- `driver.pl` 用于为全部实验代码进行最终评分.
 
-- 工具 `driver.pl` 用于为全部实验代码进行最终评分.
+#### 其他
 
 - 帮手程序 `ishow` 和 `fshow` 分别用于展示相应的二进制模式. 两个程序均只输入一个参数, 该参数可以是表示十进制数, 十六进制数和浮点数的字符串. 使用 `make` 对两个程序进行编译.
 
@@ -242,6 +246,70 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 分情况讨论, 如果指数大于阶码范围则直接返回, 如果小于阶码范围则返回 0, 然后分别处理位于规格化范围和非规格化范围两种情况即可.
 
-### 参考资料
+### 附录
 
 - [维基百科: 命题逻辑](https://en.wikipedia.org/wiki/Propositional_calculus)
+
+## 2. Bomb Lab
+
+### 目标
+
+对程序 `bomb` 进行调试, 解密六个字符串以通过六个相应阶段的考验.
+
+### 大纲
+
+#### `bomb.c` - 主体框架
+
+`bomb.c` 中使用 C 程序描述了炸弹 bomb 的主体框架, 其中 `support.h` 与 `phases.h` 猜测是实现炸弹本体的代码的头文件.
+
+观察 `bomb.c` 可得到 bomb 的大致框架:
+
+- 首先检查命令行中是否给出文件路径, 并打开标准输入/给定文件.
+- 初始化炸弹: `initialize_bomb();`
+- 连续执行六个阶段, 每个阶段均为读入一行输入, 将输入用于解密, 若解密成功则可顺序进入下一阶段, 若六个阶段均解密成功则函数退出 (炸弹解除).
+
+### 附录
+
+GDB:
+
+- [Beej's Quick Guide to GDB](https://beej.us/guide/bggdb/)
+- [GDB: The GNU Project Debugger](https://www.sourceware.org/gdb/)
+- [gdbnotes-x86-64.pdf](http://csapp.cs.cmu.edu/3e/docs/gdbnotes-x86-64.pdf)
+
+Linux 命令:
+
+- `objdump -t <binary-executable>`:
+
+  - 打印符号表 (symbol table).
+
+- `objdump -d <binary-executable>`:
+
+  - 反汇编. 对于像系统调用 (例如 `sscanf`) 这样的函数而言, 反汇编得到的函数名有可能不是很直观, 此时在 gdb 中进行反汇编是更好的选择.
+
+- `strings <binary-executable>`:
+
+  - 打印可执行文件中的所有可打印字符串.
+
+- `man ascii`:
+
+  - 打印关于 ascii 编码的相关文档.
+
+- `info gas`:
+
+  - 打印关于 gas 的文档. 如果报错 `info: No menu item 'gas' in node '(dir)Top'`, 需要检查 `binutils` 包是否安装:
+
+    ```bash
+    # Check if binutils is installed
+    which as
+    
+    # If binutils is not installed, install it
+    sudo apt-get update
+    sudo apt-get install binutils
+    ```
+
+    如果已经安装, 再检查是否安装文档 (因为有些 Linux 发行版可能会将 doc 和 software 分开打包):
+
+    ```bash
+    # Install documentation for binutils, which includes gas
+    sudo apt-get install binutils-doc
+    ```
