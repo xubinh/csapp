@@ -3,9 +3,9 @@
 ## 目录
 
 - [1. Data Lab](#1-data-lab)
-  - [思路](#思路-1)
+  - [思路](#思路)
 - [2. Bomb Lab](#2-bomb-lab)
-  - [思路](#思路-2)
+  - [思路](#思路-1)
 
 ## 1. Data Lab
 
@@ -162,7 +162,7 @@ $TMax_w$ 具有如下两个特殊性质 (二者均在模 $2^w$ 意义下成立):
 
 $$
 \begin{equation}
-x + 1 \equiv 2^{w} - 1 - x \ \ (\operatorname{mod} 2^{w}),
+x + 1 \equiv 2^{w} - 1 - x \ \ (\text{mod}\ \  2^{w}),
 \end{equation}
 $$
 
@@ -170,7 +170,7 @@ $$
 
 $$
 \begin{numcases}{}
-x + 1 \equiv 2^{w} - 1 - x \ \ (\operatorname{mod} 2^{w}), \label{istmax_1}\\
+x + 1 \equiv 2^{w} - 1 - x \ \ (\text{mod}\ \  2^{w}), \label{istmax_1}\\
 x \neq 2^w - 1. \label{istmax_2}
 \end{numcases}
 $$
