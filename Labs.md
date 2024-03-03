@@ -2,7 +2,10 @@
 
 ## 目录
 
-[TOC]
+- [1. Data Lab](#1-data-lab)
+  - [目标](#目标-1)
+- [2. Bomb Lab](#2-bomb-lab)
+  - [目标](#目标-2)
 
 ## 1. Data Lab
 
@@ -111,12 +114,8 @@
 设两个比特 $p$ 和 $q$ 以及对应的命题 $P$ 和 $Q$, 在命题逻辑 (propositional logic) 下, 由德摩根定律 (De Morgan's laws), 异或运算可表示为
 
 $$
-\newcommand\and{\wedge}
-\newcommand\or{\vee}
-\newcommand\not{\neg}
-
 \begin{equation}
-P \oplus Q = (P \and \not Q) \or (\not P \and Q) = \not (\not (P \and \not Q) \and \not (\not P \and Q)),
+P \oplus Q = (P \wedge \neg Q) \vee (\neg P \wedge Q) = \neg (\neg (P \wedge \neg Q) \wedge \neg (\neg P \wedge Q)),
 \end{equation}
 $$
 
