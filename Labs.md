@@ -112,13 +112,11 @@
 #### #01 `bitXor` - 使用 `~` 和 `&` 实现 `^`
 
 设两个比特 $p$ 和 $q$ 以及对应的命题 $P$ 和 $Q$, 在命题逻辑 (propositional logic) 下, 由德摩根定律 (De Morgan's laws), 异或运算可表示为
-
 $$
 \begin{equation}
 P \oplus Q = (P \wedge \neg Q) \vee (\neg P \wedge Q) = \neg (\neg (P \wedge \neg Q) \wedge \neg (\neg P \wedge Q)),
 \end{equation}
 $$
-
 翻译至布尔代数下即为
 
 ```text
