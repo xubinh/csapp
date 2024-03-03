@@ -214,35 +214,35 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 原理就是取反加一, 但自己还是想要通过定义推一遍.
 
-#### #06 `isAsciiDigit`
+#### #06 `isAsciiDigit` [TODO]
 
 比较运算可以通过将两个模式相减, 看看是否会得到负数.
 
-#### #07 `conditional`
+#### #07 `conditional` [TODO]
 
 首先判断是不是零, 然后如果是零的话就是全 0 模式, 不是的话就取反得到全 1 模式, 再使用按位与 `&` 进行条件选择.
 
-#### #08 `isLessOrEqual`
+#### #08 `isLessOrEqual` [TODO]
 
 先检查两个数是否同号, 如果同号则通过相减是否得到负数进行判断, 如果异号的话直接检查哪一个正哪一个负就好.
 
-#### #09 `logicalNeg`
+#### #09 `logicalNeg` [TODO]
 
 逻辑非等价于检查取反后的结果是否为全 0.
 
-#### #10 `howManyBits`
+#### #10 `howManyBits` [TODO]
 
 举个例子进行描述. `0x0001101` 需要 5 位, 具体是在 `0x00 01101` 这里断开的, 也就是要从左往右找最长连续相同的子串, 然后退一格断开. 自己的思路是先自己跟自己的右移一位进行按位异或, 得到每两位之间是否相同的结果, 最终答案的大小就等于按位异或得到的模式中从左往右最长全等子串的长度关于 32 的补集. 注意由于至少需要 1 位进行表示, 所以需要对异或的结果至少将其与 1 进行按位或. 最后使用二分法找到该子串的补集的长度.
 
-#### #11 `floatScale2`
+#### #11 `floatScale2` [TODO]
 
 分情况讨论, 如果是特殊值, 直接返回; 如果是非规格化数, 直接对尾数部分进行左移; 否则就是规格化数, 对阶码加一即可. 注意如果加一之后变为特殊值还需要对尾数进行清空.
 
-#### #12 `floatFloat2Int`
+#### #12 `floatFloat2Int` [TODO]
 
 分情况讨论, 如果阶码大于整型范围则直接返回 (由于返回值刚好是 -2147483648, 所以阶码真实值等于 31 的情况也给包含进去了); 如果小于 0 则返回 0; 否则对尾数直接进行截断即可.
 
-#### #13 `floatPower2`
+#### #13 `floatPower2` [TODO]
 
 分情况讨论, 如果指数大于阶码范围则直接返回, 如果小于阶码范围则返回 0, 然后分别处理位于规格化范围和非规格化范围两种情况即可.
 
@@ -258,7 +258,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 ### 大纲
 
-#### `bomb.c` - 主体框架
+#### `bomb.c` - 框架描述
 
 `bomb.c` 中使用 C 程序描述了炸弹 bomb 的主体框架, 其中 `support.h` 与 `phases.h` 猜测是实现炸弹本体的代码的头文件.
 
@@ -268,15 +268,44 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 - 初始化炸弹: `initialize_bomb();`
 - 连续执行六个阶段, 每个阶段均为读入一行输入, 将输入用于解密, 若解密成功则可顺序进入下一阶段, 若六个阶段均解密成功则函数退出 (炸弹解除).
 
+#### `bomb` - 主体
+
+使用 GDB 对 `bomb` 进行 debug, 以破解六个 phase 的密码.
+
+### 思路
+
+下列所有函数的机器指令的具体解释见目录[disas-output](2-bomb-lab/disas-output). 某些特定函数所需要的额外信息 (例如跳转表或全局字符串等) 将会在对应的文件开头列出.
+
+#### `explode_bomb` [TODO]
+
+#### `strings_not_equal` [TODO]
+
+#### `read_six_numbers` [TODO]
+
+#### `phase_1`
+
+通过调用函数 `int strings_not_equal(char *s1, char *s2)` 来比较密码是否与某个全局字符串相同. 函数成功返回当且仅当密码与该全局字符串相同.
+
+#### `phase_2`
+
+函数 `phase_2` 首先调用函数 `read_six_numbers` 从密码中读入 6 个整数, 然后检查这 6 个整数是否满足某些特定规则. 函数成功返回当且仅当这 6 个整数满足规则.
+
+#### `phase_3`
+
+函数 `phase_3` 实现了一个简单的C语言 `switch` 语句.
+
 ### 附录
 
-GDB:
+#### GDB
 
 - [Beej's Quick Guide to GDB](https://beej.us/guide/bggdb/)
 - [GDB: The GNU Project Debugger](https://www.sourceware.org/gdb/)
 - [gdbnotes-x86-64.pdf](http://csapp.cs.cmu.edu/3e/docs/gdbnotes-x86-64.pdf)
+- stackoverflow: [How to highlight and color gdb output during interactive debugging?](https://stackoverflow.com/questions/209534/how-to-highlight-and-color-gdb-output-during-interactive-debugging)
+  - GitHub: [gdb-dashboard](https://github.com/cyrus-and/gdb-dashboard)
 
-Linux 命令:
+
+#### Linux 命令
 
 - `objdump -t <binary-executable>`:
 

@@ -1,10 +1,11 @@
-Dump of assembler code for function phase_1:
+void phase_1(char *password){
    0x0000000000400ee0 <+0>:     sub    $0x8,%rsp
-   0x0000000000400ee4 <+4>:     mov    $0x402400,%esi  # 全局字符串 1
-   0x0000000000400ee9 <+9>:     call   0x401338 <strings_not_equal>  # 看看密码 1 是否和全局字符串 1 相同
+   0x0000000000400ee4 <+4>:     mov    $0x402400,%esi  # char *global_str = 0x402400;
+   0x0000000000400ee9 <+9>:     call   0x401338 <strings_not_equal>  # int are_different_strings = strings_not_equal(password, global_str);
    0x0000000000400eee <+14>:    test   %eax,%eax
-   0x0000000000400ef0 <+16>:    je     0x400ef7 <phase_1+23>  # 如果相等则跳转
-   0x0000000000400ef2 <+18>:    call   0x40143a <explode_bomb>  # 如果不相等则引爆炸弹
+   0x0000000000400ef0 <+16>:    je     0x400ef7 <phase_1+23>  # if(!are_different_strings) goto same_strings;🔻
+   0x0000000000400ef2 <+18>:    call   0x40143a <explode_bomb>💣💥💥
+same_strings:
    0x0000000000400ef7 <+23>:    add    $0x8,%rsp
    0x0000000000400efb <+27>:    ret
-End of assembler dump.
+}
