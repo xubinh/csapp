@@ -3,9 +3,9 @@
 ## 目录
 
 - [1. Data Lab](#1-data-lab)
-  - [目标](#目标-1)
+  - [思路](#思路-1)
 - [2. Bomb Lab](#2-bomb-lab)
-  - [目标](#目标-2)
+  - [思路](#思路-2)
 
 ## 1. Data Lab
 
@@ -112,11 +112,13 @@
 #### #01 `bitXor` - 使用 `~` 和 `&` 实现 `^`
 
 设两个比特 $p$ 和 $q$ 以及对应的命题 $P$ 和 $Q$, 在命题逻辑 (propositional logic) 下, 由德摩根定律 (De Morgan's laws), 异或运算可表示为
+
 $$
 \begin{equation}
 P \oplus Q = (P \wedge \neg Q) \vee (\neg P \wedge Q) = \neg (\neg (P \wedge \neg Q) \wedge \neg (\neg P \wedge Q)),
 \end{equation}
 $$
+
 翻译至布尔代数下即为
 
 ```text
@@ -126,11 +128,13 @@ p ^ q = ~((~(p & (~q))) & (~((~p) & q))).
 #### #02 `tmin` - 返回 $TMin_w$
 
 根据 $B2T_w$ 的定义,
+
 $$
 \begin{equation}
 B2T_w (\boldsymbol{x}) \triangleq - x_{w - 1}2^{w-1} + \sum_{i=0}^{w-2} x_i 2^i,
 \end{equation}
 $$
+
 最小值 $TMin_w = -2^{w - 1}$, 其二进制模式为 `0x100...00`, 即设置唯一的负权位即最高有效位为 1, 其他所有正权位为 0.
 
 上述二进制模式在C语言下可利用移位运算得到:
@@ -155,18 +159,22 @@ $TMax_w$ 具有如下两个特殊性质 (二者均在模 $2^w$ 意义下成立):
 1. $TMax_w$ 的位模式取反等于 $TMin_w$ 的位模式.
 
 根据上述两个性质构造等量关系 (令 $TMax_w$ 的位模式为 $x$):
+
 $$
 \begin{equation}
 x + 1 \equiv 2^{w} - 1 - x \ \ (\operatorname{mod} 2^{w}),
 \end{equation}
 $$
+
 解得 $x = 2^{w - 1} - 1$ 或 $x = 2^{w} - 1$. 因此 $x$ 为 $TMax_w$ 的位模式当且仅当
+
 $$
 \begin{numcases}{}
 x + 1 \equiv 2^{w} - 1 - x \ \ (\operatorname{mod} 2^{w}), \label{istmax_1}\\
 x \neq 2^w - 1. \label{istmax_2}
 \end{numcases}
 $$
+
 $\eqref{istmax_1}$ 式左侧即为 `x + 1`, 右侧可表示为 `~x`. 由于整数 puzzle 同样限制了比较运算符的使用, 为了判断两个二进制位模式是否相同可以使用异或 `^` 与逻辑非 `!` 间接实现. 实际上两个位模式的异或结果为全 0 当且仅当这两个位模式相同, 而逻辑非能够方便的将异或结果转化为布尔值, 因此判断两个位模式 `x` 和 `y` 是否相同的表达式为 `!(x ^ y)`. 于是 $\eqref{istmax_1}$ 式可表示为:
 
 ```c
