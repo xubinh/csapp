@@ -176,7 +176,7 @@ def generate_toc(
 
 
 if __name__ == "__main__":
-    md_file_path = "./Labs.md"
+    md_file_path = "./README.md"
 
     if len(sys.argv) > 1:
         md_file_path = sys.argv[1]
