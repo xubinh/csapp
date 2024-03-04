@@ -1,5 +1,7 @@
 # Labs
 
+关于 CS:APP 的 Labs 的一些笔记
+
 ## 目录
 
 - <a href="#1">1. Data Lab</a>
