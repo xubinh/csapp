@@ -1,35 +1,48 @@
-Dump of assembler code for function phase_5:
-=> 0x0000000000401062 <+0>:     push   %rbx
-   0x0000000000401063 <+1>:     sub    $0x20,%rsp
-   0x0000000000401067 <+5>:     mov    %rdi,%rbx  # v1 -> rbx
+/**
+ *  全局字符串 alphabet:
+ *  >>> print (char*) 0x4024b0
+ *  $1 = 0x4024b0 <array> "maduiersnfotvbylSo you think you can stop the bomb with ctrl-c, do you?"
+ */
+/**
+ *  全局字符串 target_sentence:
+ *  >>> print (char*) 0x40245e
+ *  $1 = 0x40245e "flyers"
+ */
+void phase_5(char *password){
+   0x0000000000401062 <+0>:     push   %rbx
+   0x0000000000401063 <+1>:     sub    $0x20,%rsp  # char map_sentence[6];
+   0x0000000000401067 <+5>:     mov    %rdi,%rbx  # char *password_t = password;
    0x000000000040106a <+8>:     mov    %fs:0x28,%rax
    0x0000000000401073 <+17>:    mov    %rax,0x18(%rsp)  # 金丝雀值
-   0x0000000000401078 <+22>:    xor    %eax,%eax
-   0x000000000040107a <+24>:    call   0x40131b <string_length>  # 检查输入字符串的长度
-   0x000000000040107f <+29>:    cmp    $0x6,%eax  # 长度必须是 6, 否则引爆炸弹
-   0x0000000000401082 <+32>:    je     0x4010d2 <phase_5+112>
-   0x0000000000401084 <+34>:    call   0x40143a <explode_bomb>
+   0x0000000000401078 <+22>:    xor    %eax,%eax  # int password_length = 0;
+   0x000000000040107a <+24>:    call   0x40131b <string_length>  # password_length = string_length(password);
+   0x000000000040107f <+29>:    cmp    $0x6,%eax
+   0x0000000000401082 <+32>:    je     0x4010d2 <phase_5+112>  # if(password_length == 6) goto begin;🔻
+   0x0000000000401084 <+34>:    call   0x40143a <explode_bomb>💣💥💥
    0x0000000000401089 <+39>:    jmp    0x4010d2 <phase_5+112>
-   0x000000000040108b <+41>:    movzbl (%rbx,%rax,1),%ecx  # v1[i] -> rcx
-   0x000000000040108f <+45>:    mov    %cl,(%rsp)  # v1[i] -> b
-   0x0000000000401092 <+48>:    mov    (%rsp),%rdx  # b -> rdx
-   0x0000000000401096 <+52>:    and    $0xf,%edx  # b %= 16 (截取 b 的后 4 位)
-   0x0000000000401099 <+55>:    movzbl 0x4024b0(%rdx),%edx  # A[b] -> rdx (字符串 "maduiersnfotvbylSo you think you can stop the bomb with ctrl-c, do you?")
-   0x00000000004010a0 <+62>:    mov    %dl,0x10(%rsp,%rax,1)  # rdx -> B[i]
-   0x00000000004010a4 <+66>:    add    $0x1,%rax  # i += 1
+loop_1:
+   0x000000000040108b <+41>:    movzbl (%rbx,%rax,1),%ecx
+   0x000000000040108f <+45>:    mov    %cl,(%rsp)  # char password_char = password_t[i];
+   0x0000000000401092 <+48>:    mov    (%rsp),%rdx
+   0x0000000000401096 <+52>:    and    $0xf,%edx
+   0x0000000000401099 <+55>:    movzbl 0x4024b0(%rdx),%edx  # char letter = alphabet[password_char % 16];
+   0x00000000004010a0 <+62>:    mov    %dl,0x10(%rsp,%rax,1)  # map_sentence[i] = letter;
+   0x00000000004010a4 <+66>:    add    $0x1,%rax  # i++;
    0x00000000004010a8 <+70>:    cmp    $0x6,%rax
-   0x00000000004010ac <+74>:    jne    0x40108b <phase_5+41>  # if(i < 6) continue;
-   0x00000000004010ae <+76>:    movb   $0x0,0x16(%rsp)  # 0 -> B[6]
-   0x00000000004010b3 <+81>:    mov    $0x40245e,%esi  # 0x40245e -> v2 (字符串 "flyers")
-   0x00000000004010b8 <+86>:    lea    0x10(%rsp),%rdi  # B -> v1
-   0x00000000004010bd <+91>:    call   0x401338 <strings_not_equal>
+   0x00000000004010ac <+74>:    jne    0x40108b <phase_5+41>  # if(i < 6) goto loop_1;🔺
+   0x00000000004010ae <+76>:    movb   $0x0,0x16(%rsp)  # map_sentence[6] = 0;
+   0x00000000004010b3 <+81>:    mov    $0x40245e,%esi
+   0x00000000004010b8 <+86>:    lea    0x10(%rsp),%rdi
+   0x00000000004010bd <+91>:    call   0x401338 <strings_not_equal>  # bool is_not_equal_map_target = strings_not_equal(map_sentence, target_sentence);
    0x00000000004010c2 <+96>:    test   %eax,%eax
-   0x00000000004010c4 <+98>:    je     0x4010d9 <phase_5+119>  # if(!strings_not_equal(v1, v2)) goto <phase_5+119>;
-   0x00000000004010c6 <+100>:   call   0x40143a <explode_bomb>
+   0x00000000004010c4 <+98>:    je     0x4010d9 <phase_5+119>  # if(!is_not_equal_map_target) goto success;🔻
+   0x00000000004010c6 <+100>:   call   0x40143a <explode_bomb>💣💥💥
    0x00000000004010cb <+105>:   nopl   0x0(%rax,%rax,1)
    0x00000000004010d0 <+110>:   jmp    0x4010d9 <phase_5+119>
-   0x00000000004010d2 <+112>:   mov    $0x0,%eax  # 0 -> i
-   0x00000000004010d7 <+117>:   jmp    0x40108b <phase_5+41>  # 进入循环
+begin:
+   0x00000000004010d2 <+112>:   mov    $0x0,%eax  # int i = 0;
+   0x00000000004010d7 <+117>:   jmp    0x40108b <phase_5+41>  # goto loop_1;🔺
+success:
    0x00000000004010d9 <+119>:   mov    0x18(%rsp),%rax  # 载入缓冲区边界处的金丝雀值
    0x00000000004010de <+124>:   xor    %fs:0x28,%rax  # 与原始金丝雀值进行比较
    0x00000000004010e7 <+133>:   je     0x4010ee <phase_5+140>  # 当且仅当不变时返回
@@ -37,4 +50,4 @@ Dump of assembler code for function phase_5:
    0x00000000004010ee <+140>:   add    $0x20,%rsp
    0x00000000004010f2 <+144>:   pop    %rbx
    0x00000000004010f3 <+145>:   ret
-End of assembler dump.
+}
