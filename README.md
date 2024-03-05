@@ -152,11 +152,11 @@
 
 $$
 \begin{equation}
-P \oplus Q = (P \wedge \neg Q) \vee (\neg P \wedge Q) = \neg (\neg (P \wedge \neg Q) \wedge \neg (\neg P \wedge Q)),
+P \oplus Q = (P \wedge \neg Q) \vee (\neg P \wedge Q) = \neg (\neg (P \wedge \neg Q) \wedge \neg (\neg P \wedge Q)), \tag{1} \label{1.3.1.xor}
 \end{equation}
 $$
 
-翻译至布尔代数下即为
+将 $\eqref{1.3.1.xor}$ 式翻译至布尔代数下即为
 
 ```text
 p ^ q = ~((~(p & (~q))) & (~((~p) & q))).
@@ -206,10 +206,12 @@ $$
 解得 $x = 2^{w - 1} - 1$ 或 $x = 2^{w} - 1$. 因此 $x$ 为 $TMax_w$ 的位模式当且仅当其满足如下约束:
 
 $$
-\begin{numcases}{}
+\left\{
+\begin{aligned}
 x + 1 \equiv 2^{w} - 1 - x \ \ (\text{mod}\ \  2^{w}), \label{istmax_1}\\
 x \neq 2^w - 1. \label{istmax_2}
-\end{numcases}
+\end{aligned}
+\right.
 $$
 
 上式第一行约束左侧即为 `x + 1`, 右侧可表示为 `~x`. 由于整数 puzzle 同样限制了比较运算符的使用, 为了判断两个二进制位模式是否相同可以使用异或 `^` 与逻辑非 `!` 间接实现. 实际上两个位模式的异或结果为全 0 当且仅当这两个位模式相同, 而逻辑非能够方便的将异或结果转化为布尔值, 因此判断两个位模式 `x` 和 `y` 是否相同的表达式为 `!(x ^ y)`. 于是上述约束可表示为:
@@ -328,7 +330,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 #### <a id="2.3.4"></a>`phase_1`
 
-通过调用函数 `int strings_not_equal(char *s1, char *s2)` 来比较密码是否与某个全局字符串相同. 函数成功返回当且仅当密码与该全局字符串相同.
+函数 `phase_1` 通过调用函数 `int strings_not_equal(char *s1, char *s2)` 来比较密码是否与某个全局字符串相同. 函数成功返回当且仅当密码与该全局字符串相同.
 
 #### <a id="2.3.5"></a>`phase_2`
 
