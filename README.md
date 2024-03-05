@@ -322,21 +322,29 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 #### <a id="2.3.1"></a>`explode_bomb` [TODO]
 
+#### `string_length` [TODO]
+
 #### <a id="2.3.2"></a>`strings_not_equal` [TODO]
 
 #### <a id="2.3.3"></a>`read_six_numbers` [TODO]
 
+#### `func4` [TODO]
+
 #### <a id="2.3.4"></a>`phase_1`
 
-函数 `phase_1` 通过调用函数 `int strings_not_equal(char *s1, char *s2)` 来比较密码是否与某个全局字符串相同. 函数成功返回当且仅当密码与该全局字符串相同.
+函数 `phase_1` 通过调用函数 `strings_not_equal` 来比较密码是否与某个全局字符串相同. 函数 `phase_1` 成功返回当且仅当密码与该全局字符串相同.
 
 #### <a id="2.3.5"></a>`phase_2`
 
-函数 `phase_2` 首先调用函数 `read_six_numbers` 从密码中读入 6 个整数, 然后检查这 6 个整数是否满足某些特定规则. 函数成功返回当且仅当这 6 个整数满足规则.
+函数 `phase_2` 首先调用函数 `read_six_numbers` 从密码中读入 6 个整数, 然后检查这 6 个整数是否满足某些特定规则. 函数 `phase_2` 成功返回当且仅当这 6 个整数满足规则.
 
 #### <a id="2.3.6"></a>`phase_3`
 
-函数 `phase_3` 实现了一个简单的C语言 `switch` 语句.
+函数 `phase_3` 首先调用函数 `sscanf` 读入 2 个整数, 然后实现了一个简单的 C 语言 `switch` 语句来检查这 2 个数字是否满足特定规则. 函数 `phase_3` 成功返回当且仅当这 2 个整数满足规则.
+
+#### `phase_4`
+
+函数 `phase_4` 首先调用函数 `sscanf` 读入 2 个整数, 然后调用函数 `func4`, 传入第一个整数并得到 1 个整数结果. 函数 `phase_4` 成功返回当且仅当函数 `func4` 所返回的整数结果与第二个整数满足特定规则.
 
 ### <a id="2.4"></a>附录
 
