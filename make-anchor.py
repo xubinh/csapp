@@ -73,8 +73,12 @@ def insert_anchors(headers: list[str]) -> tuple[list[str], list[str]]:
     def _get_anchor(current_header_id: str):
         return f'<a id="{current_header_id}"></a>'
 
+    regex_get_reference = re.compile(r"([^$]*[^$ ])((?: *\$[^$]+\$ *)?)")
+
     def _get_reference(current_header_id: str, header_text: str) -> str:
-        return f'<a href="#{current_header_id}">{header_text}</a>'
+        reference = re.sub(regex_get_reference, rf'<a href="#{current_header_id}">\1</a>\2', header_text)
+        return reference
+        # return f'<a href="#{current_header_id}">{header_text}</a>'
 
     def _insert_anchor(header: str) -> list[str]:
         header_level, header_text = _get_header_info(header)
