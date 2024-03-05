@@ -152,19 +152,19 @@
 
 $$
 \begin{equation}
-P \oplus Q = (P \wedge \neg Q) \vee (\neg P \wedge Q) = \neg (\neg (P \wedge \neg Q) \wedge \neg (\neg P \wedge Q)), \tag{1} \label{1.3.1.xor}
+P \oplus Q = (P \wedge \neg Q) \vee (\neg P \wedge Q) = \neg (\neg (P \wedge \neg Q) \wedge \neg (\neg P \wedge Q)), \tag{1} \label{1.3.1.bitXor-1}
 \end{equation}
 $$
 
-将 $\eqref{1.3.1.xor}$ 式翻译至布尔代数下即为
+将 $\eqref{1.3.1.bitXor-1}$ 式翻译至布尔代数下即为
 
 ```text
 p ^ q = ~((~(p & (~q))) & (~((~p) & q))).
 ```
 
-#### <a id="1.3.2"></a>#02 `tmin` - 返回 $TMin_w$
+#### <a id="1.3.2"></a>#02 `tmin` - 返回 $TMin_w$ [TODO]
 
-根据 $B2T_w$ 的定义,
+根据 $B2T_w$ 的定义, **[TODO] 此处可以考虑使用 $U2T_w$**
 
 $$
 \begin{equation}
@@ -206,15 +206,14 @@ $$
 解得 $x = 2^{w - 1} - 1$ 或 $x = 2^{w} - 1$. 因此 $x$ 为 $TMax_w$ 的位模式当且仅当其满足如下约束:
 
 $$
-\left\{
-\begin{aligned}
-x + 1 \equiv 2^{w} - 1 - x \ \ (\text{mod}\ \  2^{w}), \label{istmax_1}\\
-x \neq 2^w - 1. \label{istmax_2}
-\end{aligned}
-\right.
+\require{cases}
+\begin{numcases}{}
+x + 1 \equiv 2^{w} - 1 - x \ \ (\text{mod}\ \  2^{w}), \tag{2} \label{1.3.3.isTmax-1}\\
+x \neq 2^w - 1. \tag{3} \label{1.3.3.isTmax-2}
+\end{numcases}
 $$
 
-上式第一行约束左侧即为 `x + 1`, 右侧可表示为 `~x`. 由于整数 puzzle 同样限制了比较运算符的使用, 为了判断两个二进制位模式是否相同可以使用异或 `^` 与逻辑非 `!` 间接实现. 实际上两个位模式的异或结果为全 0 当且仅当这两个位模式相同, 而逻辑非能够方便的将异或结果转化为布尔值, 因此判断两个位模式 `x` 和 `y` 是否相同的表达式为 `!(x ^ y)`. 于是上述约束可表示为:
+约束 $\eqref{1.3.3.isTmax-1}$ 左侧即为 `x + 1`, 右侧可表示为 `~x`. 由于整数 puzzle 同样限制了比较运算符的使用, 为了判断两个二进制位模式是否相同可以使用异或 `^` 与逻辑非 `!` 间接实现. 实际上两个位模式的异或结果为全 0 当且仅当这两个位模式相同, 而逻辑非能够方便的将异或结果转化为布尔值, 因此判断两个位模式 `x` 和 `y` 是否相同的表达式为 `!(x ^ y)`. 于是约束 $\eqref{1.3.3.isTmax-1}$ 可表示为:
 
 ```c
 int x_plus_one = x + 1;
@@ -222,7 +221,7 @@ int x_complement = ~x;
 int constraint_1 = !(x_plus_one ^ x_complement);
 ```
 
-第二行约束成立当且仅当 $x$ 取反不为全 0. 为了将取反结果转化为布尔值, 需要使用逻辑非 `!` 进行转化:
+约束 $\eqref{1.3.3.isTmax-2}$ 成立当且仅当 $x$ 取反不为全 0. 为了将取反结果转化为布尔值, 需要使用逻辑非 `!` 进行转化:
 
 ```c
 int constraint_2 = !!(~x);
@@ -230,7 +229,7 @@ int constraint_2 = !!(~x);
 
 使用连续两个 `!` 是因为单次转化得到的布尔值为原值的相反结果.
 
-结合两种约束得到最终表达式:
+结合约束 $\eqref{1.3.3.isTmax-1}, \eqref{1.3.3.isTmax-2}$ 得到最终表达式:
 
 ```c
 int is_tmax = constraint_1 & constraint_2;
