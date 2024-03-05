@@ -206,7 +206,6 @@ $$
 解得 $x = 2^{w - 1} - 1$ 或 $x = 2^{w} - 1$. 因此 $x$ 为 $TMax_w$ 的位模式当且仅当其满足如下约束:
 
 $$
-\require{cases}
 \begin{numcases}{}
 x + 1 \equiv 2^{w} - 1 - x \ \ (\text{mod}\ \  2^{w}), \tag{2} \label{1.3.3.isTmax-1}\\
 x \neq 2^w - 1. \tag{3} \label{1.3.3.isTmax-2}
