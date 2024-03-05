@@ -6,14 +6,14 @@
 
 - <a href="#1">1. Data Lab</a>
   - <a href="#1.1">目标</a>
-  - <a href="#1.2">大纲</a>
+  - <a href="#1.2">概览</a>
     - <a href="#1.2.1">整数 puzzle</a>
     - <a href="#1.2.2">浮点数 puzzle</a>
     - <a href="#1.2.3">`btest` - 正确性检查工具</a>
     - <a href="#1.2.4">`dlc` - 合法性检查工具</a>
     - <a href="#1.2.5">`driver.pl` - 最终评分工具</a>
     - <a href="#1.2.6">其他</a>
-  - <a href="#1.3">思路</a>
+  - <a href="#1.3">总结</a>
     - <a href="#1.3.1">#01 `bitXor` - 使用 `~` 和 `&` 实现 `^`</a>
     - <a href="#1.3.2">#02 `tmin` - 返回 $TMin_w$ [TODO]</a>
     - <a href="#1.3.3">#03 `isTmax` - 判断是否为 $TMax_w$</a>
@@ -30,10 +30,10 @@
   - <a href="#1.4">附录</a>
 - <a href="#2">2. Bomb Lab</a>
   - <a href="#2.1">目标</a>
-  - <a href="#2.2">大纲</a>
+  - <a href="#2.2">概览</a>
     - <a href="#2.2.1">`bomb.c` - 框架描述</a>
     - <a href="#2.2.2">`bomb` - 主体</a>
-  - <a href="#2.3">思路</a>
+  - <a href="#2.3">总结</a>
     - <a href="#2.3.1">`explode_bomb` [TODO]</a>
     - <a href="#2.3.2">`string_length` [TODO]</a>
     - <a href="#2.3.3">`strings_not_equal` [TODO]</a>
@@ -43,6 +43,7 @@
     - <a href="#2.3.7">`phase_2`</a>
     - <a href="#2.3.8">`phase_3`</a>
     - <a href="#2.3.9">`phase_4`</a>
+    - <a href="#2.3.10">`phase_5`</a>
   - <a href="#2.4">附录</a>
     - <a href="#2.4.1">GDB</a>
     - <a href="#2.4.2">Linux 命令</a>
@@ -349,7 +350,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 函数 `phase_4` 首先调用函数 `sscanf` 读入 2 个整数, 然后调用函数 `func4`, 传入第一个整数并得到 1 个整数结果. 函数 `phase_4` 成功返回当且仅当函数 `func4` 所返回的整数结果与第二个整数满足特定规则.
 
-#### `phase_5`
+#### <a id="2.3.10"></a>`phase_5`
 
 函数 `phase_5` 将输入的密码字符串看作是一串整数数组, 通过将数组中的整数作为下标索引某个全局字符串来将整数数组映射为长度相等的新字符串, 最后比较新字符串是否与另一目标全局字符串相同. 函数 `phase_5` 成功返回当且仅当新字符串与目标字符串相同.
 
