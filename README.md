@@ -4,50 +4,50 @@
 
 ## 目录
 
-- <a href="#1">1. Data Lab</a>
-  - <a href="#1.1">目标</a>
-  - <a href="#1.2">概览</a>
-    - <a href="#1.2.1">整数 puzzle</a>
-    - <a href="#1.2.2">浮点数 puzzle</a>
-    - <a href="#1.2.3">`btest` - 正确性检查工具</a>
-    - <a href="#1.2.4">`dlc` - 合法性检查工具</a>
-    - <a href="#1.2.5">`driver.pl` - 最终评分工具</a>
-    - <a href="#1.2.6">其他</a>
-  - <a href="#1.3">总结</a>
-    - <a href="#1.3.1">#01 `bitXor` - 使用 `~` 和 `&` 实现 `^`</a>
-    - <a href="#1.3.2">#02 `tmin` - 返回</a> $TMin_w$ <a href="#1.3.2">[TODO]</a>
-    - <a href="#1.3.3">#03 `isTmax` - 判断是否为</a> $TMax_w$
-    - <a href="#1.3.4">#04 `allOddBits` - 判断一个二进制模式的所有奇数位是否均为 1</a>
-    - <a href="#1.3.5">#05 `negate` - 返回一个补码整数的相反数</a>
-    - <a href="#1.3.6">#06 `isAsciiDigit` [TODO]</a>
-    - <a href="#1.3.7">#07 `conditional` [TODO]</a>
-    - <a href="#1.3.8">#08 `isLessOrEqual` [TODO]</a>
-    - <a href="#1.3.9">#09 `logicalNeg` [TODO]</a>
-    - <a href="#1.3.10">#10 `howManyBits` [TODO]</a>
-    - <a href="#1.3.11">#11 `floatScale2` [TODO]</a>
-    - <a href="#1.3.12">#12 `floatFloat2Int` [TODO]</a>
-    - <a href="#1.3.13">#13 `floatPower2` [TODO]</a>
-  - <a href="#1.4">附录</a>
-- <a href="#2">2. Bomb Lab</a>
-  - <a href="#2.1">目标</a>
-  - <a href="#2.2">概览</a>
-    - <a href="#2.2.1">`bomb.c` - 框架描述</a>
-    - <a href="#2.2.2">`bomb` - 主体</a>
-  - <a href="#2.3">总结</a>
-    - <a href="#2.3.1">`explode_bomb` [TODO]</a>
-    - <a href="#2.3.2">`string_length` [TODO]</a>
-    - <a href="#2.3.3">`strings_not_equal` [TODO]</a>
-    - <a href="#2.3.4">`read_six_numbers` [TODO]</a>
-    - <a href="#2.3.5">`func4` [TODO]</a>
-    - <a href="#2.3.6">`phase_1`</a>
-    - <a href="#2.3.7">`phase_2`</a>
-    - <a href="#2.3.8">`phase_3`</a>
-    - <a href="#2.3.9">`phase_4`</a>
-    - <a href="#2.3.10">`phase_5`</a>
-    - <a href="#2.3.11">`phase_6`</a>
-  - <a href="#2.4">附录</a>
-    - <a href="#2.4.1">GDB</a>
-    - <a href="#2.4.2">Linux 命令</a>
+- <a href="#1">1. Data Lab</a><a href="#1"></a>
+  - <a href="#1.1">目标</a><a href="#1.1"></a>
+  - <a href="#1.2">概览</a><a href="#1.2"></a>
+    - <a href="#1.2.1">整数 puzzle</a><a href="#1.2.1"></a>
+    - <a href="#1.2.2">浮点数 puzzle</a><a href="#1.2.2"></a>
+    - <a href="#1.2.3">`btest` - 正确性检查工具</a><a href="#1.2.3"></a>
+    - <a href="#1.2.4">`dlc` - 合法性检查工具</a><a href="#1.2.4"></a>
+    - <a href="#1.2.5">`driver.pl` - 最终评分工具</a><a href="#1.2.5"></a>
+    - <a href="#1.2.6">其他</a><a href="#1.2.6"></a>
+  - <a href="#1.3">总结</a><a href="#1.3"></a>
+    - <a href="#1.3.1">#01 `bitXor` - 使用 `~` 和 `&` 实现 `^`</a><a href="#1.3.1"></a>
+    - <a href="#1.3.2">#02 `tmin` - 返回 </a>$TMin_w$<a href="#1.3.2"> [TODO]</a><a href="#1.3.2"></a>
+    - <a href="#1.3.3">#03 `isTmax` - 判断是否为 </a>$TMax_w$<a href="#1.3.3"></a>
+    - <a href="#1.3.4">#04 `allOddBits` - 判断一个二进制模式的所有奇数位是否均为 1</a><a href="#1.3.4"></a>
+    - <a href="#1.3.5">#05 `negate` - 返回一个补码整数的相反数</a><a href="#1.3.5"></a>
+    - <a href="#1.3.6">#06 `isAsciiDigit` [TODO]</a><a href="#1.3.6"></a>
+    - <a href="#1.3.7">#07 `conditional` [TODO]</a><a href="#1.3.7"></a>
+    - <a href="#1.3.8">#08 `isLessOrEqual` [TODO]</a><a href="#1.3.8"></a>
+    - <a href="#1.3.9">#09 `logicalNeg` [TODO]</a><a href="#1.3.9"></a>
+    - <a href="#1.3.10">#10 `howManyBits` [TODO]</a><a href="#1.3.10"></a>
+    - <a href="#1.3.11">#11 `floatScale2` [TODO]</a><a href="#1.3.11"></a>
+    - <a href="#1.3.12">#12 `floatFloat2Int` [TODO]</a><a href="#1.3.12"></a>
+    - <a href="#1.3.13">#13 `floatPower2` [TODO]</a><a href="#1.3.13"></a>
+  - <a href="#1.4">附录</a><a href="#1.4"></a>
+- <a href="#2">2. Bomb Lab</a><a href="#2"></a>
+  - <a href="#2.1">目标</a><a href="#2.1"></a>
+  - <a href="#2.2">概览</a><a href="#2.2"></a>
+    - <a href="#2.2.1">`bomb.c` - 框架描述</a><a href="#2.2.1"></a>
+    - <a href="#2.2.2">`bomb` - 主体</a><a href="#2.2.2"></a>
+  - <a href="#2.3">总结</a><a href="#2.3"></a>
+    - <a href="#2.3.1">`explode_bomb` [TODO]</a><a href="#2.3.1"></a>
+    - <a href="#2.3.2">`string_length` [TODO]</a><a href="#2.3.2"></a>
+    - <a href="#2.3.3">`strings_not_equal` [TODO]</a><a href="#2.3.3"></a>
+    - <a href="#2.3.4">`read_six_numbers` [TODO]</a><a href="#2.3.4"></a>
+    - <a href="#2.3.5">`func4` [TODO]</a><a href="#2.3.5"></a>
+    - <a href="#2.3.6">`phase_1`</a><a href="#2.3.6"></a>
+    - <a href="#2.3.7">`phase_2`</a><a href="#2.3.7"></a>
+    - <a href="#2.3.8">`phase_3`</a><a href="#2.3.8"></a>
+    - <a href="#2.3.9">`phase_4`</a><a href="#2.3.9"></a>
+    - <a href="#2.3.10">`phase_5`</a><a href="#2.3.10"></a>
+    - <a href="#2.3.11">`phase_6`</a><a href="#2.3.11"></a>
+  - <a href="#2.4">附录</a><a href="#2.4"></a>
+    - <a href="#2.4.1">GDB</a><a href="#2.4.1"></a>
+    - <a href="#2.4.2">Linux 命令</a><a href="#2.4.2"></a>
 
 ## <a id="1"></a>1. Data Lab
 
