@@ -1,30 +1,30 @@
 /**
- *  全局字符串 char *fmt_phase_defused:
+ *  局部字符串 char *fmt_phase_defused:
  *  >>> print (char *) 0x402619
  *  $1 = 0x402619 "%d %d %s"
  */
 /**
- *  全局字符串 char *phase_defused_prompt_1:
+ *  局部字符串 char *phase_defused_prompt_1:
  *  >>> print (char *) 0x402558
  *  $1 = 0x402558 "Congratulations! You've defused the bomb!"
  */
 /**
- *  全局字符串 char *s1:
+ *  局部字符串 char *password_secret_real:
  *  >>> print (char *) 0x402622
  *  $1 = 0x402622 "DrEvil"
  */
 /**
- *  全局字符串 char *phase_defused_prompt_2:
+ *  局部字符串 char *phase_defused_prompt_2:
  *  >>> print (char *) 0x4024f8
  *  $1 = 0x4024f8 "Curses, you've found the secret phase!"
  */
 /**
- *  全局字符串 char *phase_defused_prompt_3:
+ *  局部字符串 char *phase_defused_prompt_3:
  *  >>> print (char *) 0x402520
  *  $1 = 0x402520 "But finding it and solving it are quite different..."
  */
 Dump of assembler code for function phase_defused:
-   0x00000000004015c4 <+0>:     sub    $0x78,%rsp  # int a, b; char s[];
+   0x00000000004015c4 <+0>:     sub    $0x78,%rsp  # int foo, bar; char *password_secret;
    0x00000000004015c8 <+4>:     mov    %fs:0x28,%rax
    0x00000000004015d1 <+13>:    mov    %rax,0x68(%rsp)  # 使用金丝雀值保护缓冲区
    0x00000000004015d6 <+18>:    xor    %eax,%eax
@@ -35,12 +35,12 @@ Dump of assembler code for function phase_defused:
    0x00000000004015eb <+39>:    lea    0x8(%rsp),%rdx
    0x00000000004015f0 <+44>:    mov    $0x402619,%esi
    0x00000000004015f5 <+49>:    mov    $0x603870,%edi
-   0x00000000004015fa <+54>:    call   0x400bf0 <__isoc99_sscanf@plt>  # int sscanf_count = sscanf(password_4, fmt_phase_defused, &a, &b, s);
+   0x00000000004015fa <+54>:    call   0x400bf0 <__isoc99_sscanf@plt>  # int sscanf_count = sscanf(password_4, fmt_phase_defused, &foo, &bar, password_secret);
    0x00000000004015ff <+59>:    cmp    $0x3,%eax
    0x0000000000401602 <+62>:    jne    0x401635 <phase_defused+113>  # if(sscanf_count != 3) goto no_secret_phase;🔻
    0x0000000000401604 <+64>:    mov    $0x402622,%esi
    0x0000000000401609 <+69>:    lea    0x10(%rsp),%rdi
-   0x000000000040160e <+74>:    call   0x401338 <strings_not_equal>  # bool are_different_strings = strings_not_equal(s, s1);
+   0x000000000040160e <+74>:    call   0x401338 <strings_not_equal>  # bool are_different_strings = strings_not_equal(password_secret, password_secret_real);
    0x0000000000401613 <+79>:    test   %eax,%eax
    0x0000000000401615 <+81>:    jne    0x401635 <phase_defused+113>  # if(are_different_strings) goto no_secret_phase;🔻
    0x0000000000401617 <+83>:    mov    $0x4024f8,%edi

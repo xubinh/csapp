@@ -37,21 +37,20 @@
   - <a href="#2.3">思路与总结</a><a href="#2.3"></a>
     - <a href="#2.3.1">`sig_handler`</a><a href="#2.3.1"></a>
     - <a href="#2.3.2">`initialize_bomb`</a><a href="#2.3.2"></a>
-    - <a href="#2.3.3">`read_line` [TODO]</a><a href="#2.3.3"></a>
-    - <a href="#2.3.4">`string_length` [TODO]</a><a href="#2.3.4"></a>
-    - <a href="#2.3.5">`strings_not_equal` [TODO]</a><a href="#2.3.5"></a>
-    - <a href="#2.3.6">`explode_bomb` [TODO]</a><a href="#2.3.6"></a>
-    - <a href="#2.3.7">`phase_defused` [TODO]</a><a href="#2.3.7"></a>
-    - <a href="#2.3.8">`read_six_numbers` [TODO]</a><a href="#2.3.8"></a>
-    - <a href="#2.3.9">`func4` [TODO]</a><a href="#2.3.9"></a>
-    - <a href="#2.3.10">`fun7` [TODO]</a><a href="#2.3.10"></a>
-    - <a href="#2.3.11">`phase_1` [TODO]</a><a href="#2.3.11"></a>
-    - <a href="#2.3.12">`phase_2` [TODO]</a><a href="#2.3.12"></a>
-    - <a href="#2.3.13">`phase_3` [TODO]</a><a href="#2.3.13"></a>
-    - <a href="#2.3.14">`phase_4` [TODO]</a><a href="#2.3.14"></a>
-    - <a href="#2.3.15">`phase_5` [TODO]</a><a href="#2.3.15"></a>
-    - <a href="#2.3.16">`phase_6` [TODO]</a><a href="#2.3.16"></a>
-    - <a href="#2.3.17">`secret_phase` [TODO]</a><a href="#2.3.17"></a>
+    - <a href="#2.3.3">`string_length`</a><a href="#2.3.3"></a>
+    - <a href="#2.3.4">`strings_not_equal`</a><a href="#2.3.4"></a>
+    - <a href="#2.3.5">`explode_bomb`</a><a href="#2.3.5"></a>
+    - <a href="#2.3.6">`phase_defused`</a><a href="#2.3.6"></a>
+    - <a href="#2.3.7">`read_six_numbers`</a><a href="#2.3.7"></a>
+    - <a href="#2.3.8">`func4`</a><a href="#2.3.8"></a>
+    - <a href="#2.3.9">`fun7`</a><a href="#2.3.9"></a>
+    - <a href="#2.3.10">`phase_1`</a><a href="#2.3.10"></a>
+    - <a href="#2.3.11">`phase_2`</a><a href="#2.3.11"></a>
+    - <a href="#2.3.12">`phase_3`</a><a href="#2.3.12"></a>
+    - <a href="#2.3.13">`phase_4`</a><a href="#2.3.13"></a>
+    - <a href="#2.3.14">`phase_5`</a><a href="#2.3.14"></a>
+    - <a href="#2.3.15">`phase_6`</a><a href="#2.3.15"></a>
+    - <a href="#2.3.16">`secret_phase`</a><a href="#2.3.16"></a>
   - <a href="#2.4">相关资料</a><a href="#2.4"></a>
     - <a href="#2.4.1">GDB</a><a href="#2.4.1"></a>
     - <a href="#2.4.2">Linux 命令</a><a href="#2.4.2"></a>
@@ -315,7 +314,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 对程序 `bomb` 进行调试, 深入其机器代码, 依次推断出 6 个密码并通过相应 6 个阶段的考验.
 
-- 注: 除了这 6 个可见的考验以外, 还存在第七个额外的不可见的考验, 具体见下方小节.
+- 注: 除了这 6 个考验以外还存在第七个隐藏考验, 具体见下方小节.
 
 ### <a id="2.2"></a>概览
 
@@ -349,47 +348,63 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 函数 `initialize_bomb` 使用 C 库函数 `signal` 为信号 `SIGINT` 安装处理程序 `sig_handler`.
 
-#### <a id="2.3.3"></a>`read_line` [TODO]
+#### <a id="2.3.3"></a>`string_length`
 
-#### <a id="2.3.4"></a>`string_length` [TODO]
+函数 `string_length` 返回所传入字符串的长度.
 
-#### <a id="2.3.5"></a>`strings_not_equal` [TODO]
+#### <a id="2.3.4"></a>`strings_not_equal`
 
-#### <a id="2.3.6"></a>`explode_bomb` [TODO]
+函数 `strings_not_equal` 检查传入的 2 个字符串是否相同.
 
-#### <a id="2.3.7"></a>`phase_defused` [TODO]
+#### <a id="2.3.5"></a>`explode_bomb`
 
-#### <a id="2.3.8"></a>`read_six_numbers` [TODO]
+函数 `explode_bomb` 输出 "炸弹拆除失败" 的提示信息并终止整个程序.
 
-#### <a id="2.3.9"></a>`func4` [TODO]
+#### <a id="2.3.6"></a>`phase_defused`
 
-#### <a id="2.3.10"></a>`fun7` [TODO]
+函数 `phase_defused` 首先检查是否已经通过前 6 个阶段, 若仍未通过前 6 个阶段则直接返回; 若已经通过前 6 个阶段则尝试从第四个阶段的密码中读取开启隐藏阶段的口令, 若口令读取成功并且与一个已知字符串相同则进入隐藏阶段; 否则输出 "成功拆除炸弹" 的提示信息并返回.
 
-#### <a id="2.3.11"></a>`phase_1` [TODO]
+#### <a id="2.3.7"></a>`read_six_numbers`
 
-函数 `phase_1` 通过调用函数 `strings_not_equal` 来比较密码是否与某个全局字符串相同.
+函数 `read_six_numbers` 从传入的字符串中读取 6 个整数.
 
-#### <a id="2.3.12"></a>`phase_2` [TODO]
+#### <a id="2.3.8"></a>`func4`
 
-函数 `phase_2` 首先调用函数 `read_six_numbers` 从密码中读入 6 个整数, 然后检查这 6 个整数是否满足某些特定规则.
+函数 `func4` 在一个给定范围内对目标值进行二分查找, 并在递归过程中按一定规则产生最终的返回值.
 
-#### <a id="2.3.13"></a>`phase_3` [TODO]
+- 注: 在二分查找时还 `func4` 还实现了补码下整数除以 2 的幂的算法.
+
+#### <a id="2.3.9"></a>`fun7`
+
+函数 `fun7` 在一棵简单的二叉搜索树中查找给定整数, 并在递归过程中按一定规则产生最终的返回值.
+
+#### <a id="2.3.10"></a>`phase_1`
+
+函数 `phase_1` 通过调用函数 `strings_not_equal` 来比较密码是否与一个已知字符串相同.
+
+#### <a id="2.3.11"></a>`phase_2`
+
+函数 `phase_2` 首先调用函数 `read_six_numbers` 从密码中读入 6 个整数, 然后检查这 6 个整数是否满足特定规则.
+
+#### <a id="2.3.12"></a>`phase_3`
 
 函数 `phase_3` 首先调用函数 `sscanf` 读入 2 个整数, 然后实现了一个简单的 C 语言 `switch` 语句来检查这 2 个数字是否满足特定规则.
 
-#### <a id="2.3.14"></a>`phase_4` [TODO]
+#### <a id="2.3.13"></a>`phase_4`
 
-函数 `phase_4` 首先调用函数 `sscanf` 读入 2 个整数, 然后调用函数 `func4`, 传入第一个整数并得到 1 个整数结果.
+函数 `phase_4` 首先调用函数 `sscanf` 读入 2 个整数, 然后将第一个整数传入函数 `func4` 并得到 1 个整数结果, 最后检查所返回的整数结果以及第二个整数是否满足特定规则.
 
-#### <a id="2.3.15"></a>`phase_5` [TODO]
+#### <a id="2.3.14"></a>`phase_5`
 
-函数 `phase_5` 将输入的密码字符串看作是一串整数数组, 通过将数组中的整数作为下标索引某个全局字符串来将整数数组映射为长度相等的新字符串, 最后比较新字符串是否与另一目标全局字符串相同.
+函数 `phase_5` 将输入的密码字符串看作是一串整数数组, 通过将数组中的整数作为下标索引某个字母表来将整数数组映射为长度相等的新字符串, 最后比较新字符串是否与一个已知字符串相同.
 
-#### <a id="2.3.16"></a>`phase_6` [TODO]
+#### <a id="2.3.15"></a>`phase_6`
 
-函数 `phase_6` 首先调用函数 `read_six_numbers` 从密码中读取 6 个整数, 并使用这 6 个整数从某个全局链表变量中挑选出 6 个结点并连接形成一个新的链表, 最后检查新的链表中的值是否满足特定规则.
+函数 `phase_6` 首先调用函数 `read_six_numbers` 从密码中读取 6 个整数, 并使用这 6 个整数从某个全局链表中依次挑选出 6 个结点并连接形成一个新的链表, 最后检查新的链表中的值是否满足特定规则.
 
-#### <a id="2.3.17"></a>`secret_phase` [TODO]
+#### <a id="2.3.16"></a>`secret_phase`
+
+函数 `secret_phase` 首先调用 `read_line` 函数读入第七个密码, 然后使用 C 库函数 `strtol` 将其转换为整数, 将该整数传入函数 `fun7` 得到结果, 最后检查该结果是否满足特定规则.
 
 ### <a id="2.4"></a>相关资料
 

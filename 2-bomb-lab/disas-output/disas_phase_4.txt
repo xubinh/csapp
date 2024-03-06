@@ -1,5 +1,5 @@
 /**
- *  全局字符串 char *fmt_two_numbers:
+ *  局部字符串 char *fmt_two_numbers:
  *  >>> print (char*) 0x4025cf
  *  $1 = 0x4025cf "%d %d"
  */
