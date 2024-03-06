@@ -1,10 +1,10 @@
 /**
- *  全局字符串 explode_prompt_1:
+ *  全局字符串 char *explode_prompt_1:
  *  >>> print (char*) 0x4025a3
  *  $1 = 0x4025a3 "\nBOOM!!!"
  */
 /**
- *  全局字符串 explode_prompt_2:
+ *  全局字符串 char *explode_prompt_2:
  *  >>> print (char*) 0x4025ac
  *  $1 = 0x4025ac "The bomb has blown up."
  */

@@ -13,7 +13,7 @@
     - <a href="#1.2.4">`dlc` - 合法性检查工具</a><a href="#1.2.4"></a>
     - <a href="#1.2.5">`driver.pl` - 最终评分工具</a><a href="#1.2.5"></a>
     - <a href="#1.2.6">其他</a><a href="#1.2.6"></a>
-  - <a href="#1.3">总结</a><a href="#1.3"></a>
+  - <a href="#1.3">思路与总结</a><a href="#1.3"></a>
     - <a href="#1.3.1">#01 `bitXor` - 使用 `~` 和 `&` 实现 `^`</a><a href="#1.3.1"></a>
     - <a href="#1.3.2">#02 `tmin` - 返回 </a>$TMin_w$<a href="#1.3.2"> [TODO]</a><a href="#1.3.2"></a>
     - <a href="#1.3.3">#03 `isTmax` - 判断是否为 </a>$TMax_w$<a href="#1.3.3"></a>
@@ -27,13 +27,14 @@
     - <a href="#1.3.11">#11 `floatScale2` [TODO]</a><a href="#1.3.11"></a>
     - <a href="#1.3.12">#12 `floatFloat2Int` [TODO]</a><a href="#1.3.12"></a>
     - <a href="#1.3.13">#13 `floatPower2` [TODO]</a><a href="#1.3.13"></a>
-  - <a href="#1.4">附录</a><a href="#1.4"></a>
+  - <a href="#1.4">相关资料</a><a href="#1.4"></a>
+    - <a href="#1.4.1">命题逻辑</a><a href="#1.4.1"></a>
 - <a href="#2">2. Bomb Lab</a><a href="#2"></a>
   - <a href="#2.1">目标</a><a href="#2.1"></a>
   - <a href="#2.2">概览</a><a href="#2.2"></a>
     - <a href="#2.2.1">`bomb.c` - 框架描述</a><a href="#2.2.1"></a>
     - <a href="#2.2.2">`bomb` - 主体</a><a href="#2.2.2"></a>
-  - <a href="#2.3">总结</a><a href="#2.3"></a>
+  - <a href="#2.3">思路与总结</a><a href="#2.3"></a>
     - <a href="#2.3.1">`explode_bomb` [TODO]</a><a href="#2.3.1"></a>
     - <a href="#2.3.2">`string_length` [TODO]</a><a href="#2.3.2"></a>
     - <a href="#2.3.3">`strings_not_equal` [TODO]</a><a href="#2.3.3"></a>
@@ -45,7 +46,7 @@
     - <a href="#2.3.9">`phase_4`</a><a href="#2.3.9"></a>
     - <a href="#2.3.10">`phase_5`</a><a href="#2.3.10"></a>
     - <a href="#2.3.11">`phase_6`</a><a href="#2.3.11"></a>
-  - <a href="#2.4">附录</a><a href="#2.4"></a>
+  - <a href="#2.4">相关资料</a><a href="#2.4"></a>
     - <a href="#2.4.1">GDB</a><a href="#2.4.1"></a>
     - <a href="#2.4.2">Linux 命令</a><a href="#2.4.2"></a>
 
@@ -297,7 +298,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 ### <a id="1.4"></a>相关资料
 
-#### 命题逻辑
+#### <a id="1.4.1"></a>命题逻辑
 
 - [维基百科: 命题逻辑](https://en.wikipedia.org/wiki/Propositional_calculus)
 
@@ -305,7 +306,9 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 ### <a id="2.1"></a>目标
 
-对程序 `bomb` 进行调试, 解密六个字符串以通过六个相应阶段的考验.
+对程序 `bomb` 进行调试, 深入其机器代码, 依次推断出 6 个密码并通过相应 6 个阶段的考验.
+
+- 注: 除了这 6 个可见的考验以外, 还存在第七个额外的不可见的考验, 具体见下方小节.
 
 ### <a id="2.2"></a>概览
 
@@ -321,45 +324,65 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 #### <a id="2.2.2"></a>`bomb` - 主体
 
-使用 GDB 对 `bomb` 进行 debug, 以破解六个 phase 的密码.
+`bomb` 为可执行文件, 需要对其进行调试并破解得到 6 个密码.
 
 ### <a id="2.3"></a>思路与总结
 
-下列所有函数的机器指令的具体解释见目录[disas-output](2-bomb-lab/disas-output). 某些特定函数所需要的额外信息 (例如跳转表或全局字符串等) 将会在对应的文件开头列出.
+目录结构:
 
-#### <a id="2.3.1"></a>`explode_bomb` [TODO]
+- 可执行文件 `bomb` 的反汇编内容见文件[objdump_bomb.txt](2-bomb-lab/objdump_bomb.txt).
+- 下列所有函数的机器指令的具体解释见目录[disas-output](2-bomb-lab/disas-output), 某些特定函数所需要的额外信息 (例如跳转表或全局字符串等) 将会在对应的 `disas_xxx.txt` 文件开头列出.
+- 测试通过的 6 个密码见文件[password.txt](2-bomb-lab/password.txt).
+
+#### `sig_handler`
+
+对炸弹拆除进度进行安全重置 `:-)`.
+
+#### `initialize_bomb`
+
+函数 `initialize_bomb` 使用 C 库函数 `signal` 为信号 `SIGINT` 安装处理程序 `sig_handler`.
+
+#### `read_line` [TODO]
 
 #### <a id="2.3.2"></a>`string_length` [TODO]
 
 #### <a id="2.3.3"></a>`strings_not_equal` [TODO]
 
+#### <a id="2.3.1"></a>`explode_bomb` [TODO]
+
+#### `phase_defused` [TODO]
+
 #### <a id="2.3.4"></a>`read_six_numbers` [TODO]
 
 #### <a id="2.3.5"></a>`func4` [TODO]
 
-#### <a id="2.3.6"></a>`phase_1`
+#### `fun7` [TODO]
+
+#### <a id="2.3.6"></a>`phase_1` [TODO]
 
 函数 `phase_1` 通过调用函数 `strings_not_equal` 来比较密码是否与某个全局字符串相同.
 
-#### <a id="2.3.7"></a>`phase_2`
+#### <a id="2.3.7"></a>`phase_2` [TODO]
 
 函数 `phase_2` 首先调用函数 `read_six_numbers` 从密码中读入 6 个整数, 然后检查这 6 个整数是否满足某些特定规则.
 
-#### <a id="2.3.8"></a>`phase_3`
+#### <a id="2.3.8"></a>`phase_3` [TODO]
 
 函数 `phase_3` 首先调用函数 `sscanf` 读入 2 个整数, 然后实现了一个简单的 C 语言 `switch` 语句来检查这 2 个数字是否满足特定规则.
 
-#### <a id="2.3.9"></a>`phase_4`
+#### <a id="2.3.9"></a>`phase_4` [TODO]
 
 函数 `phase_4` 首先调用函数 `sscanf` 读入 2 个整数, 然后调用函数 `func4`, 传入第一个整数并得到 1 个整数结果.
 
-#### <a id="2.3.10"></a>`phase_5`
+#### <a id="2.3.10"></a>`phase_5` [TODO]
 
 函数 `phase_5` 将输入的密码字符串看作是一串整数数组, 通过将数组中的整数作为下标索引某个全局字符串来将整数数组映射为长度相等的新字符串, 最后比较新字符串是否与另一目标全局字符串相同.
 
-#### <a id="2.3.11"></a>`phase_6`
+#### <a id="2.3.11"></a>`phase_6` [TODO]
 
 函数 `phase_6` 首先调用函数 `read_six_numbers` 从密码中读取 6 个整数, 并使用这 6 个整数从某个全局链表变量中挑选出 6 个结点并连接形成一个新的链表, 最后检查新的链表中的值是否满足特定规则.
+
+#### `secret_phase` [TODO]
 
 ### <a id="2.4"></a>相关资料
 
@@ -408,3 +431,5 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
     # Install documentation for binutils, which includes gas
     sudo apt-get install binutils-doc
     ```
+
+## 3. Attack Lab

@@ -1,0 +1,34 @@
+/**
+ *  全局字符串 char *sig_handler_prompt_1:
+ * >>> print (char *) 0x4024c0
+ * $1 = 0x4024c0 "So you think you can stop the bomb with ctrl-c, do you?"
+ */
+/**
+ *  全局字符串 char *sig_handler_prompt_2:
+ * >>> print (char *) 0x402582
+ * $1 = 0x402582 "Well..."
+ */
+/**
+ *  全局字符串 char *sig_handler_prompt_3:
+ * >>> print (char *) 0x40258a
+ * $1 = 0x40258a "OK. :-)"
+ */
+void sig_handler(){
+   0x00000000004012a0 <+0>:     sub    $0x8,%rsp
+   0x00000000004012a4 <+4>:     mov    $0x4024c0,%edi
+   0x00000000004012a9 <+9>:     call   0x400b10 <puts@plt>  # puts(sig_handler_prompt_1);
+   0x00000000004012ae <+14>:    mov    $0x3,%edi
+   0x00000000004012b3 <+19>:    call   0x400c50 <sleep@plt>  # sleep(3);
+   0x00000000004012b8 <+24>:    mov    $0x402582,%esi
+   0x00000000004012bd <+29>:    mov    $0x1,%edi
+   0x00000000004012c2 <+34>:    mov    $0x0,%eax
+   0x00000000004012c7 <+39>:    call   0x400c00 <__printf_chk@plt>  # printf(sig_handler_prompt_2);
+   0x00000000004012cc <+44>:    mov    0x20246d(%rip),%rdi        # 0x603740 <stdout@@GLIBC_2.2.5>
+   0x00000000004012d3 <+51>:    call   0x400be0 <fflush@plt>
+   0x00000000004012d8 <+56>:    mov    $0x1,%edi
+   0x00000000004012dd <+61>:    call   0x400c50 <sleep@plt>  # sleep(1);
+   0x00000000004012e2 <+66>:    mov    $0x40258a,%edi
+   0x00000000004012e7 <+71>:    call   0x400b10 <puts@plt>  # puts(sig_handler_prompt_3);
+   0x00000000004012ec <+76>:    mov    $0x10,%edi
+   0x00000000004012f1 <+81>:    call   0x400c20 <exit@plt>  # exit(16);
+}

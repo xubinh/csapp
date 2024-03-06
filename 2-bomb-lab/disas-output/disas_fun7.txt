@@ -1,0 +1,24 @@
+int fun7(TreeNode *node, int target){
+   0x0000000000401204 <+0>:     sub    $0x8,%rsp
+   0x0000000000401208 <+4>:     test   %rdi,%rdi
+   0x000000000040120b <+7>:     je     0x401238 <fun7+52>  # if(!node) goto empty_tree;🔻
+   0x000000000040120d <+9>:     mov    (%rdi),%edx  # int val = node->val;
+   0x000000000040120f <+11>:    cmp    %esi,%edx
+   0x0000000000401211 <+13>:    jle    0x401220 <fun7+28>  # if(val <= target) goto check_again;🔻
+   0x0000000000401213 <+15>:    mov    0x8(%rdi),%rdi  # node = node->left;
+   0x0000000000401217 <+19>:    call   0x401204 <fun7>  # int result = fun7(node, target);
+   0x000000000040121c <+24>:    add    %eax,%eax  # result *= 2;
+   0x000000000040121e <+26>:    jmp    0x40123d <fun7+57>  # return result;
+check_again:
+   0x0000000000401220 <+28>:    mov    $0x0,%eax
+   0x0000000000401225 <+33>:    cmp    %esi,%edx
+   0x0000000000401227 <+35>:    je     0x40123d <fun7+57>  # if(val == target) return 0;
+   0x0000000000401229 <+37>:    mov    0x10(%rdi),%rdi  # node = node->right;
+   0x000000000040122d <+41>:    call   0x401204 <fun7>  # int result = fun7(node, target);
+   0x0000000000401232 <+46>:    lea    0x1(%rax,%rax,1),%eax  # result = 2 * result + 1;
+   0x0000000000401236 <+50>:    jmp    0x40123d <fun7+57>  # return result;
+empty_tree:
+   0x0000000000401238 <+52>:    mov    $0xffffffff,%eax  # return -1;
+   0x000000000040123d <+57>:    add    $0x8,%rsp
+   0x0000000000401241 <+61>:    ret
+}

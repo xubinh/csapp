@@ -1,5 +1,5 @@
 /**
- *  全局字符串 fmt_six_numbers:
+ *  全局字符串 char *fmt_six_numbers:
  *  >>> print (char*) 0x4025c3
  *  $1 = 0x4025c3 "%d %d %d %d %d %d"
  */

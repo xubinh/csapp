@@ -1,30 +1,30 @@
 /**
- *  全局字符串 fmt_two_numbers:
+ *  全局字符串 char *fmt_two_numbers:
  *  >>> print (char*) 0x4025cf
  *  $1 = 0x4025cf "%d %d"
  */
 void phase_4(char *password){
-   0x000000000040100c <+0>:     sub    $0x18,%rsp  # int a, b;
+   0x000000000040100c <+0>:     sub    $0x18,%rsp  # int target_val, foo;
    0x0000000000401010 <+4>:     lea    0xc(%rsp),%rcx
    0x0000000000401015 <+9>:     lea    0x8(%rsp),%rdx
    0x000000000040101a <+14>:    mov    $0x4025cf,%esi  # char *fmt_two_numbers = "%d %d"
    0x000000000040101f <+19>:    mov    $0x0,%eax  # int read_numbers_count = 0;
-   0x0000000000401024 <+24>:    call   0x400bf0 <__isoc99_sscanf@plt>  # read_numbers_count = sscanf(password, fmt_two_numbers, &a, &b);
+   0x0000000000401024 <+24>:    call   0x400bf0 <__isoc99_sscanf@plt>  # read_numbers_count = sscanf(password, fmt_two_numbers, &target_val, &foo);
    0x0000000000401029 <+29>:    cmp    $0x2,%eax
    0x000000000040102c <+32>:    jne    0x401035 <phase_4+41>  # if(read_numbers_count != 2) goto explode;🔻
    0x000000000040102e <+34>:    cmpl   $0xe,0x8(%rsp)
-   0x0000000000401033 <+39>:    jbe    0x40103a <phase_4+46>  # if(a >= 0 && a <= 14) goto numbers_checked;🔻
+   0x0000000000401033 <+39>:    jbe    0x40103a <phase_4+46>  # if(target_val >= 0 && target_val <= 14) goto numbers_checked;🔻
 explode:
    0x0000000000401035 <+41>:    call   0x40143a <explode_bomb>💣💥💥
 numbers_checked:
    0x000000000040103a <+46>:    mov    $0xe,%edx
    0x000000000040103f <+51>:    mov    $0x0,%esi
    0x0000000000401044 <+56>:    mov    0x8(%rsp),%edi
-   0x0000000000401048 <+60>:    call   0x400fce <func4>  # int result = func4(a, 0, 14);
+   0x0000000000401048 <+60>:    call   0x400fce <func4>  # int result = func4(target_val, 0, 14);
    0x000000000040104d <+65>:    test   %eax,%eax
    0x000000000040104f <+67>:    jne    0x401058 <phase_4+76>  # if(result) goto explode_2;🔻
    0x0000000000401051 <+69>:    cmpl   $0x0,0xc(%rsp)
-   0x0000000000401056 <+74>:    je     0x40105d <phase_4+81>  # if(b == 0) goto success;🔻
+   0x0000000000401056 <+74>:    je     0x40105d <phase_4+81>  # if(foo == 0) goto success;🔻
 explode_2:
    0x0000000000401058 <+76>:    call   0x40143a <explode_bomb>💣💥💥
 success:

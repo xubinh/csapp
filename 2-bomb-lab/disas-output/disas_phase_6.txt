@@ -1,5 +1,5 @@
 /**
- *  链表 initial_linked_list:
+ *  链表 Node *initial_linked_list:
  *  >>> x/12xg 0x6032d0
  *  0x6032d0 <node1>:       0x000000010000014c      0x00000000006032e0
  *  0x6032e0 <node2>:       0x00000002000000a8      0x00000000006032f0
