@@ -76,17 +76,13 @@
 
 </details>
 
-<a href="#toc">返回顶部↑</a>
+<a href="#toc" style="position: fixed; bottom: 20px; right: 30px; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; font-family: Arial, sans-serif; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); opacity: 0.7; transition: opacity 0.3s, transform 0.3s;" onmouseover="this.style.opacity=1;this.style.transform='translateY(-5px)'" onmouseout="this.style.opacity=0.7;this.style.transform='none'">返回顶部↑</a>
 
 ## <a id="1"></a>1. Data Lab
-
-<a href="#toc">返回顶部↑</a>
 
 ### <a id="1.1"></a>实验目的
 
 补全文件 `bits.c` 中所包含的全部 13 个 puzzle 的函数主体.
-
-<a href="#toc">返回顶部↑</a>
 
 ### <a id="1.2"></a>实验框架
 
@@ -182,7 +178,7 @@
 
 - 具体打分细则见 handout.
 
-<a href="#toc">返回顶部↑</a>
+<a href="#toc" style="position: fixed; bottom: 20px; right: 30px; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; font-family: Arial, sans-serif; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); opacity: 0.7; transition: opacity 0.3s, transform 0.3s;" onmouseover="this.style.opacity=1;this.style.transform='translateY(-5px)'" onmouseout="this.style.opacity=0.7;this.style.transform='none'">返回顶部↑</a>
 
 ### <a id="1.3"></a>实验思路与总结
 
@@ -330,7 +326,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 分情况讨论, 如果指数大于阶码范围则直接返回, 如果小于阶码范围则返回 0, 然后分别处理位于规格化范围和非规格化范围两种情况即可.
 
-<a href="#toc">返回顶部↑</a>
+<a href="#toc" style="position: fixed; bottom: 20px; right: 30px; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; font-family: Arial, sans-serif; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); opacity: 0.7; transition: opacity 0.3s, transform 0.3s;" onmouseover="this.style.opacity=1;this.style.transform='translateY(-5px)'" onmouseout="this.style.opacity=0.7;this.style.transform='none'">返回顶部↑</a>
 
 ### <a id="1.4"></a>相关资料
 
@@ -338,17 +334,11 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 - [维基百科: 命题逻辑](https://en.wikipedia.org/wiki/Propositional_calculus)
 
-<a href="#toc">返回顶部↑</a>
-
 ## <a id="2"></a>2. Bomb Lab
-
-<a href="#toc">返回顶部↑</a>
 
 ### <a id="2.1"></a>实验目的
 
 对程序 `bomb` 进行调试, 深入其机器代码, 依次推断出 6 个密码并通过相应 6 个阶段的考验. 除了这 6 个考验以外还存在第七个隐藏考验, 因此实际上共有 7 个阶段的考验以及对应的密码, 具体见下方小节.
-
-<a href="#toc">返回顶部↑</a>
 
 ### <a id="2.2"></a>实验框架
 
@@ -367,7 +357,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 - 连续执行 6 个阶段, 每个阶段均为读入一行输入, 将输入用于解密, 若解密成功则可顺序进入下一阶段, 若 6 个阶段均解密成功则函数退出 (炸弹解除).
 - 此外还可选择挑战第七个隐藏考验.
 
-<a href="#toc">返回顶部↑</a>
+<a href="#toc" style="position: fixed; bottom: 20px; right: 30px; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; font-family: Arial, sans-serif; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); opacity: 0.7; transition: opacity 0.3s, transform 0.3s;" onmouseover="this.style.opacity=1;this.style.transform='translateY(-5px)'" onmouseout="this.style.opacity=0.7;this.style.transform='none'">返回顶部↑</a>
 
 ### <a id="2.3"></a>实验思路与总结
 
@@ -443,7 +433,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 函数 `secret_phase` 首先调用 `read_line` 函数读入第七个密码, 然后使用 C 库函数 `strtol` 将其转换为整数, 将该整数传入函数 `fun7` 得到结果, 最后检查该结果是否满足特定规则.
 
-<a href="#toc">返回顶部↑</a>
+<a href="#toc" style="position: fixed; bottom: 20px; right: 30px; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; font-family: Arial, sans-serif; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); opacity: 0.7; transition: opacity 0.3s, transform 0.3s;" onmouseover="this.style.opacity=1;this.style.transform='translateY(-5px)'" onmouseout="this.style.opacity=0.7;this.style.transform='none'">返回顶部↑</a>
 
 ### <a id="2.4"></a>相关资料
 
@@ -493,17 +483,13 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
     sudo apt-get install binutils-doc
     ```
 
-<a href="#toc">返回顶部↑</a>
+<a href="#toc" style="position: fixed; bottom: 20px; right: 30px; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; font-family: Arial, sans-serif; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); opacity: 0.7; transition: opacity 0.3s, transform 0.3s;" onmouseover="this.style.opacity=1;this.style.transform='translateY(-5px)'" onmouseout="this.style.opacity=0.7;this.style.transform='none'">返回顶部↑</a>
 
 ## <a id="3"></a>3. Attack Lab
-
-<a href="#toc">返回顶部↑</a>
 
 ### <a id="3.1"></a>实验目的
 
 This assignment involves generating a total of five attacks on two programs having different security vulnerabilities.
-
-<a href="#toc">返回顶部↑</a>
 
 ### <a id="3.2"></a>实验框架
 
@@ -529,12 +515,10 @@ This assignment involves generating a total of five attacks on two programs havi
   - The address of one of your gadgets from the gadget farm.
 - You may only construct gadgets from file rtarget with addresses ranging between those for functions start_farm and end_farm.
 
-<a href="#toc">返回顶部↑</a>
+<a href="#toc" style="position: fixed; bottom: 20px; right: 30px; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; font-family: Arial, sans-serif; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); opacity: 0.7; transition: opacity 0.3s, transform 0.3s;" onmouseover="this.style.opacity=1;this.style.transform='translateY(-5px)'" onmouseout="this.style.opacity=0.7;this.style.transform='none'">返回顶部↑</a>
 
 ### <a id="3.3"></a>实验思路与总结
 
-<a href="#toc">返回顶部↑</a>
-
 ### <a id="3.4"></a>相关资料
 
-<a href="#toc">返回顶部↑</a>
+<a href="#toc" style="position: fixed; bottom: 20px; right: 30px; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; font-family: Arial, sans-serif; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); opacity: 0.7; transition: opacity 0.3s, transform 0.3s;" onmouseover="this.style.opacity=1;this.style.transform='translateY(-5px)'" onmouseout="this.style.opacity=0.7;this.style.transform='none'">返回顶部↑</a>

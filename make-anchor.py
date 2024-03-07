@@ -17,8 +17,8 @@ def get_content_lines(
         button_positions = [idx for idx, line in enumerate(content_lines) if line.count("#toc")]
         button_positions.reverse()
         for button_position in button_positions:
-            content_lines.pop(button_position)  # 按钮
-            content_lines.pop(button_position)  # 按钮后接的空行
+            content_lines.pop(button_position - 1)  # 按钮前接的空行
+            content_lines.pop(button_position - 1)  # 按钮
         return content_lines
 
     with open(md_file_path, encoding="utf8") as file:
@@ -208,8 +208,8 @@ def fill_in_new_headers_and_toc(
 def insert_back_to_top_buttons(
     content_lines: list[str],
     is_toc_header: Callable[[str], bool],
+    toc_id="toc",
 ) -> list[str]:
-    toc_id = "toc"
     for idx, line in enumerate(content_lines):
         if not is_toc_header(line):
             continue
@@ -232,21 +232,48 @@ def insert_back_to_top_buttons(
             return True
         return False
 
-    insert_positions = [idx for idx, line in enumerate(content_lines) if _is_level_2_or_3_level_header(line)]
+    insert_positions = [(idx, _get_header_level(line)) for idx, line in enumerate(content_lines) if _is_level_2_or_3_level_header(line)]
     assert len(insert_positions) >= 1, "要求文档中至少存在一个二级标题"
 
-    button = f'<a href="#{toc_id}">返回顶部↑</a>'
+    def _get_button(toc_id: str):
+        # return f'<a href="#{toc_id}">返回顶部↑</a>'
+        return f'<a href="#{toc_id}" style="position: fixed; bottom: 20px; right: 30px; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; font-family: Arial, sans-serif; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); opacity: 0.7; transition: opacity 0.3s, transform 0.3s;" onmouseover="this.style.opacity=1;this.style.transform=\'translateY(-5px)\'" onmouseout="this.style.opacity=0.7;this.style.transform=\'none\'">返回顶部↑</a>'
+
+    button = _get_button(toc_id)
 
     # 添加文档底部的按钮 (之所以要分开添加是因为底部按钮和位于文档中间的按钮的对应空行的插入原则不同):
     content_lines.append("")
     content_lines.append(button)
 
+    not_insert_interval = 16
+    current_skip_total_interval = 0
+    skip_thres = 64
+
     # 添加文档中间的按钮:
-    insert_positions.pop(0)
     insert_positions.reverse()
-    for insert_position in insert_positions:
+    for idx in range(len(insert_positions) - 1):
+        insert_position, header_level = insert_positions[idx]
+        insert_position_pre, header_level_pre = insert_positions[idx + 1]
+        if header_level_pre + 1 == header_level:
+            # 标题行等级下降时, 小间隔的绝对不加按钮:
+            if insert_position - insert_position_pre < not_insert_interval:
+                # 累计不加按钮的间隔:
+                current_skip_total_interval += insert_position - insert_position_pre
+                continue
+        else:
+            # 同级标题行时, 小间隔看情况加按钮:
+            if insert_position - insert_position_pre < not_insert_interval:
+                # 如果累计不加按钮的间隔还未超过阈值:
+                if current_skip_total_interval < skip_thres:
+                    # 累计不加按钮的间隔:
+                    current_skip_total_interval += insert_position - insert_position_pre
+                    continue
+
         content_lines.insert(insert_position, "")
         content_lines.insert(insert_position, button)
+
+        # 清空累计不加按钮的间隔:
+        current_skip_total_interval = 0
 
     return content_lines
 
