@@ -234,6 +234,7 @@ def insert_back_to_top_buttons(
 
     insert_positions = [(idx, _get_header_level(line)) for idx, line in enumerate(content_lines) if _is_level_2_or_3_level_header(line)]
     assert len(insert_positions) >= 1, "要求文档中至少存在一个二级标题"
+    insert_positions.reverse()
 
     def _get_button(toc_id: str):
         # return f'<a href="#{toc_id}">返回顶部↑</a>'
@@ -241,16 +242,18 @@ def insert_back_to_top_buttons(
 
     button = _get_button(toc_id)
 
-    # 添加文档底部的按钮 (之所以要分开添加是因为底部按钮和位于文档中间的按钮的对应空行的插入原则不同):
-    content_lines.append("")
-    content_lines.append(button)
-
     not_insert_interval = 16
     current_skip_total_interval = 0
     skip_thres = 64
 
+    # 添加文档底部的按钮 (之所以要分开添加是因为底部按钮和位于文档中间的按钮的对应空行的插入原则不同):
+    if len(content_lines) - insert_positions[0][0] >= not_insert_interval:
+        content_lines.append("")
+        content_lines.append(button)
+    else:
+        current_skip_total_interval += len(content_lines) - insert_positions[0][0]
+
     # 添加文档中间的按钮:
-    insert_positions.reverse()
     for idx in range(len(insert_positions) - 1):
         insert_position, header_level = insert_positions[idx]
         insert_position_pre, header_level_pre = insert_positions[idx + 1]
@@ -280,7 +283,7 @@ def insert_back_to_top_buttons(
         content_lines.append("")
         content_lines.append(button)
 
-    _insert_global_btt_button(content_lines)
+    # _insert_global_btt_button(content_lines)
 
     return content_lines
 
