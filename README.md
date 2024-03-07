@@ -4,8 +4,6 @@
 
 ## 目录
 
-<details><summary><a href="#0">注意事项</a></summary>
-</details>
 <details open="open"><summary><a href="#1">1. Data Lab</a></summary>
 
 - <a href="#1.1">实验目的</a>
@@ -77,10 +75,6 @@
 - <a href="#3.4">相关资料</a>
 
 </details>
-
-## <a id="0"></a>注意事项
-
-1. 尽量使用 `tar -xvf <tarball>` 命令来解压文件, 如果使用其他软件 (例如 7-zip) 进行解压可能会导致文件权限被重置.
 
 ## <a id="1"></a>1. Data Lab
 

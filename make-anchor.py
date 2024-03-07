@@ -108,9 +108,12 @@ def insert_anchors(headers: list[str]) -> tuple[list[str], list[str]]:
         return False
 
     def _get_initial_header_idx(header_level: int):
-        # 这里完全和 README.md 耦合在一起了, 因为二级标题第一个是 "注意事项", 下一个开始才是对应的 lab 的标题
-        if header_level == 2:
-            return 0
+        # # 这里完全和 README.md 耦合在一起了, 因为二级标题第一个是 "注意事项", 下一个开始才是对应的 lab 的标题
+        # if header_level == 2:
+        #     return 0
+
+        # 上面的机制取消, 因为为了文档整洁性决定把 "注意事项" 二级小节删掉了
+
         return 1
 
     def _insert_anchor(header: str) -> list[str]:
