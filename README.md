@@ -1,6 +1,14 @@
-# Labs
+# <div align="center">Notes for CS:APP Labs</div>
 
-关于 CS:APP 的 Labs 的一些笔记
+<div align="center">
+
+![GitHub Repo stars](https://img.shields.io/github/stars/xubinh/csapp?style=flat-square&color=007bff) ![GitHub forks](https://img.shields.io/github/forks/xubinh/csapp?style=flat-square&color=28a745)
+
+</div>
+
+<p align="center">关于 CS:APP 的 Labs 的一些笔记与总结</p>
+
+<div align="center" style="margin-top: 64px;"><a href="http://csapp.cs.cmu.edu/"><img width=200 src="./csapp.png" alt="CS:APP" style="border: 2px solid #eef2f5;"></img></a></div>
 
 ## <a id="toc"></a>目录
 
@@ -74,6 +82,8 @@
 - <a href="#3.3">实验思路与总结</a>
 - <a href="#3.4">相关资料</a>
 
+</details>
+<details><summary><a href="#4">待办</a></summary>
 </details>
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
@@ -200,7 +210,7 @@ p ^ q = ~((~(p & (~q))) & (~((~p) & q))).
 
 #### <a id="1.3.2"></a>#02 `tmin` - 返回 $TMin_w$
 
-根据 $B2T_w$ 的定义, **[TODO] 此处可以考虑使用 $U2T_w$**
+根据 $B2T_w$ 的定义,
 
 $$
 \begin{equation}
@@ -520,3 +530,10 @@ This assignment involves generating a total of five attacks on two programs havi
 ### <a id="3.3"></a>实验思路与总结
 
 ### <a id="3.4"></a>相关资料
+
+## <a id="4"></a>待办
+
+- [ ] Data Lab 的第二个函数的原理应该使用 $U2T_w$ 推导, 而不是 $B2T_w$
+- [ ] 对 Data Lab 所有函数的思路进行补充
+- [ ] 对 Bomb Lab 的所有反汇编代码的原理进行补充, 必要时可附加图像
+- [ ] 使用文件树对每个 Lab 下的目录结构进行展示
