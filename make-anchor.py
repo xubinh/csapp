@@ -276,7 +276,7 @@ def insert_back_to_top_buttons(
         current_skip_total_interval = 0
 
     def _insert_global_btt_button(content_lines: list[str]):
-        button = f'<a href="#{toc_id}" style="position: fixed; bottom: 60px; right: 30px; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; font-family: Arial, sans-serif; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); opacity: 0.7; transition: opacity 0.3s, transform 0.3s;" onmouseover="this.style.opacity=1;this.style.transform=\'translateY(-5px)\'" onmouseout="this.style.opacity=0.7;this.style.transform=\'none\'">返回顶部↑</a>'
+        button = f'<div style="position: fixed; bottom: 60px; right: 30px; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; font-family: Arial, sans-serif; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); opacity: 0.7; transition: opacity 0.3s, transform 0.3s;" onmouseover="this.style.opacity=1;this.style.transform=\'translateY(-5px)\'" onmouseout="this.style.opacity=0.7;this.style.transform=\'none\'"><a href="#{toc_id}">返回顶部↑</a></div>'
         content_lines.append("")
         content_lines.append(button)
 
