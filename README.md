@@ -76,7 +76,7 @@
 
 </details>
 
-<div align="right" style="font-family: monospace;"><b><a href="#toc">返回顶部↑</a></b></div>
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
 ## <a id="1"></a>1. Data Lab
 
@@ -178,7 +178,7 @@
 
 - 具体打分细则见 handout.
 
-<div align="right" style="font-family: monospace;"><b><a href="#toc">返回顶部↑</a></b></div>
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
 ### <a id="1.3"></a>实验思路与总结
 
@@ -326,7 +326,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 分情况讨论, 如果指数大于阶码范围则直接返回, 如果小于阶码范围则返回 0, 然后分别处理位于规格化范围和非规格化范围两种情况即可.
 
-<div align="right" style="font-family: monospace;"><b><a href="#toc">返回顶部↑</a></b></div>
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
 ### <a id="1.4"></a>相关资料
 
@@ -357,7 +357,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 - 连续执行 6 个阶段, 每个阶段均为读入一行输入, 将输入用于解密, 若解密成功则可顺序进入下一阶段, 若 6 个阶段均解密成功则函数退出 (炸弹解除).
 - 此外还可选择挑战第七个隐藏考验.
 
-<div align="right" style="font-family: monospace;"><b><a href="#toc">返回顶部↑</a></b></div>
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
 ### <a id="2.3"></a>实验思路与总结
 
@@ -433,7 +433,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 函数 `secret_phase` 首先调用 `read_line` 函数读入第七个密码, 然后使用 C 库函数 `strtol` 将其转换为整数, 将该整数传入函数 `fun7` 得到结果, 最后检查该结果是否满足特定规则.
 
-<div align="right" style="font-family: monospace;"><b><a href="#toc">返回顶部↑</a></b></div>
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
 ### <a id="2.4"></a>相关资料
 
@@ -483,7 +483,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
     sudo apt-get install binutils-doc
     ```
 
-<div align="right" style="font-family: monospace;"><b><a href="#toc">返回顶部↑</a></b></div>
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
 ## <a id="3"></a>3. Attack Lab
 
@@ -515,10 +515,12 @@ This assignment involves generating a total of five attacks on two programs havi
   - The address of one of your gadgets from the gadget farm.
 - You may only construct gadgets from file rtarget with addresses ranging between those for functions start_farm and end_farm.
 
-<div align="right" style="font-family: monospace;"><b><a href="#toc">返回顶部↑</a></b></div>
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
 ### <a id="3.3"></a>实验思路与总结
 
 ### <a id="3.4"></a>相关资料
 
-<div align="right" style="font-family: monospace;"><b><a href="#toc">返回顶部↑</a></b></div>
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
+
+<a href="#toc" style="position: fixed; bottom: 60px; right: 30px; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; font-family: Arial, sans-serif; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); opacity: 0.7; transition: opacity 0.3s, transform 0.3s;" onmouseover="this.style.opacity=1;this.style.transform='translateY(-5px)'" onmouseout="this.style.opacity=0.7;this.style.transform='none'">返回顶部↑</a>
