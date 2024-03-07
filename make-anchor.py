@@ -8,22 +8,33 @@ from pathlib import Path
 
 def get_content_lines(
     md_file_path: str,
-    is_toc_entry: Callable[[str], bool],
-    is_toc_end_entry: Callable[[str], bool],
+    is_toc_header: Callable[[str], bool],
+    is_toc_end_header: Callable[[str], bool],
 ) -> tuple[int, list[str]]:
     """按行读取文件内容, 切除目录部分, 返回剩余的所有内容与新目录的插入位置"""
+
+    def _remove_back_to_top_buttons(content_lines: list[str]) -> list[str]:
+        button_positions = [idx for idx, line in enumerate(content_lines) if line.count("#toc")]
+        button_positions.reverse()
+        for button_position in button_positions:
+            content_lines.pop(button_position)  # 按钮
+            content_lines.pop(button_position)  # 按钮后接的空行
+        return content_lines
+
     with open(md_file_path, encoding="utf8") as file:
         content_lines = [line[:-1] for line in file.readlines()]
+
+    content_lines = _remove_back_to_top_buttons(content_lines)
     toc_begin_idx = None
     for idx, line in enumerate(content_lines):
-        if is_toc_entry(line):
+        if is_toc_header(line):
             toc_begin_idx = idx
             break
     assert toc_begin_idx, "没有找到目录"
     toc_end_idx = None
     for idx in range(toc_begin_idx + 1, len(content_lines)):
         line = content_lines[idx]
-        if is_toc_end_entry(line):
+        if is_toc_end_header(line):
             toc_end_idx = idx
             break
     assert toc_end_idx, "目录行以下需要另一个标题行来确定目录部分的范围"
@@ -180,47 +191,97 @@ def fill_in_new_headers_and_toc(
     header_positions: list[int],
     toc_insert_position: int,
     toc_entries: list[str],
-    get_toc_entry: Callable[[], str],
-) -> str:
+    get_toc_header: Callable[[], str],
+) -> list[str]:
     """替换标题行, 插入新目录, 返回新的 md 文本"""
     for anchor_header, header_position in zip(anchor_headers, header_positions):
         content_lines[header_position] = anchor_header
     toc_entries.insert(0, "")
-    toc_entries.insert(0, get_toc_entry())
+    toc_entries.insert(0, get_toc_header())
     toc_entries.append("")
     toc_entries.reverse()
     for toc_entry in toc_entries:
         content_lines.insert(toc_insert_position, toc_entry)
+    return content_lines
 
+
+def insert_back_to_top_buttons(
+    content_lines: list[str],
+    is_toc_header: Callable[[str], bool],
+) -> list[str]:
+    toc_id = "toc"
+    for idx, line in enumerate(content_lines):
+        if not is_toc_header(line):
+            continue
+
+        toc_match = re.fullmatch(r"(#+) +(.+)", line)
+        assert toc_match, "目录匹配出错"
+        content_lines[idx] = f'{toc_match.group(1)} <a id="{toc_id}"></a>{toc_match.group(2)}'
+        break
+
+    regex_get_header_level = re.compile(r"^#*")
+
+    def _get_header_level(line: str) -> int:
+        match_get_header_level = regex_get_header_level.match(line)
+        assert match_get_header_level, "未知错误"
+        return len(match_get_header_level.group(0))
+
+    def _is_level_2_or_3_level_header(line) -> bool:
+        header_level = _get_header_level(line)
+        if header_level >= 2 and header_level <= 3:
+            return True
+        return False
+
+    insert_positions = [idx for idx, line in enumerate(content_lines) if _is_level_2_or_3_level_header(line)]
+    assert len(insert_positions) >= 1, "要求文档中至少存在一个二级标题"
+
+    button = f'<a href="#{toc_id}">返回顶部↑</a>'
+
+    # 添加文档底部的按钮 (之所以要分开添加是因为底部按钮和位于文档中间的按钮的对应空行的插入原则不同):
     content_lines.append("")
-    content = "\n".join(content_lines)
-    return content
+    content_lines.append(button)
+
+    # 添加文档中间的按钮:
+    insert_positions.pop(0)
+    insert_positions.reverse()
+    for insert_position in insert_positions:
+        content_lines.insert(insert_position, "")
+        content_lines.insert(insert_position, button)
+
+    return content_lines
 
 
-def generate_toc(
+def make_anchor(
     md_file_path: str,
-    is_toc_entry: Callable[[str], bool],
-    is_toc_end_entry: Callable[[str], bool],
-    get_toc_entry: Callable[[], str],
+    is_toc_header: Callable[[str], bool],
+    is_toc_end_header: Callable[[str], bool],
+    get_toc_header: Callable[[], str],
 ):
     """主函数"""
     toc_insert_position, content_lines = get_content_lines(
         md_file_path=md_file_path,
-        is_toc_entry=is_toc_entry,
-        is_toc_end_entry=is_toc_end_entry,
+        is_toc_header=is_toc_header,
+        is_toc_end_header=is_toc_end_header,
     )
 
     headers, header_positions = get_headers(content_lines=content_lines)
     headers = clean_headers(headers=headers)
     anchor_headers, toc_entries = insert_anchors(headers=headers)
-    content = fill_in_new_headers_and_toc(
+    content_lines = fill_in_new_headers_and_toc(
         content_lines=content_lines,
         anchor_headers=anchor_headers,
         header_positions=header_positions,
         toc_insert_position=toc_insert_position,
         toc_entries=toc_entries,
-        get_toc_entry=get_toc_entry,
+        get_toc_header=get_toc_header,
     )
+    content_lines = insert_back_to_top_buttons(
+        content_lines=content_lines,
+        is_toc_header=is_toc_header,
+    )
+
+    content_lines.append("")
+    content = "\n".join(content_lines)
 
     def _get_copy_md_file_path(md_file_path: str) -> str:
         md_file_dir_name = dirname(md_file_path)
@@ -245,22 +306,22 @@ if __name__ == "__main__":
 
     print(f"parse file `{md_file_path}`")
 
-    def is_toc_entry(line: str) -> bool:
+    def is_toc_header(line: str) -> bool:
         if line and line[0] == "#" and line.count("目录"):
             return True
         return False
 
-    def is_toc_end_entry(line: str) -> bool:
+    def is_toc_end_header(line: str) -> bool:
         if line and line[0] == "#":
             return True
         return False
 
-    def get_toc_entry() -> str:
+    def get_toc_header() -> str:
         return "## 目录"
 
-    generate_toc(
+    make_anchor(
         md_file_path=md_file_path,
-        is_toc_entry=is_toc_entry,
-        is_toc_end_entry=is_toc_end_entry,
-        get_toc_entry=get_toc_entry,
+        is_toc_header=is_toc_header,
+        is_toc_end_header=is_toc_end_header,
+        get_toc_header=get_toc_header,
     )
