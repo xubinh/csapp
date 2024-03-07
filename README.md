@@ -8,7 +8,11 @@
 
 <p align="center">关于 CS:APP 的 Labs 的一些笔记与总结</p>
 
-<div align="center" style="margin-top: 64px;"><a href="http://csapp.cs.cmu.edu/"><img width=200 src="./csapp.png" alt="CS:APP" style="border: 2px solid #eef2f5;"></img></a></div>
+<br>
+
+<br>
+
+<div align="center"><a href="http://csapp.cs.cmu.edu/"><img width=200 src="./csapp.png" alt="CS:APP"></img></a></div>
 
 ## <a id="toc"></a>目录
 
