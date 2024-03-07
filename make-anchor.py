@@ -48,10 +48,14 @@ def get_headers(content_lines: list[str]) -> tuple[list[str], list[int]]:
 def clean_headers(headers: list[str]) -> list[str]:
     """清洗标题行中已有的锚点"""
     regex_clean_headers = re.compile(r"<a id=\"[0-9\.]+\"></a>")
+    # regex_clean_headers = re.compile(r"<a id=\"[0-9\.]+\"></a>|</?details>|</?summary>")
     headers = [regex_clean_headers.sub(r"", header) for header in headers]
+    # headers = [header for header in headers if header]
     return headers
 
 
+# <details open="open"><summary>Table of Contents</summary>
+# </details>
 def insert_anchors(headers: list[str]) -> tuple[list[str], list[str]]:
     """向标题行文本中插入锚点, 同时生成对应的目录条目"""
     regex_get_header_info = re.compile(r"(#+) +(.+)")
@@ -73,13 +77,41 @@ def insert_anchors(headers: list[str]) -> tuple[list[str], list[str]]:
     def _get_anchor(current_header_id: str):
         return f'<a id="{current_header_id}"></a>'
 
+    def _make_anchor_header(header_level: int, anchor: str, header_text: str):
+        return f'{"#" * header_level} {anchor}{header_text}'
+
     # regex_get_reference = re.compile(r"([^$]*[^$ ])((?: *\$[^$]+\$ *)?)")
-    regex_get_reference = re.compile(r"([^$]*)((?:\$[^$]+\$)?)")
+    regex_get_reference = re.compile(r"([^$]+)((?:\$[^$]+\$)?)")
 
     def _get_reference(current_header_id: str, header_text: str) -> str:
         reference = re.sub(regex_get_reference, rf'<a href="#{current_header_id}">\1</a>\2', header_text)
         return reference
         # return f'<a href="#{current_header_id}">{header_text}</a>'
+
+    def _make_toc_entry(header_level: int, reference: str):
+        # return f'{"  " * (header_level - 2)}- {reference}'
+        return f'{"  " * (header_level - 3)}- {reference}'
+
+    def _make_toc_entry_for_h2(reference: str, need_open: bool = False):
+        open_str = ' open="open"' if need_open else ""
+        return f"<details{open_str}><summary>{reference}</summary>"
+
+    def _is_toc_entry_for_h2(toc_entry: str):
+        if toc_entry.count("<summary>"):
+            return True
+        return False
+
+    def _is_need_open(header_level: int, header_idx: int):
+        # 耦合, 当且仅当二级标题为 data lab 时才展开:
+        if header_level == 2 and header_idx == 1:
+            return True
+        return False
+
+    def _get_initial_header_idx(header_level: int):
+        # 这里完全和 README.md 耦合在一起了, 因为二级标题第一个是 "注意事项", 下一个开始才是对应的 lab 的标题
+        if header_level == 2:
+            return 0
+        return 1
 
     def _insert_anchor(header: str) -> list[str]:
         header_level, header_text = _get_header_info(header)
@@ -92,7 +124,7 @@ def insert_anchors(headers: list[str]) -> tuple[list[str], list[str]]:
 
         # 如果是下级子标题:
         if len(header_path) < header_level:
-            header_path.append(1)
+            header_path.append(_get_initial_header_idx(header_level))
 
         # 如果是同级兄弟标题:
         else:
@@ -102,9 +134,14 @@ def insert_anchors(headers: list[str]) -> tuple[list[str], list[str]]:
         anchor = _get_anchor(current_header_id)
         reference = _get_reference(current_header_id, header_text)
 
-        anchor_header = f'{"#" * header_level} {anchor}{header_text}'
-        toc_entry = f'{"  " * (header_level - 2)}- {reference}'
+        anchor_header = _make_anchor_header(header_level, anchor, header_text)
+        toc_entry = _make_toc_entry(header_level, reference)
+        if header_level == 2:
+            header_idx = header_path[header_level - 1]
+            is_need_open = _is_need_open(header_level=header_level, header_idx=header_idx)
+            toc_entry = _make_toc_entry_for_h2(reference, is_need_open)
 
+        # 取消对一级标题的链接:
         if header_level == 1:
             anchor_header = header
             toc_entry = ""
@@ -113,6 +150,23 @@ def insert_anchors(headers: list[str]) -> tuple[list[str], list[str]]:
 
     anchor_headers, toc_entries = list(zip(*[_insert_anchor(header) for header in headers]))
     toc_entries = [toc_entry for toc_entry in toc_entries if toc_entry]
+
+    # 耦合, 如果已经遇到过二级标题, 那么本二级标题作为该二级标题的范围的结尾需要插入一个 </summary> 标签:
+    h2_begin_positions = [idx for idx, toc_entry in enumerate(toc_entries) if _is_toc_entry_for_h2(toc_entry)]
+    if h2_begin_positions:
+        h2_end_positions = h2_begin_positions.copy()
+        h2_end_positions.pop(0)
+        h2_end_positions.append(len(toc_entries))
+
+        h2_begin_positions.reverse()
+        h2_end_positions.reverse()
+        for h2_begin_position, h2_end_position in zip(h2_begin_positions, h2_end_positions):
+            toc_entries.insert(h2_end_position, "</details>")  # 折叠目录的闭合标签
+            # 如果没有列表项需要折叠则直接跳过:
+            if h2_begin_position + 1 == h2_end_position:
+                continue
+            toc_entries.insert(h2_end_position, "")  # 列表结尾的空行
+            toc_entries.insert(h2_begin_position + 1, "")  # 列表开头的空行
 
     return list(anchor_headers), list(toc_entries)
 
