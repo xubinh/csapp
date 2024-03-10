@@ -82,6 +82,11 @@
   - <a href="#3.2.4">`farm.c` - "小工具" 仓库</a>
   - <a href="#3.2.5">其他</a>
 - <a href="#3.3">实验思路与总结</a>
+  - <a href="#3.3.1">`ctarget` - level#1</a>
+  - <a href="#3.3.2">`ctarget` - level#2</a>
+  - <a href="#3.3.3">`ctarget` - level#3</a>
+  - <a href="#3.3.4">`rtarget` - level#2</a>
+  - <a href="#3.3.5">`rtarget` - level#3</a>
 - <a href="#3.4">相关资料</a>
 
 </details>
@@ -565,7 +570,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 ### <a id="3.3"></a>实验思路与总结
 
-#### `ctarget` - level#1
+#### <a id="3.3.1"></a>`ctarget` - level#1
 
 目标: 利用栈溢出漏洞使函数 `test` 在返回时跳转至函数 `touch1` 处.
 
@@ -575,7 +580,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 因此最终的攻击策略是将攻击字符串的前 40 字节设置为任意内容用于填充缓冲区的 40 字节, 然后将接下来的 8 个字节设置为函数 `touch1` 的入口地址. 具体见文件[c1.txt](3-attack-lab/c1.txt).
 
-#### `ctarget` - level#2
+#### <a id="3.3.2"></a>`ctarget` - level#2
 
 目标: 利用栈溢出漏洞使函数 `test` 在返回时跳转**并调用**函数 `touch2`.
 
@@ -589,11 +594,13 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 综上可知攻击策略为 40 字节 padding + 8 字节攻击代码入口地址 + 攻击代码 (传入参数, 移动 `$rsp`, 执行 `ret`) + 16 字节对齐 padding + 函数 `touch2` 的入口地址. 具体见文件[c2.txt](3-attack-lab/c2.txt).
 
-#### `ctarget` - level#3
+#### <a id="3.3.3"></a>`ctarget` - level#3
 
-#### `rtarget` - level#2
+#### <a id="3.3.4"></a>`rtarget` - level#2
 
-#### `rtarget` - level#3
+#### <a id="3.3.5"></a>`rtarget` - level#3
+
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
 ### <a id="3.4"></a>相关资料
 
