@@ -76,18 +76,20 @@
 
 - <a href="#3.1">实验目的</a>
 - <a href="#3.2">实验框架</a>
-  - <a href="#3.2.1">`README.txt` - A file describing the contents of the directory</a>
-  - <a href="#3.2.2">`ctarget` - An executable program vulnerable to code-injection attacks</a>
-  - <a href="#3.2.3">`rtarget` - An executable program vulnerable to return-oriented-programming attacks</a>
-  - <a href="#3.2.4">`cookie.txt` - An 8-digit hex code that you will use as a unique identifier in your attacks</a>
-  - <a href="#3.2.5">`farm.c` - The source code of your target’s “gadget farm,” which you will use in generating return-oriented programming attacks</a>
-  - <a href="#3.2.6">`hex2raw` - A utility to generate attack strings</a>
-  - <a href="#3.2.7">其他</a>
+  - <a href="#3.2.1">`ctarget` - 易受 "代码注入" 攻击的可执行文件</a>
+  - <a href="#3.2.2">`rtarget` - 易受 "返回导向编程" 攻击的可执行文件</a>
+  - <a href="#3.2.3">`hex2raw` - 帮手程序</a>
+  - <a href="#3.2.4">`farm.c` - "小工具" 仓库</a>
+  - <a href="#3.2.5">其他</a>
 - <a href="#3.3">实验思路与总结</a>
 - <a href="#3.4">相关资料</a>
 
 </details>
-<details><summary><a href="#4">待办</a></summary>
+<details><summary><a href="#4">GDB 入门</a></summary>
+</details>
+<details><summary><a href="#5">make 入门</a></summary>
+</details>
+<details><summary><a href="#6">待办</a></summary>
 </details>
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
@@ -352,7 +354,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 ### <a id="2.1"></a>实验目的
 
-对程序 `bomb` 进行调试, 深入其机器代码, 依次推断出 6 个密码并通过相应 6 个阶段的考验. 除了这 6 个考验以外还存在第七个隐藏考验, 因此实际上共有 7 个阶段的考验以及对应的密码, 具体见下方小节.
+对可执行文件 `bomb` 进行调试, 深入其机器代码, 依次推断出 6 个密码并通过相应 6 个阶段的考验. 除了这 6 个考验以外还存在第七个隐藏考验, 因此实际上共有 7 个阶段的考验以及对应的密码, 具体见下方小节.
 
 ### <a id="2.2"></a>实验框架
 
@@ -503,31 +505,53 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 ### <a id="3.1"></a>实验目的
 
-This assignment involves generating a total of five attacks on two programs having different security vulnerabilities.
+对两个可执行文件 `ctarget` 和 `rtarget` 成功实施共计 5 次攻击, 攻击类型包括 "代码注入" 攻击和 "返回导向编程" 攻击两种.
 
 ### <a id="3.2"></a>实验框架
 
-#### <a id="3.2.1"></a>`README.txt` - A file describing the contents of the directory
+注意: 运行 `ctarget` 与 `rtarget` 实施攻击时应使用选项 `-i <input-file>` 指定输入文件路径, 若使用读取标准输入的方法 (不论是在命令行中使用重定向符 `<` 还是直接从标准输入读取) 则会导致程序出错.
 
-#### <a id="3.2.2"></a>`ctarget` - An executable program vulnerable to code-injection attacks
+> 调试该错误的记录 (具体见[debug.md](3-attack-lab/debug.md)):
+>
+> - 错误信息:
+>
+>   ```text
+>   Program received signal SIGSEGV, Segmentation fault.
+>   0x00007ffff7dfe0d0 in __vfprintf_internal (s=0x7ffff7fa4780 <_IO_2_1_stdout_>, format=0x4032b4 "Type string:", ap=ap@entry=0x5561dbd8, mode_flags=mode_flags@entry=2) at ./stdio-common/vfprintf-internal.c:1244
+>   ```
+>
+> - 报错位置附近的机器代码:
+>
+>   ```text
+>    0x00007ffff7dfe0c0  __vfprintf_internal+144 movdqu (%rax),%xmm1
+>    0x00007ffff7dfe0c4  __vfprintf_internal+148 movups %xmm1,0x118(%rsp)
+>    0x00007ffff7dfe0cc  __vfprintf_internal+156 mov    0x10(%rax),%rax
+>    0x00007ffff7dfe0d0  __vfprintf_internal+160 movaps %xmm1,0x10(%rsp)
+>    0x00007ffff7dfe0d5  __vfprintf_internal+165 mov    %rax,0x128(%rsp)
+>   ```
+>
+> - 报错原因猜测是由于使用了标准输入而导致指令 `0x00007ffff7dfe0d0  __vfprintf_internal+160 movaps %xmm1,0x10(%rsp)` 中 `%rsp` 中包含的地址不与 16 字节对齐继而导致地址 `0x10(%rsp)` 也不与 16 字节对齐, 而指令 `movaps` 则要求地址 `0x10(%rsp)` 必须与 16 字节对齐.
 
-#### <a id="3.2.3"></a>`rtarget` - An executable program vulnerable to return-oriented-programming attacks
+#### <a id="3.2.1"></a>`ctarget` - 易受 "代码注入" 攻击的可执行文件
 
-#### <a id="3.2.4"></a>`cookie.txt` - An 8-digit hex code that you will use as a unique identifier in your attacks
+#### <a id="3.2.2"></a>`rtarget` - 易受 "返回导向编程" 攻击的可执行文件
 
-#### <a id="3.2.5"></a>`farm.c` - The source code of your target’s “gadget farm,” which you will use in generating return-oriented programming attacks
+#### <a id="3.2.3"></a>`hex2raw` - 帮手程序
 
-#### <a id="3.2.6"></a>`hex2raw` - A utility to generate attack strings
+生成攻击字符串的帮手程序
 
-#### <a id="3.2.7"></a>其他
+#### <a id="3.2.4"></a>`farm.c` - "小工具" 仓库
 
-- You will want to study Sections 3.10.3 and 3.10.4 of the CS:APP3e book as reference material for this lab.
-- You must do the assignment on a machine that is similar to the one that generated your targets.
-- Your solutions may not use attacks to circumvent the validation code in the programs. Specifically, any address you incorporate into an attack string for use by a ret instruction should be to one of the following destinations:
-  - The addresses for functions touch1, touch2, or touch3.
-  - The address of your injected code
-  - The address of one of your gadgets from the gadget farm.
-- You may only construct gadgets from file rtarget with addresses ranging between those for functions start_farm and end_farm.
+用于帮助实施 "返回导向编程" 攻击的 "小工具" 函数的源代码文件
+
+#### <a id="3.2.5"></a>其他
+
+- 本实验可参考教材的 3.10.3 到 3.10.4 小节.
+- 不允许使用攻击来绕过 validation 程序. 任何攻击字符串所导向的地址必须为下列地址中的其中一个:
+  - 函数 `touch1`, `touch2`, 和 `touch3` 的起始地址.
+  - 注入代码的起始地址.
+  - 小工具仓库中的任意函数的起始地址.
+- You may only construct gadgets from file `rtarget` with addresses ranging between those for functions `start_farm` and `end_farm`.
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
@@ -535,9 +559,104 @@ This assignment involves generating a total of five attacks on two programs havi
 
 ### <a id="3.4"></a>相关资料
 
-## <a id="4"></a>待办
+## <a id="4"></a>GDB 入门
 
+**进入 gdb 环境**:
+
+- `gdb` : 直接启动环境
+- `gdb <executable>` : 指定可执行文件并启动环境
+
+> [!NOTE]
+> 常用的是 `gdb <executable>` 命令, 以直接载入可执行文件.
+
+**设置断点**:
+
+- `break <function-name>` : 将断点设置在函数入口处
+- `break *<memory-address>` : 将断点设置在指定内存位置
+
+> [!NOTE]
+> `<function-name>` 可以是函数名称, 例如 `my_func`; 而 `<memory-address>` 可以是某个具体的内存地址, 例如 `0x4328afe`, 使用内存地址设置断点时务必前缀一个星号 `*`.
+
+**禁用和启用断点**:
+
+- `disable n` : 暂时禁用断点
+- `enable n` : 重新启用断点
+
+> [!NOTE]
+> `n` 指 gdb 为该断点分配的序号. gdb 在设置断点时会为每一个断点分配一个正整数序号, 从 1 开始从小到大分配. 可以直接使用序号对断点进行操作.
+
+**删除断点**:
+
+- `delete n` : 删除指定断点
+- `delete` : 删除当前设置的所有断点
+
+**运行**:
+
+- `run <arg1> <arg2> <arg3>` : 传入参数并运行可执行文件
+- `stepi` : 单步进入 (以指令为单位)
+- `stepi n` : 连续执行 `n` 次单步进入 (以指令为单位)
+- `nexti` : 单步跳过 (以指令为单位)
+- `nexti n` : 连续执行 `n` 次单步跳过 (以指令为单位)
+- `step` : 单步进入 (以 C 语句为单位)
+- `continue` : 继续执行, 直至遇见下一个断点
+- `finish` : 继续执行, 直至当前函数返回
+- `kill` : 终止当前运行的可执行文件
+- `exit` : 退出 gdb
+
+**反汇编函数**:
+
+- `disas` : 反汇编当前函数
+- `disas <function-name>` : 反汇编指定函数
+
+**打印数据**:
+
+- `print (char *) <memory-address>` : 打印字符串
+- `print *(int *) <memory-address>` : 打印整数
+
+> [!NOTE]
+> `<memory-address>` 可以是一般的内存地址, 例如 `0x423fabd`, 也可以是某个表达式, 例如 `($rip + 0x423fabd)`.
+
+**打印二进制内容**:
+
+- `x/[n][s][f] <memory-address>` : 打印指定内存地址附近的二进制内容
+- `x/[n][s][f] <function-name>` : 打印函数入口附近的二进制内容
+- `x/[n]i <function-name>` : 打印函数入口附近的若干行机器指令
+- `x/s <memory-address>` : 打印指定地址处的字符串
+- `x/a <memory-address>` : 打印指定地址处所存储的地址 (以当前位置到前一个最近的全局符号的偏移的形式打印)
+
+> [!NOTE]
+> 命令 `x` 以字节块的形式组织并打印二进制内容, 上述命令中的 `[n]`, `[s]` 和 `[f]` 分别代表要显示的字节块的 "数量 (number)", "大小 (size)" 以及 "格式 (format)". 其中:
+>
+> - 数量 `[n]` 为正整数;
+> - 大小 `[s]` 可以是:
+>   - `b` : 字节
+>   - `h` : 双字节
+>   - `w` : 四字节 (32 bits)
+>   - `g` : 八字节 (64 bits)
+> - 格式 `[f]` 可以是:
+>   - `d` : 十进制
+>   - `x` : 十六进制
+>   - `o` : 八进制
+>
+> 常见例子:
+>
+> - `x/2gx $rsp` : 以十六进制格式打印从 `$rsp` 中存储的地址处开始的 2 个八字节块
+
+**打印环境信息**:
+
+- `info breakpoints` : 打印所有断点
+- `info registers` : 打印所有寄存器内容
+
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
+
+## <a id="5"></a>make 入门
+
+## <a id="6"></a>待办
+
+- [x] 添加 gdb 入门小节
+- [ ] 添加 make 入门小节
 - [ ] Data Lab 的第二个函数的原理应该使用 $U2T_w$ 推导, 而不是 $B2T_w$
 - [ ] 对 Data Lab 所有函数的思路进行补充
 - [ ] 对 Bomb Lab 的所有反汇编代码的原理进行补充, 必要时可附加图像
 - [ ] 使用文件树对每个 Lab 下的目录结构进行展示
+- [ ] 在 "实验目的" 小节中添加 "知识点" 环节
