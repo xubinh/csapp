@@ -354,7 +354,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 ### <a id="2.1"></a>实验目的
 
-对可执行文件 `bomb` 进行调试, 深入其机器代码, 依次推断出 6 个密码并通过相应 6 个阶段的考验. 除了这 6 个考验以外还存在第七个隐藏考验, 因此实际上共有 7 个阶段的考验以及对应的密码, 具体见下方小节.
+对可执行文件 `bomb` 进行调试, 深入其汇编代码, 依次推断出 6 个密码并通过相应 6 个阶段的考验. 除了这 6 个考验以外还存在第七个隐藏考验, 因此实际上共有 7 个阶段的考验以及对应的密码, 具体见下方小节.
 
 ### <a id="2.2"></a>实验框架
 
@@ -509,29 +509,6 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 ### <a id="3.2"></a>实验框架
 
-注意: 运行 `ctarget` 与 `rtarget` 实施攻击时应使用选项 `-i <input-file>` 指定输入文件路径, 若使用读取标准输入的方法 (不论是在命令行中使用重定向符 `<` 还是直接从标准输入读取) 则会导致程序出错.
-
-> 调试该错误的记录 (具体见[debug.md](3-attack-lab/debug.md)):
->
-> - 错误信息:
->
->   ```text
->   Program received signal SIGSEGV, Segmentation fault.
->   0x00007ffff7dfe0d0 in __vfprintf_internal (s=0x7ffff7fa4780 <_IO_2_1_stdout_>, format=0x4032b4 "Type string:", ap=ap@entry=0x5561dbd8, mode_flags=mode_flags@entry=2) at ./stdio-common/vfprintf-internal.c:1244
->   ```
->
-> - 报错位置附近的机器代码:
->
->   ```text
->    0x00007ffff7dfe0c0  __vfprintf_internal+144 movdqu (%rax),%xmm1
->    0x00007ffff7dfe0c4  __vfprintf_internal+148 movups %xmm1,0x118(%rsp)
->    0x00007ffff7dfe0cc  __vfprintf_internal+156 mov    0x10(%rax),%rax
->    0x00007ffff7dfe0d0  __vfprintf_internal+160 movaps %xmm1,0x10(%rsp)
->    0x00007ffff7dfe0d5  __vfprintf_internal+165 mov    %rax,0x128(%rsp)
->   ```
->
-> - 报错原因猜测是由于使用了标准输入而导致指令 `0x00007ffff7dfe0d0  __vfprintf_internal+160 movaps %xmm1,0x10(%rsp)` 中 `%rsp` 中包含的地址不与 16 字节对齐继而导致地址 `0x10(%rsp)` 也不与 16 字节对齐, 而指令 `movaps` 则要求地址 `0x10(%rsp)` 必须与 16 字节对齐.
-
 #### <a id="3.2.1"></a>`ctarget` - 易受 "代码注入" 攻击的可执行文件
 
 #### <a id="3.2.2"></a>`rtarget` - 易受 "返回导向编程" 攻击的可执行文件
@@ -553,9 +530,70 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
   - 小工具仓库中的任意函数的起始地址.
 - You may only construct gadgets from file `rtarget` with addresses ranging between those for functions `start_farm` and `end_farm`.
 
+> [!CAUTION]
+>
+> 在运行 `ctarget` 时可能会报如下错误:
+>
+> ```text
+> Program received signal SIGSEGV, Segmentation fault.
+> 0x00007ffff7dfe0d0 in __vfprintf_internal (s=0x7ffff7fa4780 <_IO_2_1_stdout_>, format=0x4032b4 "Type string:", ap=ap@entry=0x5561dbd8, mode_flags=mode_flags@entry=2) at ./stdio-common/vfprintf-internal.c:1244
+> ```
+>
+> 对应位置的汇编代码为:
+>
+> ```text
+>  0x00007ffff7dfe0c0  __vfprintf_internal+144 movdqu (%rax),%xmm1
+>  0x00007ffff7dfe0c4  __vfprintf_internal+148 movups %xmm1,0x118(%rsp)
+>  0x00007ffff7dfe0cc  __vfprintf_internal+156 mov    0x10(%rax),%rax
+>  0x00007ffff7dfe0d0  __vfprintf_internal+160 movaps %xmm1,0x10(%rsp)
+>  0x00007ffff7dfe0d5  __vfprintf_internal+165 mov    %rax,0x128(%rsp)
+> ```
+>
+> 调试过程具体见[debug.md](3-attack-lab/debug.md).
+>
+> 查阅网络资料后得知报错的直接原因是汇编代码
+>
+> ```text
+> 0x00007ffff7dfe0d0  __vfprintf_internal+160 movaps %xmm1,0x10(%rsp)
+> ```
+>
+> 中的指令 `movaps` 要求目的地址 `0x10(%rsp)` 必须与 16 字节对齐, 否则会导致段错误. 而报错的根本原因可能是 `ctarget` 程序编译时的环境和当前执行的环境不同, 导致调用 `printf` 函数时无法保证 `movaps` 指令的目的地址总是与 16 字节对齐.
+>
+> 由于上述问题, 在运行 `ctarget` 与 `rtarget` 的过程中要尽可能避免程序调用 `printf` 函数, 例如在运行前应使用选项 `-i <input-file>` 指定输入文件路径, 因为若使用标准输入会导致程序调用 `printf` 函数输出提示信息 "Type string:" 从而造成段错误; 此外在执行完攻击代码结束并返回时也会调用 `printf` 函数输出攻击成功的提示信息, 尽管此时无法避免调用 `printf` 函数, 但可以通过在攻击代码中增加对齐 `$rsp` 的功能的方法成功调用 `printf` 函数.
+
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
 ### <a id="3.3"></a>实验思路与总结
+
+#### `ctarget` - level#1
+
+目标: 利用栈溢出漏洞使函数 `test` 在返回时跳转至函数 `touch1` 处.
+
+- 通过反汇编 `test` 函数可知 `test` 函数的工作是调用 `getbuf` 函数, 若 `getbuf` 成功返回则打印字符串 "No exploit.  Getbuf returned 0x%x\n". 因此攻击目标调整为使函数 `getbuf` 返回至 `touch1` 处.
+- 通过反汇编 `getbuf` 函数可知字符串的缓冲区的大小固定为 `0x28` 字节, 紧随缓冲区之后的 8 个字节内存存放的即为函数 `getbuf` 的返回地址.
+- 通过反汇编代码内容可知函数 `touch1` 的入口地址为 `0x00000000004017c0`.
+
+因此最终的攻击策略是将攻击字符串的前 40 字节设置为任意内容用于填充缓冲区的 40 字节, 然后将接下来的 8 个字节设置为函数 `touch1` 的入口地址. 具体见文件[c1.txt](3-attack-lab/c1.txt).
+
+#### `ctarget` - level#2
+
+目标: 利用栈溢出漏洞使函数 `test` 在返回时跳转**并调用**函数 `touch2`.
+
+> [!NOTE]
+> 在使用攻击代码进行函数调用时不需要使用 `jmp` 或 `call` 指令, 因为这些指令可能要求使用偏移地址而非绝对地址, 而偏移地址较为难以计算. 若要实现函数跳转, 直接使用 `ret` 指令配合绝对地址即可, 由于函数 `touch2` 并不包含返回语句 (其使用 C 库函数 `exit()` 直接终止程序的运行), 因此不需要考虑是否需要使用 `call` 指令压入返回地址等问题.
+
+- 由于需要调用函数 `touch2` 并传入参数, 直接使用地址跳转至特定函数的方法此时便不再适用, 因为并不存在现有的函数实现 "跳转至函数 `touch2` 并传入给定参数" 的功能, 因此需要在攻击字符串中直接注入攻击代码.
+- 若要使函数 `getbuf` 执行攻击字符串中包含的攻击代码, 需要使其原地返回至攻击代码的入口地址 (该地址仍位于字符串中, 因此称之为 "原地返回"). 通过反汇编代码内容可知进入 `getbuf` 时 (同时在分配缓冲区局部变量前) 寄存器 `$rsp` 的值为 `0x000000005561dca0`, 因此攻击字符串中的返回地址应设置为 `$rsp + 8` 即 `0x000000005561dca8`.
+- 若要调用函数 `touch2`, 汇编代码首先需要将 cookie 作为参数传入 `touch2`, 然后通过移动 `$rsp` 至存储有函数 `touch2` 的入口地址的内存上并执行 `ret` 指令的方法调用函数 `touch2`. 函数 `touch2` 的入口地址为 `0x00000000004017ec`.
+- 此外还需要对齐指针的 8 字节以及对齐前述的 `movaps` 指令的 16 字节, 因此需要额外注意移动 `$rsp` 的距离的设置.
+
+综上可知攻击策略为 40 字节 padding + 8 字节攻击代码入口地址 + 攻击代码 (传入参数, 移动 `$rsp`, 执行 `ret`) + 16 字节对齐 padding + 函数 `touch2` 的入口地址. 具体见文件[c2.txt](3-attack-lab/c2.txt).
+
+#### `ctarget` - level#3
+
+#### `rtarget` - level#2
+
+#### `rtarget` - level#3
 
 ### <a id="3.4"></a>相关资料
 
@@ -657,6 +695,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 - [ ] 添加 make 入门小节
 - [ ] Data Lab 的第二个函数的原理应该使用 $U2T_w$ 推导, 而不是 $B2T_w$
 - [ ] 对 Data Lab 所有函数的思路进行补充
-- [ ] 对 Bomb Lab 的所有反汇编代码的原理进行补充, 必要时可附加图像
+- [ ] 对 Bomb Lab 的所有反汇编代码的原理体现在 README.md 中, 必要时可附加图像
 - [ ] 使用文件树对每个 Lab 下的目录结构进行展示
 - [ ] 在 "实验目的" 小节中添加 "知识点" 环节
+- [ ] 对 Attack Lab 添加对使用 gdb + objdump + hex2raw 将汇编代码转换为攻击字符串的说明
