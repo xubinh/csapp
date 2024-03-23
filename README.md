@@ -826,4 +826,4 @@ unsigned getbuf(){
 - [ ] 使用文件树对每个 Lab 下的目录结构进行展示
 - [ ] 在 "实验目的" 小节中添加 "知识点" 环节
 - [ ] 对 Attack Lab 添加对使用 gdb + objdump + hex2raw 将汇编代码转换为攻击字符串的说明
-- [ ] Attack Lab 中在构建攻击字符串时需要考虑末尾的 `\0` 结束符, 因此需要完善 `c1.txt`~`c3.txt` 和 `r2.txt`~`r3.txt`.
+- [ ] Attack Lab 中在构建攻击字符串时需要考虑末尾的 `\0` 结束符, 因此需要完善 `c1.txt` 至 `c3.txt` 以及 `r2.txt` 至 `r3.txt`.
