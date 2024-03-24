@@ -89,11 +89,28 @@
 - <a href="#3.4">相关资料</a>
 
 </details>
-<details><summary><a href="#4">GDB 入门</a></summary>
+<details><summary><a href="#4">4. Cache Lab</a></summary>
+
+- <a href="#4.1">实验目的</a>
+- <a href="#4.2">实验框架</a>
+  - <a href="#4.2.1">`csim.c` - 实现对高速缓存 cache 的模拟</a>
+  - <a href="#4.2.2">`csim-ref` - 官方实现的高速缓存 cache 参考模拟器</a>
+  - <a href="#4.2.3">`traces/` - 测试样例目录</a>
+  - <a href="#4.2.4">`test-csim` - 对 cache 模拟器进行打分</a>
+  - <a href="#4.2.5">`trans.c` - 实现最优化的矩阵转置</a>
+  - <a href="#4.2.6">`test-trans.c` - 对矩阵转置函数实现进行打分</a>
+  - <a href="#4.2.7">`Makefile`</a>
+  - <a href="#4.2.8">`driver.py` - 最终评分工具</a>
+  - <a href="#4.2.9">其他</a>
+- <a href="#4.3">实验思路与总结</a>
+- <a href="#4.4">相关资料</a>
+
 </details>
-<details><summary><a href="#5">make 入门</a></summary>
+<details><summary><a href="#5">GDB 入门</a></summary>
 </details>
-<details><summary><a href="#6">待办</a></summary>
+<details><summary><a href="#6">make 入门</a></summary>
+</details>
+<details><summary><a href="#7">待办</a></summary>
 </details>
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
@@ -727,7 +744,176 @@ unsigned getbuf(){
 
 ### <a id="3.4"></a>相关资料
 
-## <a id="4"></a>GDB 入门
+无
+
+## <a id="4"></a>4. Cache Lab
+
+### <a id="4.1"></a>实验目的
+
+(1) 补全源文件 `csim.c` 以实现模拟一个高速缓存 cache; (2) 补全源文件 `trans.c` 以尽可能少的不命中次数实现对一个矩阵的转置.
+
+### <a id="4.2"></a>实验框架
+
+#### <a id="4.2.1"></a>`csim.c` - 实现对高速缓存 cache 的模拟
+
+在本文件中使用 C 代码模拟一个高速缓存 cache, 其以 `valgrind` 的内存跟踪信息作为输入, 模拟内存操作过程中一个 cache 的行为, 然后分别输出命中 (hit) 次数, 不命中 (miss) 次数以及驱逐 (eviction) 次数.
+
+- 除了实现对 cache 的模拟以外还需要实现同样的参数爬取逻辑, 这可以借助 C 函数 `getopt` 实现, 需要用到的头文件包括:
+
+  ```c
+  #include <getopt.h>
+  #include <stdlib.h>
+  #include <unistd.h>
+  ```
+  
+  `getopt` 函数的官方文档链接见 "相关资料" 小节.
+- 模拟器必须对任意 $s$, $E$, $b$ 都能够得到正确结果, 这可以借助 C 函数 `malloc` 来实现, `malloc` 函数的文档可使用 Linux 命令 `man malloc` 查看.
+- 本实验不要求对指令 cache 的模拟, 因此可以忽略 `xxx.trace` 文件中所有以 `I` 开头的行.
+- 必须在 `main` 函数的结尾调用函数 `printSummary(hit_count, miss_count, eviction_count)` 来得到具有官方格式的输出.
+- 本实验中可完全假设内存操作的 `size` 字节数据总是能够容纳在 cache 行的块中, 即 $size \leq B$.
+- 建议像官方模拟器 `csim-ref` 一样实现 `-v` 选项
+
+#### <a id="4.2.2"></a>`csim-ref` - 官方实现的高速缓存 cache 参考模拟器
+
+用法: `./csim-ref [-hv] -s <s> -E <E> -b <b> -t <tracefile>`
+
+- `-h`: 打印帮助信息.
+- `-v`: verbose 模式, 打印详细的跟踪信息.
+- `-s <s>`: 组 (set) 索引位数 $s$ (组的数量 $S = 2^s$ )
+- `-E <E>`: 相联度 (associativity) $E$ (即组相联中每组包含的行数)
+- `-b <b>`: 块大小的对数 $b = \log_2 (B)$ (B 为块大小)
+- `-t <tracefile>`: 要模拟的 valgrind 跟踪文件的文件名
+
+官方模拟器使用 LRU (least-recently used) 策略决定驱逐对象.
+
+#### <a id="4.2.3"></a>`traces/` - 测试样例目录
+
+包含一系列用于测试 `csim.c` 的参考跟踪文件 (reference trace files).
+
+其下的文件的文件名形如 `xxx.trace`, 这些文件是由一个名为 `valgrind` 的 Linux 程序生成的, 其作用是跟踪一个程序的内存使用情况. 典型的 `xxx.trace` 文件的内容格式如下:
+
+```text
+I 0400d7d4,8
+ M 0421c7f0,4
+ L 04f6b868,8
+ S 7ff0005c8,8
+```
+
+其中每一行代表一次或两次内存读写操作, 且均具有格式 `[space]operation address,size`:
+
+- `[space]` 表示可选的一个空格, 实际上当且仅当前缀为 `I` 时不加这个可选的空格.
+- `operation` 可以是 `I`, `L`, `S` 和 `M`, 分别表示 "取指令", "加载数据", "存储数据" 和 "修改数据 (即加载数据 + 存储数据)".
+- `address` 表示一个 64 位十六进制内存地址.
+- `size` 表示所操作的字节数.
+
+#### <a id="4.2.4"></a>`test-csim` - 对 cache 模拟器进行打分
+
+对所实现的 `csim.c` 进行打分.
+
+用法:
+
+```bash
+linux> make
+linux> ./test-csim
+```
+
+打分时将使用一系列不同的 cache 配置对编译得到的 `csim` 程序进行评测:
+
+```bash
+linux> ./csim -s 1 -E 1 -b 1 -t traces/yi2.trace
+linux> ./csim -s 4 -E 2 -b 4 -t traces/yi.trace
+linux> ./csim -s 2 -E 1 -b 4 -t traces/dave.trace
+linux> ./csim -s 2 -E 1 -b 3 -t traces/trans.trace
+linux> ./csim -s 2 -E 2 -b 3 -t traces/trans.trace
+linux> ./csim -s 2 -E 4 -b 3 -t traces/trans.trace
+linux> ./csim -s 5 -E 1 -b 5 -t traces/trans.trace
+linux> ./csim -s 5 -E 1 -b 5 -t traces/long.trace
+```
+
+除了最后一个样例为 6 分以外, 其余样例均为 3 分, 共计 27 分.
+
+#### <a id="4.2.5"></a>`trans.c` - 实现最优化的矩阵转置
+
+编写一个函数, 以尽可能少的不命中次数实现对矩阵的转置.
+
+本文件中可以同时实现多个 (最多 100 个) 不同版本的矩阵转置函数, 每个函数需要使用特殊语句进行注册 (register):
+
+```c
+char my_trans_desc[] = "This is the description of `my_trans`";
+void my_trans(int M, int N, int A[N][M], int B[M][N]);
+
+registerTransFunction(my_trans, my_trans_desc);
+```
+
+将 `my_trans` 替换为任意函数名.
+
+本文件中名为 `transpose_submit` 的函数表示提交版本, 可以将最终答案复制粘贴进这个函数. 请勿改动其对应注册字符串的内容防止注册失败.
+
+- 每个版本的转置函数中均仅允许定义不超过 12 个 `int` 类型的局部变量 (包括转置函数本身和其调用的所有帮手函数中的所有局部变量), 这是因为本实验的打分程序并不对栈进行跟踪, 同时也因为本实验的目的就是专注于高速缓存而不是内存的访问.
+- 不允许在转置函数中使用递归.
+- 不允许更改所传入的矩阵 A 的内容, 不过对矩阵 B 可以随便操作.
+- 不允许定义任何数组或者使用函数 `malloc` 和其任意变种.
+- 如果要进行 debug 可以使用 `test-trans` 程序输出对应的 $\texttt{trace.f}i$ 然后使用 `-v` 选项运行参考 cache 模拟器.
+- 因为测试时所用的 cache 配置为直接映射, 可能会发生抖动的问题, 因此在实现时要注意访问模式, 特别是沿着对角线时 (原文是 "think about the potential for conflict misses in your code, especially along the diagonal"). 尽量采取能够尽可能减少抖动的访问模式.
+- 实现时可以采取 "分块" 的思想提高时间局部性, 减少 cache 不命中次数, 具体见 "相关资料" 小节.
+
+#### <a id="4.2.6"></a>`test-trans.c` - 对矩阵转置函数实现进行打分
+
+对所实现的 `trans.c` 进行打分.
+
+用法:
+
+```bash
+linux> make
+linux> ./test-trans -M 32 -N 32
+```
+
+实验过程中进行测试时可以使用任意矩阵配置, 但最终打分时仅会使用如下三种不同的矩阵配置:
+
+- $32 \times 32 \ \ (M = 32, \ \ N = 32)$
+- $64 \times 64 \ \ (M = 64, \ \ N = 64)$
+- $61 \times 67 \ \ (M = 61, \ \ N = 67)$
+
+具体打分过程是使用 `valgrind` 对编译得到的 `trans` 程序提取其跟踪信息, 然后传入参考 cache 模拟器 (配置固定为 $(s = 5, \ \ E = 1, \ \ b = 5)$) 获取未命中次数 $m$, 根据 $m$ 的值进行打分. $m$ 的值越小得分越高, 共计 26 分, 具体打分规则见 handout.
+
+- 本实验仅要求针对上述给出的三种矩阵配置以及参考模拟器的配置进行优化, 因此完全可以针对三种矩阵配置实现三个不同的函数然后在主函数中检查矩阵大小并分发给对应函数.
+- `test-trans` 程序会对 `valgrind` 的输出进行过滤, 剔除任何和栈有关的内存访问, 这是因为 `valgrind` 的输出中关于栈的部分绝大部分都跟本实验的代码无关. 但是也因为过滤掉了和本实验有关的栈访问, 所以本实验禁用了栈 (即数组) 的使用并限制了局部变量的使用.
+
+#### <a id="4.2.7"></a>`Makefile`
+
+- 可以使用如下命令编译所有程序:
+
+  ```bash
+  linux> make clean
+  linux> make
+  ```
+
+#### <a id="4.2.8"></a>`driver.py` - 最终评分工具
+
+对整个实验的实现进行评分.
+
+用法:
+
+```bash
+linux> ./driver.py
+```
+
+具体打分过程是首先调用 `test-csim` 程序对 cache 模拟器进行评分, 然后调用 `test-trans` 对矩阵转置函数进行打分.
+
+#### <a id="4.2.9"></a>其他
+
+- 程序要完全正常地通过编译, 不能够报任何 warning.
+
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
+
+### <a id="4.3"></a>实验思路与总结
+
+### <a id="4.4"></a>相关资料
+
+- [分块 (blocking) - 提升时间局部性](http://csapp.cs.cmu.edu/public/waside/waside-blocking.pdf)
+- [`getopt` 函数文档](https://man7.org/linux/man-pages/man3/getopt.3.html)
+
+## <a id="5"></a>GDB 入门
 
 **进入 gdb 环境**:
 
@@ -814,9 +1000,9 @@ unsigned getbuf(){
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-## <a id="5"></a>make 入门
+## <a id="6"></a>make 入门
 
-## <a id="6"></a>待办
+## <a id="7"></a>待办
 
 - [x] 添加 gdb 入门小节
 - [ ] 添加 make 入门小节
@@ -824,6 +1010,7 @@ unsigned getbuf(){
 - [ ] 对 Data Lab 所有函数的思路进行补充
 - [ ] 对 Bomb Lab 的所有反汇编代码的原理体现在 README.md 中, 必要时可附加图像
 - [ ] 使用文件树对每个 Lab 下的目录结构进行展示
-- [ ] 在 "实验目的" 小节中添加 "知识点" 环节
+- [ ] 在 "实验目的" 小节中添加 "考察到的知识点" 环节
 - [ ] 对 Attack Lab 添加对使用 gdb + objdump + hex2raw 将汇编代码转换为攻击字符串的说明
 - [ ] Attack Lab 中在构建攻击字符串时需要考虑末尾的 `\0` 结束符, 因此需要完善 `c1.txt` 至 `c3.txt` 以及 `r2.txt` 至 `r3.txt`.
+- [ ] 单独将每个实验的打分细节挑出来形成一个小节
