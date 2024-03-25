@@ -1,3 +1,4 @@
 .clang-format
 .gdb_history
 /.crossnote/
+.vscode/

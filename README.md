@@ -784,7 +784,8 @@ unsigned getbuf(){
 - `-b <b>`: 块大小的对数 $b = \log_2 (B)$ (B 为块大小)
 - `-t <tracefile>`: 要模拟的 valgrind 跟踪文件的文件名
 
-官方模拟器使用 LRU (least-recently used) 策略决定驱逐对象.
+- handout 中明确指出官方模拟器使用 LRU (least-recently used) 策略决定驱逐对象.
+- 使用 `traces/write_allocate_or_not.trace` 可以得知官方模拟器使用 "写分配" 策略作为写不命中时的策略.
 
 #### <a id="4.2.3"></a>`traces/` - 测试样例目录
 
