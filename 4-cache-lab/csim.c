@@ -163,7 +163,7 @@ void simulate_load(Cache cache, const int s, const int E, const int b, const uns
     unsigned long long tag;
     int set_number;
 
-    Line set;
+    Line *set;
 
     Line *line = NULL;
     Line *line_pre = NULL;
@@ -174,24 +174,27 @@ void simulate_load(Cache cache, const int s, const int E, const int b, const uns
     *eviction = 0;
 
     get_tag_and_set_number(address, s, E, b, &tag, &set_number);
-    printf("tag: %llu, set_number: %d\n", tag, set_number);
 
-    set = cache[set_number];
+    set = cache + set_number;
 
-    line = set.next;
-    line_pre = &set;
+    line = set->next;
+    line_pre = set;
     line_count = 0;
 
     while (line) {
         if (line->tag == tag) {
             line->pre->next = line->next;
-            line->next->pre = line->pre;
+            if (line->next) {
+                line->next->pre = line->pre;
+            }
 
-            line->next = set.next;
-            set.next->pre = line;
+            line->next = set->next;
+            if (set->next) {
+                set->next->pre = line;
+            }
 
-            line->pre = &set;
-            set.next = line;
+            line->pre = set;
+            set->next = line;
 
             *hit = 1;
             *miss = 0;
@@ -210,17 +213,17 @@ void simulate_load(Cache cache, const int s, const int E, const int b, const uns
 
         new_line->tag = tag;
 
-        new_line->next = set.next;
-        if (set.next) {
-            set.next->pre = new_line;
+        new_line->next = set->next;
+        if (set->next) {
+            set->next->pre = new_line;
         }
 
-        new_line->pre = &set;
-        set.next = new_line;
+        new_line->pre = set;
+        set->next = new_line;
 
         if (line_count == E) {
-            free(line_pre->next);
-            line_pre->next = NULL;
+            line_pre->pre->next = NULL;
+            free(line_pre);
         }
 
         *hit = 0;
@@ -269,7 +272,12 @@ void simulate_modify(Cache cache, const int s, const int E, const int b, const u
 
 void print_trace(Trace *trace, const int hit, const int miss, const int eviction) {
     char *prompt = hit ? "hit" : "miss";
-    printf("%c %llx,%d %s\n", trace->type, trace->address, trace->size, prompt);
+    printf("%c %llx,%d %s", trace->type, trace->address, trace->size, prompt);
+    if (eviction) {
+        printf(" eviction");
+    }
+    printf("\n");
+
     return;
 }
 
