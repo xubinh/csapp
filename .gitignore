@@ -2,3 +2,4 @@
 .gdb_history
 /.crossnote/
 .vscode/
+*.tar
