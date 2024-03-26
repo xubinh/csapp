@@ -47,291 +47,352 @@ void trans(int M, int N, int A[N][M], int B[M][N]) {
     }
 }
 
-void helper_32_32(int A[32][32], int B[32][32], int begin_i, int begin_j, int size) {
-    for (int i = begin_i; i < begin_i + size; i++) {
-        for (int j = begin_j; j < begin_j + size; j++) {
+void helper_32_32_normal(int A[32][32], int B[32][32], int top_left_i, int top_left_j) {
+    for (int i = top_left_i; i < top_left_i + 8; i++) {
+        for (int j = top_left_j; j < top_left_j + 8; j++) {
             B[j][i] = A[i][j];
         }
     }
+}
 
-    return;
+void helper_helper_32_32_diagonal(int A[32][32], int B[32][32], int top_left_i, int top_left_j) {
+    if (top_left_i != top_left_j) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                B[top_left_j + j][top_left_i + i] = A[top_left_i + i][top_left_j + j];
+            }
+        }
+
+        return;
+    }
+
+    int temp_00 = A[top_left_i + 0][top_left_j + 0];
+    int temp_01 = A[top_left_i + 0][top_left_j + 1];
+    int temp_02 = A[top_left_i + 1][top_left_j + 0];
+    int temp_03 = A[top_left_i + 1][top_left_j + 1];
+
+    int temp_04 = A[top_left_i + 2][top_left_j + 0];
+    int temp_05 = A[top_left_i + 2][top_left_j + 1];
+    int temp_06 = A[top_left_i + 3][top_left_j + 0];
+    int temp_07 = A[top_left_i + 3][top_left_j + 1];
+
+    int temp_08 = A[top_left_i + 2][top_left_j + 2];
+    int temp_09 = A[top_left_i + 2][top_left_j + 3];
+    int temp_10 = A[top_left_i + 3][top_left_j + 2];
+    int temp_11 = A[top_left_i + 3][top_left_j + 3];
+
+    B[top_left_j + 2][top_left_i + 0] = A[top_left_i + 0][top_left_j + 2];
+    B[top_left_j + 2][top_left_i + 1] = A[top_left_i + 1][top_left_j + 2];
+    B[top_left_j + 3][top_left_i + 0] = A[top_left_i + 0][top_left_j + 3];
+    B[top_left_j + 3][top_left_i + 1] = A[top_left_i + 1][top_left_j + 3];
+
+    B[top_left_j + 2][top_left_i + 2] = temp_08;
+    B[top_left_j + 2][top_left_i + 3] = temp_10;
+    B[top_left_j + 3][top_left_i + 2] = temp_09;
+    B[top_left_j + 3][top_left_i + 3] = temp_11;
+
+    B[top_left_j + 0][top_left_i + 0] = temp_00;
+    B[top_left_j + 0][top_left_i + 1] = temp_02;
+    B[top_left_j + 1][top_left_i + 0] = temp_01;
+    B[top_left_j + 1][top_left_i + 1] = temp_03;
+
+    B[top_left_j + 0][top_left_i + 2] = temp_04;
+    B[top_left_j + 0][top_left_i + 3] = temp_06;
+    B[top_left_j + 1][top_left_i + 2] = temp_05;
+    B[top_left_j + 1][top_left_i + 3] = temp_07;
+}
+
+void helper_32_32_diagonal(int A[32][32], int B[32][32], int top_left) {
+    helper_helper_32_32_diagonal(A, B, top_left, top_left + 4);
+    helper_helper_32_32_diagonal(A, B, top_left, top_left);
+    helper_helper_32_32_diagonal(A, B, top_left + 4, top_left);
+    helper_helper_32_32_diagonal(A, B, top_left + 4, top_left + 4);
 }
 
 void trans_32_32(int A[32][32], int B[32][32]) {
-    /**
-     *
-     * - cache 共 32 个组, 每个组共 1 行
-     * - 一行共 32 字节, 等于 8 个 int 类型整数
-     * - 矩阵的一行共 32 个整数, 等于 4 个 cache 行
-     * - 一个 cache 等于 8 个矩阵行
-     *
-     */
-
-    helper_32_32(A, B, 0, 24, 8);
-    helper_32_32(A, B, 8, 16, 8);
-    helper_32_32(A, B, 0, 16, 8);
-    helper_32_32(A, B, 8, 24, 8);
-
-    helper_32_32(A, B, 16, 0, 8);
-    helper_32_32(A, B, 24, 8, 8);
-    helper_32_32(A, B, 16, 8, 8);
-    helper_32_32(A, B, 24, 0, 8);
-
-    helper_32_32(A, B, 0, 8, 8);
-    helper_32_32(A, B, 16, 24, 8);
-    helper_32_32(A, B, 8, 0, 8);
-    helper_32_32(A, B, 24, 16, 8);
-
-    // 遍历所有以二维索引 (top_left, top_left) 为左上角顶点的 8 × 8 主对角块:
-    for (int top_left = 0; top_left < 32; top_left += 8) {
-        // 转置 A 的 8 × 8 主对角块的右上角 4 × 4 小块:
-        for (int i = top_left; i < top_left + 4; i++) {
-            for (int j = top_left + 4; j < top_left + 8; j++) {
-                B[j][i] = A[i][j];
+    for (int top_left_i = 0; top_left_i < 32; top_left_i += 8) {
+        for (int top_left_j = 0; top_left_j < 32; top_left_j += 8) {
+            if (top_left_i == top_left_j) {
+                helper_32_32_diagonal(A, B, top_left_i);
+            } else {
+                helper_32_32_normal(A, B, top_left_i, top_left_j);
             }
         }
-
-        // 转置 A 的 8 × 8 主对角块的左上角 4 × 4 小块:
-
-        // - 使用局部变量存储 A 的 8 × 8 主对角块的左上角 4 × 4 小块的左下角 2 × 2 小小块:
-        int temp_0 = A[top_left + 2][top_left + 0];
-        int temp_1 = A[top_left + 2][top_left + 1];
-        int temp_2 = A[top_left + 2][top_left + 2];
-        int temp_3 = A[top_left + 2][top_left + 3];
-
-        // - 使用局部变量存储 A 的 8 × 8 主对角块的左上角 4 × 4 小块的右下角 2 × 2 小小块:
-        int temp_4 = A[top_left + 3][top_left + 0];
-        int temp_5 = A[top_left + 3][top_left + 1];
-        int temp_6 = A[top_left + 3][top_left + 2];
-        int temp_7 = A[top_left + 3][top_left + 3];
-
-        // - 转置 A 的 8 × 8 主对角块的左上角 4 × 4 小块的右下角 2 × 2 小小块 (存储于局部变量中):
-        B[top_left + 2][top_left + 2] = temp_2;
-        B[top_left + 2][top_left + 3] = temp_6;
-        B[top_left + 3][top_left + 2] = temp_3;
-        B[top_left + 3][top_left + 3] = temp_7;
-
-        // - 转置 A 的 8 × 8 主对角块的左上角 4 × 4 小块的右上角 2 × 2 小小块:
-        B[top_left + 2][top_left + 0] = A[top_left + 0][top_left + 2];
-        B[top_left + 2][top_left + 1] = A[top_left + 1][top_left + 2];
-        B[top_left + 3][top_left + 0] = A[top_left + 0][top_left + 3];
-        B[top_left + 3][top_left + 1] = A[top_left + 1][top_left + 3];
-
-        // - 转置 A 的 8 × 8 主对角块的左上角 4 × 4 小块的左上角 2 × 2 小小块:
-
-        //   - 使用局部变量存储 A 的 8 × 8 主对角块的左上角 4 × 4 小块的左上角 2 × 2 小小块的左下角 1 × 1 元素:
-        int temp_8 = A[top_left + 1][top_left + 0];
-
-        //   - 转置 A 的 8 × 8 主对角块的左上角 4 × 4 小块的左上角 2 × 2 小小块的右下角 1 × 1 元素:
-        B[top_left + 1][top_left + 1] = A[top_left + 1][top_left + 1];
-
-        //   - 转置 A 的 8 × 8 主对角块的左上角 4 × 4 小块的左上角 2 × 2 小小块的左上角 1 × 1 元素:
-        B[top_left + 1][top_left + 0] = A[top_left + 0][top_left + 1];
-
-        //   - 转置 A 的 8 × 8 主对角块的左上角 4 × 4 小块的左上角 2 × 2 小小块的右上角 1 × 1 元素:
-        B[top_left + 0][top_left + 0] = A[top_left + 0][top_left + 0];
-
-        //   - 转置 A 的 8 × 8 主对角块的左上角 4 × 4 小块的左上角 2 × 2 小小块的左下角 1 × 1 元素 (存储于局部变量中):
-        B[top_left + 0][top_left + 1] = temp_8;
-
-        // - 转置 A 的 8 × 8 主对角块的左上角 4 × 4 小块的左下角 2 × 2 小小块 (存储于局部变量中):
-        B[top_left + 0][top_left + 2] = temp_0;
-        B[top_left + 0][top_left + 3] = temp_4;
-        B[top_left + 1][top_left + 2] = temp_1;
-        B[top_left + 1][top_left + 3] = temp_5;
-
-        // 以下是上述过程关于 A 的 8 × 8 主对角块的中心对称版本, 用于转置 A 的 8 × 8 主对角块的左下角和右下角 4 × 4
-        // 小块:
-        for (int i = top_left + 4; i < top_left + 8; i++) {
-            for (int j = top_left; j < top_left + 4; j++) {
-                B[j][i] = A[i][j];
-            }
-        }
-
-        temp_0 = A[top_left + 4][top_left + 4];
-        temp_1 = A[top_left + 4][top_left + 5];
-        temp_2 = A[top_left + 4][top_left + 6];
-        temp_3 = A[top_left + 4][top_left + 7];
-
-        temp_4 = A[top_left + 5][top_left + 4];
-        temp_5 = A[top_left + 5][top_left + 5];
-        temp_6 = A[top_left + 5][top_left + 6];
-        temp_7 = A[top_left + 5][top_left + 7];
-
-        B[top_left + 4][top_left + 4] = temp_0;
-        B[top_left + 4][top_left + 5] = temp_4;
-        B[top_left + 5][top_left + 4] = temp_1;
-        B[top_left + 5][top_left + 5] = temp_5;
-
-        B[top_left + 4][top_left + 6] = A[top_left + 6][top_left + 4];
-        B[top_left + 4][top_left + 7] = A[top_left + 7][top_left + 4];
-        B[top_left + 5][top_left + 6] = A[top_left + 6][top_left + 5];
-        B[top_left + 5][top_left + 7] = A[top_left + 7][top_left + 5];
-
-        temp_8 = A[top_left + 6][top_left + 7];
-
-        B[top_left + 6][top_left + 6] = A[top_left + 6][top_left + 6];
-
-        B[top_left + 6][top_left + 7] = A[top_left + 7][top_left + 6];
-
-        B[top_left + 7][top_left + 7] = A[top_left + 7][top_left + 7];
-
-        B[top_left + 7][top_left + 6] = temp_8;
-
-        B[top_left + 6][top_left + 4] = temp_2;
-        B[top_left + 6][top_left + 5] = temp_6;
-        B[top_left + 7][top_left + 4] = temp_3;
-        B[top_left + 7][top_left + 5] = temp_7;
     }
 }
 
-void helper_64_64_normal(int A[64][64], int B[64][64], int top_left_A_i, int top_left_A_j, int top_left_B_i,
-                         int top_left_B_j) {
+void helper_64_64_normal(int A[64][64], int B[64][64], int top_left_i, int top_left_j) {
     for (int i = 0; i < 4; i++) {
         for (int j = 4; j < 8; j++) {
-            B[top_left_B_i + j][top_left_B_j + i] = A[top_left_A_i + i][top_left_A_j + j];
+            B[top_left_j + j][top_left_i + i] = A[top_left_i + i][top_left_j + j];
         }
     }
 
-    int temp_00 = A[top_left_A_i + 0][top_left_A_j + 0];
-    int temp_01 = A[top_left_A_i + 0][top_left_A_j + 1];
-    int temp_02 = A[top_left_A_i + 1][top_left_A_j + 0];
-    int temp_03 = A[top_left_A_i + 1][top_left_A_j + 1];
+    int temp_00 = A[top_left_i + 0][top_left_j + 0];
+    int temp_01 = A[top_left_i + 0][top_left_j + 1];
+    int temp_02 = A[top_left_i + 1][top_left_j + 0];
+    int temp_03 = A[top_left_i + 1][top_left_j + 1];
 
-    int temp_04 = A[top_left_A_i + 0][top_left_A_j + 2];
-    int temp_05 = A[top_left_A_i + 0][top_left_A_j + 3];
-    int temp_06 = A[top_left_A_i + 1][top_left_A_j + 2];
-    int temp_07 = A[top_left_A_i + 1][top_left_A_j + 3];
+    int temp_04 = A[top_left_i + 0][top_left_j + 2];
+    int temp_05 = A[top_left_i + 0][top_left_j + 3];
+    int temp_06 = A[top_left_i + 1][top_left_j + 2];
+    int temp_07 = A[top_left_i + 1][top_left_j + 3];
 
-    int temp_08 = A[top_left_A_i + 2][top_left_A_j + 0];
-    int temp_09 = A[top_left_A_i + 2][top_left_A_j + 1];
-    int temp_10 = A[top_left_A_i + 3][top_left_A_j + 0];
-    int temp_11 = A[top_left_A_i + 3][top_left_A_j + 1];
+    int temp_08 = A[top_left_i + 2][top_left_j + 0];
+    int temp_09 = A[top_left_i + 2][top_left_j + 1];
+    int temp_10 = A[top_left_i + 3][top_left_j + 0];
+    int temp_11 = A[top_left_i + 3][top_left_j + 1];
 
     for (int i = 4; i < 6; i++) {
         for (int j = 4; j < 8; j++) {
-            B[top_left_B_i + j][top_left_B_j + i] = A[top_left_A_i + i][top_left_A_j + j];
+            B[top_left_j + j][top_left_i + i] = A[top_left_i + i][top_left_j + j];
         }
     }
 
     for (int i = 2; i < 4; i++) {
         for (int j = 2; j < 4; j++) {
-            B[top_left_B_i + j + 2][top_left_B_j + i + 4] = A[top_left_A_i + i][top_left_A_j + j];
+            B[top_left_j + j + 2][top_left_i + i + 4] = A[top_left_i + i][top_left_j + j];
         }
     }
 
     for (int i = 6; i < 8; i++) {
         for (int j = 6; j < 8; j++) {
-            B[top_left_B_i + j][top_left_B_j + i] = A[top_left_A_i + i][top_left_A_j + j];
+            B[top_left_j + j][top_left_i + i] = A[top_left_i + i][top_left_j + j];
         }
     }
 
-    B[top_left_B_i + 2][top_left_B_j + 0] = temp_04;
-    B[top_left_B_i + 2][top_left_B_j + 1] = temp_06;
-    B[top_left_B_i + 3][top_left_B_j + 0] = temp_05;
-    B[top_left_B_i + 3][top_left_B_j + 1] = temp_07;
+    B[top_left_j + 2][top_left_i + 0] = temp_04;
+    B[top_left_j + 2][top_left_i + 1] = temp_06;
+    B[top_left_j + 3][top_left_i + 0] = temp_05;
+    B[top_left_j + 3][top_left_i + 1] = temp_07;
 
     for (int i = 2; i < 4; i++) {
         for (int j = 2; j < 4; j++) {
-            B[top_left_B_i + i][top_left_B_j + j] = B[top_left_B_i + i + 2][top_left_B_j + j + 4];
+            B[top_left_j + i][top_left_i + j] = B[top_left_j + i + 2][top_left_i + j + 4];
         }
     }
 
     for (int i = 6; i < 8; i++) {
         for (int j = 4; j < 6; j++) {
-            B[top_left_B_i + j][top_left_B_j + i] = A[top_left_A_i + i][top_left_A_j + j];
+            B[top_left_j + j][top_left_i + i] = A[top_left_i + i][top_left_j + j];
         }
     }
 
-    B[top_left_B_i + 0][top_left_B_j + 0] = temp_00;
-    B[top_left_B_i + 0][top_left_B_j + 1] = temp_02;
-    B[top_left_B_i + 1][top_left_B_j + 0] = temp_01;
-    B[top_left_B_i + 1][top_left_B_j + 1] = temp_03;
+    B[top_left_j + 0][top_left_i + 0] = temp_00;
+    B[top_left_j + 0][top_left_i + 1] = temp_02;
+    B[top_left_j + 1][top_left_i + 0] = temp_01;
+    B[top_left_j + 1][top_left_i + 1] = temp_03;
 
-    B[top_left_B_i + 0][top_left_B_j + 2] = temp_08;
-    B[top_left_B_i + 0][top_left_B_j + 3] = temp_10;
-    B[top_left_B_i + 1][top_left_B_j + 2] = temp_09;
-    B[top_left_B_i + 1][top_left_B_j + 3] = temp_11;
+    B[top_left_j + 0][top_left_i + 2] = temp_08;
+    B[top_left_j + 0][top_left_i + 3] = temp_10;
+    B[top_left_j + 1][top_left_i + 2] = temp_09;
+    B[top_left_j + 1][top_left_i + 3] = temp_11;
 
     for (int i = 4; i < 8; i++) {
         for (int j = 0; j < 4; j++) {
-            B[top_left_B_i + j][top_left_B_j + i] = A[top_left_A_i + i][top_left_A_j + j];
+            B[top_left_j + j][top_left_i + i] = A[top_left_i + i][top_left_j + j];
         }
     }
 }
 
-void helper_helper_64_64_diagonal(int A[64][64], int B[64][64], int top_left_A_i, int top_left_A_j, int top_left_B_i,
-                                  int top_left_B_j) {
-    int temp_00;
-    int temp_01;
-    int temp_02;
-    int temp_03;
-    int temp_04;
-    int temp_05;
-    int temp_06;
-    int temp_07;
-    int temp_08;
-    int temp_09;
-    int temp_10;
-    int temp_11;
+void helper_helper_64_64_diagonal(int A[64][64], int B[64][64], int top_left_i, int top_left_j) {
+    int temp_00 = A[top_left_i + 0][top_left_j + 0];
+    int temp_01 = A[top_left_i + 0][top_left_j + 1];
+    int temp_02 = A[top_left_i + 1][top_left_j + 0];
+    int temp_03 = A[top_left_i + 1][top_left_j + 1];
 
-    temp_00 = A[top_left_A_i + 0][top_left_A_j + 0];
-    temp_01 = A[top_left_A_i + 0][top_left_A_j + 1];
-    temp_02 = A[top_left_A_i + 1][top_left_A_j + 0];
-    temp_03 = A[top_left_A_i + 1][top_left_A_j + 1];
+    int temp_04 = A[top_left_i + 2][top_left_j + 0];
+    int temp_05 = A[top_left_i + 2][top_left_j + 1];
+    int temp_06 = A[top_left_i + 3][top_left_j + 0];
+    int temp_07 = A[top_left_i + 3][top_left_j + 1];
 
-    temp_04 = A[top_left_A_i + 2][top_left_A_j + 0];
-    temp_05 = A[top_left_A_i + 2][top_left_A_j + 1];
-    temp_06 = A[top_left_A_i + 3][top_left_A_j + 0];
-    temp_07 = A[top_left_A_i + 3][top_left_A_j + 1];
+    int temp_08 = A[top_left_i + 2][top_left_j + 2];
+    int temp_09 = A[top_left_i + 2][top_left_j + 3];
+    int temp_10 = A[top_left_i + 3][top_left_j + 2];
+    int temp_11 = A[top_left_i + 3][top_left_j + 3];
 
-    temp_08 = A[top_left_A_i + 2][top_left_A_j + 2];
-    temp_09 = A[top_left_A_i + 2][top_left_A_j + 3];
-    temp_10 = A[top_left_A_i + 3][top_left_A_j + 2];
-    temp_11 = A[top_left_A_i + 3][top_left_A_j + 3];
+    B[top_left_j + 2][top_left_i + 0] = A[top_left_i + 0][top_left_j + 2];
+    B[top_left_j + 2][top_left_i + 1] = A[top_left_i + 1][top_left_j + 2];
+    B[top_left_j + 3][top_left_i + 0] = A[top_left_i + 0][top_left_j + 3];
+    B[top_left_j + 3][top_left_i + 1] = A[top_left_i + 1][top_left_j + 3];
 
-    B[top_left_B_i + 2][top_left_B_j + 0] = A[top_left_A_i + 0][top_left_A_j + 2];
-    B[top_left_B_i + 2][top_left_B_j + 1] = A[top_left_A_i + 1][top_left_A_j + 2];
-    B[top_left_B_i + 3][top_left_B_j + 0] = A[top_left_A_i + 0][top_left_A_j + 3];
-    B[top_left_B_i + 3][top_left_B_j + 1] = A[top_left_A_i + 1][top_left_A_j + 3];
+    B[top_left_j + 2][top_left_i + 2] = temp_08;
+    B[top_left_j + 2][top_left_i + 3] = temp_10;
+    B[top_left_j + 3][top_left_i + 2] = temp_09;
+    B[top_left_j + 3][top_left_i + 3] = temp_11;
 
-    B[top_left_B_i + 2][top_left_B_j + 2] = temp_08;
-    B[top_left_B_i + 2][top_left_B_j + 3] = temp_10;
-    B[top_left_B_i + 3][top_left_B_j + 2] = temp_09;
-    B[top_left_B_i + 3][top_left_B_j + 3] = temp_11;
+    B[top_left_j + 0][top_left_i + 0] = temp_00;
+    B[top_left_j + 0][top_left_i + 1] = temp_02;
+    B[top_left_j + 1][top_left_i + 0] = temp_01;
+    B[top_left_j + 1][top_left_i + 1] = temp_03;
 
-    B[top_left_B_i + 0][top_left_B_j + 0] = temp_00;
-    B[top_left_B_i + 0][top_left_B_j + 1] = temp_02;
-    B[top_left_B_i + 1][top_left_B_j + 0] = temp_01;
-    B[top_left_B_i + 1][top_left_B_j + 1] = temp_03;
-
-    B[top_left_B_i + 0][top_left_B_j + 2] = temp_04;
-    B[top_left_B_i + 0][top_left_B_j + 3] = temp_06;
-    B[top_left_B_i + 1][top_left_B_j + 2] = temp_05;
-    B[top_left_B_i + 1][top_left_B_j + 3] = temp_07;
+    B[top_left_j + 0][top_left_i + 2] = temp_04;
+    B[top_left_j + 0][top_left_i + 3] = temp_06;
+    B[top_left_j + 1][top_left_i + 2] = temp_05;
+    B[top_left_j + 1][top_left_i + 3] = temp_07;
 }
 
 void helper_64_64_diagonal(int A[64][64], int B[64][64], int top_left) {
-    helper_helper_64_64_diagonal(A, B, top_left, top_left + 4, top_left + 4, top_left);
-    helper_helper_64_64_diagonal(A, B, top_left + 4, top_left, top_left, top_left + 4);
-    helper_helper_64_64_diagonal(A, B, top_left, top_left, top_left, top_left);
-    helper_helper_64_64_diagonal(A, B, top_left + 4, top_left + 4, top_left + 4, top_left + 4);
+    for (int i = 0; i < 8; i += 4) {
+        for (int j = 0; j < 8; j += 4) {
+            helper_helper_64_64_diagonal(A, B, top_left + i, top_left + j);
+        }
+    }
 }
 
-void trans_64_64(int M, int N, int A[N][M], int B[M][N]) {
-    for (int i = 0; i < 64; i += 8) {
-        for (int j = 0; j < 64; j += 8) {
-            if (i == j) {
-                helper_64_64_diagonal(A, B, i);
+void trans_64_64(int A[64][64], int B[64][64]) {
+    for (int top_left_i = 0; top_left_i < 64; top_left_i += 8) {
+        for (int top_left_j = 0; top_left_j < 64; top_left_j += 8) {
+            if (top_left_i == top_left_j) {
+                helper_64_64_diagonal(A, B, top_left_i);
             } else {
-                helper_64_64_normal(A, B, i, j, j, i);
+                helper_64_64_normal(A, B, top_left_i, top_left_j);
             }
         }
     }
 }
 
-void trans_61_67(int M, int N, int A[N][M], int B[M][N]) {
-    trans(M, N, A, B);
+void helper_61_67_normal(int A[67][61], int B[61][67], int top_left_i, int top_left_j) {
+    for (int i = 0; i < 4; i++) {
+        for (int j = 4; j < 8; j++) {
+            B[top_left_j + j][top_left_i + i] = A[top_left_i + i][top_left_j + j];
+        }
+    }
+
+    int temp_00 = A[top_left_i + 0][top_left_j + 0];
+    int temp_01 = A[top_left_i + 0][top_left_j + 1];
+    int temp_02 = A[top_left_i + 1][top_left_j + 0];
+    int temp_03 = A[top_left_i + 1][top_left_j + 1];
+
+    int temp_04 = A[top_left_i + 0][top_left_j + 2];
+    int temp_05 = A[top_left_i + 0][top_left_j + 3];
+    int temp_06 = A[top_left_i + 1][top_left_j + 2];
+    int temp_07 = A[top_left_i + 1][top_left_j + 3];
+
+    int temp_08 = A[top_left_i + 2][top_left_j + 0];
+    int temp_09 = A[top_left_i + 2][top_left_j + 1];
+    int temp_10 = A[top_left_i + 3][top_left_j + 0];
+    int temp_11 = A[top_left_i + 3][top_left_j + 1];
+
+    for (int i = 4; i < 6; i++) {
+        for (int j = 4; j < 8; j++) {
+            B[top_left_j + j][top_left_i + i] = A[top_left_i + i][top_left_j + j];
+        }
+    }
+
+    for (int i = 2; i < 4; i++) {
+        for (int j = 2; j < 4; j++) {
+            B[top_left_j + j + 2][top_left_i + i + 4] = A[top_left_i + i][top_left_j + j];
+        }
+    }
+
+    for (int i = 6; i < 8; i++) {
+        for (int j = 6; j < 8; j++) {
+            B[top_left_j + j][top_left_i + i] = A[top_left_i + i][top_left_j + j];
+        }
+    }
+
+    B[top_left_j + 2][top_left_i + 0] = temp_04;
+    B[top_left_j + 2][top_left_i + 1] = temp_06;
+    B[top_left_j + 3][top_left_i + 0] = temp_05;
+    B[top_left_j + 3][top_left_i + 1] = temp_07;
+
+    for (int i = 2; i < 4; i++) {
+        for (int j = 2; j < 4; j++) {
+            B[top_left_j + i][top_left_i + j] = B[top_left_j + i + 2][top_left_i + j + 4];
+        }
+    }
+
+    for (int i = 6; i < 8; i++) {
+        for (int j = 4; j < 6; j++) {
+            B[top_left_j + j][top_left_i + i] = A[top_left_i + i][top_left_j + j];
+        }
+    }
+
+    B[top_left_j + 0][top_left_i + 0] = temp_00;
+    B[top_left_j + 0][top_left_i + 1] = temp_02;
+    B[top_left_j + 1][top_left_i + 0] = temp_01;
+    B[top_left_j + 1][top_left_i + 1] = temp_03;
+
+    B[top_left_j + 0][top_left_i + 2] = temp_08;
+    B[top_left_j + 0][top_left_i + 3] = temp_10;
+    B[top_left_j + 1][top_left_i + 2] = temp_09;
+    B[top_left_j + 1][top_left_i + 3] = temp_11;
+
+    for (int i = 4; i < 8; i++) {
+        for (int j = 0; j < 4; j++) {
+            B[top_left_j + j][top_left_i + i] = A[top_left_i + i][top_left_j + j];
+        }
+    }
+}
+
+void helper_helper_61_67_diagonal(int A[67][61], int B[61][67], int top_left_i, int top_left_j) {
+    int temp_00 = A[top_left_i + 0][top_left_j + 0];
+    int temp_01 = A[top_left_i + 0][top_left_j + 1];
+    int temp_02 = A[top_left_i + 1][top_left_j + 0];
+    int temp_03 = A[top_left_i + 1][top_left_j + 1];
+
+    int temp_04 = A[top_left_i + 2][top_left_j + 0];
+    int temp_05 = A[top_left_i + 2][top_left_j + 1];
+    int temp_06 = A[top_left_i + 3][top_left_j + 0];
+    int temp_07 = A[top_left_i + 3][top_left_j + 1];
+
+    int temp_08 = A[top_left_i + 2][top_left_j + 2];
+    int temp_09 = A[top_left_i + 2][top_left_j + 3];
+    int temp_10 = A[top_left_i + 3][top_left_j + 2];
+    int temp_11 = A[top_left_i + 3][top_left_j + 3];
+
+    B[top_left_j + 2][top_left_i + 0] = A[top_left_i + 0][top_left_j + 2];
+    B[top_left_j + 2][top_left_i + 1] = A[top_left_i + 1][top_left_j + 2];
+    B[top_left_j + 3][top_left_i + 0] = A[top_left_i + 0][top_left_j + 3];
+    B[top_left_j + 3][top_left_i + 1] = A[top_left_i + 1][top_left_j + 3];
+
+    B[top_left_j + 2][top_left_i + 2] = temp_08;
+    B[top_left_j + 2][top_left_i + 3] = temp_10;
+    B[top_left_j + 3][top_left_i + 2] = temp_09;
+    B[top_left_j + 3][top_left_i + 3] = temp_11;
+
+    B[top_left_j + 0][top_left_i + 0] = temp_00;
+    B[top_left_j + 0][top_left_i + 1] = temp_02;
+    B[top_left_j + 1][top_left_i + 0] = temp_01;
+    B[top_left_j + 1][top_left_i + 1] = temp_03;
+
+    B[top_left_j + 0][top_left_i + 2] = temp_04;
+    B[top_left_j + 0][top_left_i + 3] = temp_06;
+    B[top_left_j + 1][top_left_i + 2] = temp_05;
+    B[top_left_j + 1][top_left_i + 3] = temp_07;
+}
+
+void helper_61_67_diagonal(int A[67][61], int B[61][67], int top_left) {
+    for (int i = 0; i < 8; i += 4) {
+        for (int j = 0; j < 8; j += 4) {
+            helper_helper_61_67_diagonal(A, B, top_left + i, top_left + j);
+        }
+    }
+}
+
+void trans_61_67(int A[67][61], int B[61][67]) {
+    for (int top_left_i = 0; top_left_i < 64; top_left_i += 8) {
+        for (int top_left_j = 0; top_left_j < 56; top_left_j += 8) {
+            if (top_left_i == top_left_j) {
+                helper_61_67_diagonal(A, B, top_left_i);
+            } else {
+                helper_61_67_normal(A, B, top_left_i, top_left_j);
+            }
+        }
+    }
+
+    for (int i = 0; i < 64; i++) {
+        for (int j = 56; j < 61; j++) {
+            B[j][i] = A[i][j];
+        }
+    }
+
+    for (int i = 64; i < 67; i++) {
+        for (int j = 0; j < 61; j++) {
+            B[j][i] = A[i][j];
+        }
+    }
 }
 
 char my_trans_desc[] = "My Trans";
@@ -339,9 +400,9 @@ void my_trans(int M, int N, int A[N][M], int B[M][N]) {
     if (M == 32 && N == 32) {
         trans_32_32(A, B);
     } else if (M == 64 && N == 64) {
-        trans_64_64(M, N, A, B);
+        trans_64_64(A, B);
     } else if (M == 61 && N == 67) {
-        trans_61_67(M, N, A, B);
+        trans_61_67(A, B);
     } else {
         printf("Unsupported matrix dimension\n");
         exit(EXIT_FAILURE);
