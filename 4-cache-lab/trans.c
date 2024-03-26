@@ -382,14 +382,24 @@ void trans_61_67(int A[67][61], int B[61][67]) {
         }
     }
 
-    for (int i = 0; i < 64; i++) {
-        for (int j = 56; j < 61; j++) {
-            B[j][i] = A[i][j];
+    for (int begin_i = 0; begin_i < 64; begin_i += 4) {
+        for (int j = 60; j >= 56; j--) {
+            for (int i = 0; i < 4; i++) {
+                B[j][begin_i + i] = A[begin_i + i][j];
+            }
+        }
+    }
+
+    for (int begin_j = 0; begin_j < 60; begin_j += 4) {
+        for (int i = 64; i < 67; i++) {
+            for (int j = 0; j < 4; j++) {
+                B[begin_j + j][i] = A[i][begin_j + j];
+            }
         }
     }
 
     for (int i = 64; i < 67; i++) {
-        for (int j = 0; j < 61; j++) {
+        for (int j = 60; j < 61; j++) {
             B[j][i] = A[i][j];
         }
     }
