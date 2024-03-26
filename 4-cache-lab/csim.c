@@ -53,6 +53,10 @@ Trace *parse_tracefile(const char *const tracefile) {
 
         // 爬取访问信息:
         if (sscanf(line, " %c %llx,%d", &new_trace->type, &new_trace->address, &new_trace->size) == 3) {
+            // if (!new_trace->type) {
+            //     printf("错误条目: %s\n", line);
+            // }
+
             // 向链表末尾追加新条目:
             tail->next = new_trace;
             tail = new_trace;
@@ -74,12 +78,12 @@ Trace *parse_tracefile(const char *const tracefile) {
 
     fclose(file);
 
-    if (!head) {
+    if (!head->next) {
         printf("Empty trace file\n");
         exit(EXIT_FAILURE);
     }
 
-    return head;
+    return head->next;
 }
 
 // 打印帮助信息:
@@ -130,11 +134,11 @@ void parse_arguments(const int argc, char *const *const argv, int *const flag_h,
         }
     }
 
-    if (option_type == -1) {
-        printf("%s: Missing required command line argument\n", argv[0]);
-        print_help(argv[0]);
-        exit(EXIT_FAILURE);
-    }
+    // if (option_type == -1) {
+    //     printf("%s: Missing required command line argument\n", argv[0]);
+    //     print_help(argv[0]);
+    //     exit(EXIT_FAILURE);
+    // }
 }
 
 // cache 行:
@@ -195,9 +199,14 @@ void get_tag_and_set_number(const unsigned long long address, const int s, const
 // 模拟加载数据:
 void simulate_load(Cache cache, const int s, const int E, const int b, const unsigned long long address, int *const hit,
                    int *const miss, int *const eviction) {
+    int debug = 1;
+
     unsigned long long tag;
     int set_number;
     get_tag_and_set_number(address, s, E, b, &tag, &set_number);
+    if (debug) {
+        printf("tag: %llu, set number: %d, ", tag, set_number);
+    }
 
     Line *set = cache + set_number;
     Line *line = set->next;
@@ -226,6 +235,10 @@ void simulate_load(Cache cache, const int s, const int E, const int b, const uns
             *miss = 0;
             *eviction = 0;
 
+            if (debug) {
+                printf("status: hit\n");
+            }
+
             return;
         }
 
@@ -233,6 +246,10 @@ void simulate_load(Cache cache, const int s, const int E, const int b, const uns
         line_pre = line;
         line = line->next;
         line_count++;
+    }
+
+    if (debug) {
+        printf("status: miss");
     }
 
     // 如果遍历完整个链表都没有找到, 则从内存中加载该数据块到 cache 中 (按 LRU 策略, 直接插入到表头后):
@@ -249,7 +266,16 @@ void simulate_load(Cache cache, const int s, const int E, const int b, const uns
     // 如果组已经满了还需要驱逐一个数据块出去 (直接弹掉表尾结点即可):
     if (line_count == E) {
         line_pre->pre->next = NULL;
+
+        if (debug) {
+            printf(", eviction");
+        }
+
         free(line_pre);
+    }
+
+    if (debug) {
+        printf("\n");
     }
 
     *hit = 0;
@@ -298,11 +324,11 @@ void simulate_modify(Cache cache, const int s, const int E, const int b, const u
 
 // verbose 模式下打印提示信息:
 void print_trace(Trace *trace, const int hit, const int miss, const int eviction) {
-    char *prompt = hit ? "hit" : "miss";
+    char *prompt = hit ? "hit " : "miss ";
     printf("%c %llx,%d %s", trace->type, trace->address, trace->size, prompt);
 
     if (eviction) {
-        printf(" eviction");
+        printf("eviction ");
     }
 
     printf("\n");
@@ -337,7 +363,7 @@ void simulate(const int s, const int E, const int b, Trace *traces, int *const h
         } else if (trace->type == 'M') {
             simulate_modify(cache, s, E, b, trace->address, &hit, &miss, &eviction);
         } else {
-            printf("Unknown trace type\n");
+            printf("Unknown trace type: \"%c\"\n", trace->type);
             exit(EXIT_FAILURE);
         }
 
