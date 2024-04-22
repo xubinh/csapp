@@ -336,12 +336,6 @@ def make_anchor(
 
 
 if __name__ == "__main__":
-    md_file_path = "./README.md"
-
-    if len(sys.argv) > 1:
-        md_file_path = sys.argv[1]
-
-    print(f"parse file `{md_file_path}`")
 
     def is_toc_header(line: str) -> bool:
         if line and line[0] == "#" and line.count("目录"):
@@ -355,6 +349,13 @@ if __name__ == "__main__":
 
     def get_toc_header() -> str:
         return "## 目录"
+
+    md_file_path = "./README.md"
+
+    if len(sys.argv) > 1:
+        md_file_path = sys.argv[1]
+
+    print(f"parse file `{md_file_path}`")
 
     make_anchor(
         md_file_path=md_file_path,

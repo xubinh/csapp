@@ -371,6 +371,36 @@ void helper_61_67_diagonal(int A[67][61], int B[61][67], int top_left) {
     }
 }
 
+void helper_61_67_right_edge(int A[67][61], int B[61][67], int top_left_i, int top_left_j) {
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            B[top_left_j + j][top_left_i + i] = A[top_left_i + i][top_left_j + j];
+        }
+    }
+
+    int temp_0 = A[top_left_i + 0][top_left_j + 4];
+    int temp_1 = A[top_left_i + 1][top_left_j + 4];
+    int temp_2 = A[top_left_i + 2][top_left_j + 4];
+    int temp_3 = A[top_left_i + 3][top_left_j + 4];
+
+    for (int i = 4; i < 8; i++) {
+        for (int j = 0; j < 4; j++) {
+            B[top_left_j + j][top_left_i + i] = A[top_left_i + i][top_left_j + j];
+        }
+    }
+
+    for (int i = 4; i < 8; i++) {
+        for (int j = 4; j < 5; j++) {
+            B[top_left_j + j][top_left_i + i] = A[top_left_i + i][top_left_j + j];
+        }
+    }
+
+    B[top_left_j + 4][top_left_i + 0] = temp_0;
+    B[top_left_j + 4][top_left_i + 1] = temp_1;
+    B[top_left_j + 4][top_left_i + 2] = temp_2;
+    B[top_left_j + 4][top_left_i + 3] = temp_3;
+}
+
 void trans_61_67(int A[67][61], int B[61][67]) {
     for (int top_left_i = 0; top_left_i < 64; top_left_i += 8) {
         for (int top_left_j = 0; top_left_j < 56; top_left_j += 8) {
@@ -382,22 +412,28 @@ void trans_61_67(int A[67][61], int B[61][67]) {
         }
     }
 
-    for (int begin_i = 0; begin_i < 64; begin_i += 4) {
-        for (int j = 60; j >= 56; j--) {
-            for (int i = 0; i < 4; i++) {
-                B[j][begin_i + i] = A[begin_i + i][j];
-            }
-        }
+    // for (int begin_i = 0; begin_i < 64; begin_i += 4) {
+    //     for (int j = 60; j >= 56; j--) {
+    //         for (int i = 0; i < 4; i++) {
+    //             B[j][begin_i + i] = A[begin_i + i][j];
+    //         }
+    //     }
+    // }
+
+    for (int top_left_i = 0; top_left_i < 64; top_left_i += 8) {
+        helper_61_67_right_edge(A, B, top_left_i, 56);
     }
 
-    for (int begin_j = 0; begin_j < 60; begin_j += 4) {
+    // for (int begin_j = 0; begin_j < 60; begin_j += 4) {
+    for (int begin_j = 0; begin_j < 58; begin_j += 3) {
         for (int i = 64; i < 67; i++) {
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < 3; j++) {
                 B[begin_j + j][i] = A[i][begin_j + j];
             }
         }
     }
 
+    // for (int i = 64; i < 67; i++) {
     for (int i = 64; i < 67; i++) {
         for (int j = 60; j < 61; j++) {
             B[j][i] = A[i][j];
