@@ -127,11 +127,24 @@
 - <a href="#5.4">相关资料</a>
 
 </details>
-<details><summary><a href="#6">GDB 入门</a></summary>
+<details><summary><a href="#6">6. Malloc Lab</a></summary>
+
+- <a href="#6.1">实验目的</a>
+- <a href="#6.2">实验框架</a>
+  - <a href="#6.2.1">`memlib.c` - 预定义的内存模型</a>
+  - <a href="#6.2.2">`mm.c` - 待实现的分配器的骨架</a>
+  - <a href="#6.2.3">`traces` - 测试样例</a>
+  - <a href="#6.2.4">`mdriver.c` - 评分驱动程序</a>
+  - <a href="#6.2.5">其他</a>
+- <a href="#6.3">实验思路与总结</a>
+- <a href="#6.4">相关资料</a>
+
 </details>
-<details><summary><a href="#7">make 入门</a></summary>
+<details><summary><a href="#7">GDB 入门</a></summary>
 </details>
-<details><summary><a href="#8">待办</a></summary>
+<details><summary><a href="#8">make 入门</a></summary>
+</details>
+<details><summary><a href="#9">待办</a></summary>
 </details>
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
@@ -1169,7 +1182,138 @@ tsh 的参考实现程序.
 
 无
 
-## <a id="6"></a>GDB 入门
+## <a id="6"></a>6. Malloc Lab
+
+### <a id="6.1"></a>实验目的
+
+模仿官方 `malloc` 包, 自由探索实现方案, 填充文件 `mm.c`, 在预定义的抽象内存模型上实现一个动态内存分配器.
+
+### <a id="6.2"></a>实验框架
+
+#### <a id="6.2.1"></a>`memlib.c` - 预定义的内存模型
+
+`memlib.c` 定义了一个简单的内存模型抽象, 其中暴露在外的可供调用的函数有:
+
+- `void *mem_sbrk(int incr)`: 模仿 Unix `sbrk` 函数, 但限制了参数 `incr` 为正整数.
+- `void *mem_heap_lo()`: 返回堆空间的第一个字节的地址.
+- `void *mem_heap_hi()`: 返回堆空间的最后一个字节的地址 (等价于 `brk - 1`).
+- `size_t mem_heapsize()`: 返回堆空间的大小 (单位: 字节).
+- `size_t mem_pagesize()`: 返回系统的页大小 (单位: 字节).
+
+内存模型的抽象方法是使用官方 `malloc` 函数在真实堆内存中申请一大块内存用于模拟主存, 并使用 `mem_sbrk` 函数来模拟堆空间的扩充.
+
+#### <a id="6.2.2"></a>`mm.c` - 待实现的分配器的骨架
+
+`mm.c` 中包含四个待填充的函数:
+
+- `int mm_init(void)`: 根据分配器的具体实现做对应的初始化.
+  - 评分工具 `mdriver.c` 会在调用任何 `mm_malloc`, `mm_realloc` 和 `mm_free` 函数之前调用本函数以对堆进行必要的初始化.
+  - 如果初始化失败则返回 -1, 否则返回 0.
+- `void *mm_malloc(size_t size)`: 模仿官方 `malloc` 函数.
+  - 函数 `mm_malloc` 需要返回一个指向已分配块中的有效载荷的首字节的指针, 并且该有效载荷的大小必须至少为 `size`.
+  - 整个已分配块 (包含有效载荷以及可能的头部或尾部) 必须位于堆内存范围之内, 并且不允许与其他已分配块发生重叠.
+  - 由于评分工具会将本函数与官方 `malloc` 函数进行比较, 而官方函数总是返回 8 字节对齐的指针, 因此本函数同样需要确保返回 8 字节对齐的指针.
+- `void mm_free(void *ptr)`: 模仿官方 `free` 函数.
+  - 函数 `mm_free` 负责释放指针 `ptr` 所指向的已分配块. 本函数只需要确保在指针 `ptr` 指向先前调用 `mm_malloc` 或 `mm_realloc` 所返回的未被释放的已分配块的前提下正常工作即可.
+- `void *mm_realloc(void *ptr, size_t size)`: 模仿官方 `realloc` 函数.
+  - 函数 `mm_realloc` 需要返回一个指向已分配的且大小至少为 `size` 的块, 其中:
+    - 如果 `ptr` 等于 `NULL` (即不需要复制任何已有数据), 那么本函数等价于 `mm_malloc(size)`;
+    - 如果 `size` 等于 0 (即指定新分配块的有效载荷大小为 0), 那么本函数等价于 `mm_free(ptr)`;
+    - 如果 `ptr` 不等于 `NULL` 并且 `size` 不等于 0, 那么在 `ptr` 为先前调用 `mm_malloc` 或 `mm_realloc` 所返回的结果的前提下, 本函数的作用是返回一个新的有效载荷大小至少为 `size` 的已分配块, 其中:
+      - 所返回的指针和 `ptr` 不必相同, 因为如果 `size` 过大就必须申请一个新的内存块.
+      - 千万不能释放 `ptr` 所指向的旧的已分配块. 本函数只负责复制, 不负责释放, 释放是调用者的责任.
+      - 如果 `size` 小于 `ptr` 所指向的已分配块的有效载荷大小, 那么确保前 `size` 个字节的内容被复制到新分配块即可; 如果 `size` 大于该有效载荷大小, 那么只需要确保有效载荷的内容全部被复制到新分配块即可, 多余的区域继续保持未初始化的状态, 不要做任何改动.
+- 可以在 `mm.c` 中根据需要定义其他的静态 (私有) 帮手函数.
+
+除了上述四个函数以外, 还可以选择实现一个可选的堆空间合理性检查工具 `int mm_check(void)` 来检查任何重要的不变量或一致性条件. 因为动态内存分配器的实现需要大量的无类型指针操作, 因此实现一个合理性检查工具能够极大地降低开发难度. 一些可能的不变量或一致性条件包括:
+
+- 空闲链表中的指针是否均指向合法的块?
+- 空闲链表中的所有块是否均被标记为空闲块?
+- 是否所有空闲块均位于空闲链表中?
+- 是否存在连续的空闲块没有被合并?
+- 是否存在已分配块相互重叠?
+
+函数 `mm_check` 返回非零值 (true) 当且仅当通过一致性检查. 记得在执行 `./mdriver` 时注释掉任何 `mm_check` 语句, 避免对吞吐量造成影响.
+
+#### <a id="6.2.3"></a>`traces` - 测试样例
+
+`traces` 目录下包含 2 个初始测试样例 `short1-bal.rep` 和 `short2-bal.rep`, 以及 11 个正式测试样例:
+
+- `amptjp-bal.rep`
+- `cccp-bal.rep`
+- `cp-decl-bal.rep`
+- `expr-bal.rep`
+- `coalescing-bal.rep`
+- `random-bal.rep`
+- `random2-bal.rep`
+- `binary-bal.rep`
+- `binary2-bal.rep`
+- `realloc-bal.rep`
+- `realloc2-bal.rep`
+
+初始测试样例用于开发初期的调试, 正式测试样例中的前 9 个仅测试 `malloc` 和 `free` 两个函数, 后 2 个则还额外测试 `realloc` 函数.
+
+#### <a id="6.2.4"></a>`mdriver.c` - 评分驱动程序
+
+`mdriver.c` 用于评估所实现的动态内存分配器的总体性能. 使用 `make` 命令对其进行编译, 然后使用命令行 `./mdriver` 执行评估.
+
+参数:
+
+- `-t <trace-dir>`: 使用指定的 trace 文件目录, 覆盖 `config.h` 中的相应配置.
+- `-f <trace-file>`: 使用指定的 trace 文件. 可以结合本选项与 2 个初始测试样例在开发初期进行调试.
+- `-h`: 打印帮助信息.
+- `-l`: 除了所实现的分配器以外同时也对官方 `libc` 的 `malloc` 包进行评估.
+- `-v`: 打印详细信息.
+- `-V`: 打印更加详细的信息.
+
+评价标准:
+
+- 正确性 (20分): 通过一个 trace 文件得一定分数, 全部通过即得满分.
+- 性能 (35分): 分为**空间利用率**和**吞吐量**两个维度, 最终的性能指标 $P$ 的计算公式为
+  $$
+  P = \omega U + (1 - \omega) \min \bigg( 1, \frac{T}{T_{libc}} \bigg),
+  $$
+  其中 $U$ 为峰值利用率, $T$ 为吞吐率, $T_{libc}$ 为官方 `malloc` 包的吞吐率 (可在 `config.h` 中配置). $\omega$ 决定空间利用率与吞吐量在 $P$ 中的权重, $\omega$ 默认为 $0.6$.
+- 格式 (10分):
+  - `mm.c` 中的实现应该解耦为若干个函数, 并使用尽可能少的全局变量. `mm.c` 应以一个头部注释 (header comment) 开始, 该头部注释应解释空闲块与已分配块的结构, 空闲链表的组织方式, 以及分配器如何操作空闲链表. 此外 `mm.c` 中的每个函数也应该具有一个头部注释用于解释该函数的作用以及工作原理.
+  - 合理性检查工具 `mm_check` 函数应考虑周全并具有良好的文档.
+
+  上述两点各占 5 分.
+
+#### <a id="6.2.5"></a>其他
+
+注意事项:
+
+- 不允许改变 `mm.c` 中的任何接口.
+- 不允许调用任何已有的系统函数或库函数, 例如 `malloc`, `calloc`, `free`, `realloc`, `sbrk`, `brk` 以及这些函数的其他变种, 等等.
+- 不允许定义任何全局或静态**复合**数据结构, 例如数组, 结构体, 树, 链表等等 (可能是因为全局或静态的对象位于堆区域之外, 所定义的复合数据结构并不是 scalable 的).
+- 允许定义全局标量变量, 如整数, 浮点数与指针等等.
+
+一些提示:
+
+- 遇到困难时应使用 `gcc -g` 以及 GDB 进行调试.
+- 在开始动手之前应确保理解了 CS:APP 书中那个隐式空闲链表的实现中的每一行代码.
+- 模仿书中的实现, 将各种关于指针的运算封装在宏 (macro) 中.
+- 建议将整个实验分为三个循序渐进的开发阶段:
+  1. 正确实现 `mm_malloc` 和 `mm_free` 函数, 确保通过前 9 个正式测试样例;
+  2. 基于对 `mm_malloc` 和 `mm_free` 函数的调用实现 `mm_realloc` 函数, 并通过后 2 个正式测试样例;
+  3. 不基于 `mm_malloc` 和 `mm_free` 函数, 实现独立的 `mm_realloc` 函数, 冲击更好的性能.
+- 使用 profiler 对分配器实现进行性能上的调试优化, 例如 `gprof` 工具.
+
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
+
+### <a id="6.3"></a>实验思路与总结
+
+### <a id="6.4"></a>相关资料
+
+- 完整的 trace 文件:
+  - [patlewis/malloc-lab](https://github.com/patlewis/malloc-lab)
+  - [Fanziyang-v/CSAPP-Lab](https://github.com/Fanziyang-v/CSAPP-Lab)
+  - [jon-whit/malloc-lab](https://github.com/jon-whit/malloc-lab)
+  
+  官方的 handout tarball 里面并没有包含 `config.h` 中提到的 11 个 trace 文件, 上述 repo 中的 trace 文件仅供参考.
+
+## <a id="7"></a>GDB 入门
 
 **进入 gdb 环境**:
 
@@ -1256,9 +1400,9 @@ tsh 的参考实现程序.
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-## <a id="7"></a>make 入门
+## <a id="8"></a>make 入门
 
-## <a id="8"></a>待办
+## <a id="9"></a>待办
 
 - [x] 添加 gdb 入门小节
 - [ ] 添加 make 入门小节
