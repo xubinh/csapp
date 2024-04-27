@@ -1268,13 +1268,17 @@ tsh 的参考实现程序.
 
 评价标准:
 
-- 正确性 (20分): 通过一个 trace 文件得一定分数, 全部通过即得满分.
-- 性能 (35分): 分为**空间利用率**和**吞吐量**两个维度, 最终的性能指标 $P$ 的计算公式为
+- 正确性 (20 分): 通过一个 trace 文件得一定分数, 全部通过即得满分.
+- 性能 (35 分): 分为**空间利用率**和**吞吐量**两个维度, 最终的性能指标 $P$ 的计算公式为
+
   $$
   P = \omega U + (1 - \omega) \min \bigg( 1, \frac{T}{T_{libc}} \bigg),
   $$
+
   其中 $U$ 为峰值利用率, $T$ 为吞吐率, $T_{libc}$ 为官方 `malloc` 包的吞吐率 (可在 `config.h` 中配置). $\omega$ 决定空间利用率与吞吐量在 $P$ 中的权重, $\omega$ 默认为 $0.6$.
-- 格式 (10分):
+
+- 格式 (10 分):
+
   - `mm.c` 中的实现应该解耦为若干个函数, 并使用尽可能少的全局变量. `mm.c` 应以一个头部注释 (header comment) 开始, 该头部注释应解释空闲块与已分配块的结构, 空闲链表的组织方式, 以及分配器如何操作空闲链表. 此外 `mm.c` 中的每个函数也应该具有一个头部注释用于解释该函数的作用以及工作原理.
   - 合理性检查工具 `mm_check` 函数应考虑周全并具有良好的文档.
 
@@ -1307,10 +1311,11 @@ tsh 的参考实现程序.
 ### <a id="6.4"></a>相关资料
 
 - 完整的 trace 文件:
+
   - [patlewis/malloc-lab](https://github.com/patlewis/malloc-lab)
   - [Fanziyang-v/CSAPP-Lab](https://github.com/Fanziyang-v/CSAPP-Lab)
   - [jon-whit/malloc-lab](https://github.com/jon-whit/malloc-lab)
-  
+
   官方的 handout tarball 里面并没有包含 `config.h` 中提到的 11 个 trace 文件, 上述 repo 中的 trace 文件仅供参考.
 
 ## <a id="7"></a>GDB 入门
