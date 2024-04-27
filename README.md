@@ -1271,11 +1271,11 @@ tsh 的参考实现程序.
 - 正确性 (20 分): 通过一个 trace 文件得一定分数, 全部通过即得满分.
 - 性能 (35 分): 分为**空间利用率**和**吞吐量**两个维度, 最终的性能指标 $P$ 的计算公式为
 
-$$
-\begin{equation}
-P = \omega U + (1 - \omega) \min \bigg( 1, \frac{T}{T_{libc}} \bigg),
-\end{equation}
-$$
+  $$
+  \begin{equation}
+  P = \omega U + (1 - \omega) \min \bigg( 1, \frac{T}{T_{libc}} \bigg),
+  \end{equation}
+  $$
 
   其中 $U$ 为峰值利用率, $T$ 为吞吐率, $T_{libc}$ 为官方 `malloc` 包的吞吐率 (可在 `config.h` 中配置). $\omega$ 决定空间利用率与吞吐量在 $P$ 中的权重, $\omega$ 默认为 $0.6$.
 
