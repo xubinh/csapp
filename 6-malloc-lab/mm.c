@@ -320,13 +320,13 @@ static void *_extend(size_t new_free_block_size) {
     _format_free_block(new_free_block);
 
     // 尝试合并新空闲块 (合并前需确保新结尾块已格式化):
-    new_free_block = _coalesce(new_free_block);
+    // new_free_block = _coalesce(new_free_block);
 
     // 返回合并后的新空闲块:
     return new_free_block;
 }
 
-void *_place(size_t block_size, void *bp) {
+static void *_place(size_t block_size, void *bp) {
     DEBUG &&printf("[_place]\n");
 
     // 传入的空闲块的真实大小:
@@ -378,7 +378,7 @@ void *_place(size_t block_size, void *bp) {
     return (void *)((char *)(bp) + SIZE_T_SIZE);
 }
 
-int _check_heap_format(void) {
+static int _check_heap_format(void) {
     int free_block_number = 0;
 
     int current_equivalence_class_upper_bound;
@@ -434,7 +434,7 @@ int _check_heap_format(void) {
     return free_block_number;
 }
 
-int _check_free_lists(void) {
+static int _check_free_lists(void) {
     int free_block_number = 0;
 
     int current_equivalence_class_upper_bound;
@@ -507,7 +507,7 @@ int _check_free_lists(void) {
     return free_block_number;
 }
 
-void _insertion_sort_pointer_array(void **pointer_array, size_t left, size_t right) {
+static void _insertion_sort_pointer_array(void **pointer_array, size_t left, size_t right) {
     size_t current_idx;
     for (current_idx = left + 1; current_idx < right; current_idx++) {
         void *current_pointer = pointer_array[current_idx];
@@ -521,7 +521,7 @@ void _insertion_sort_pointer_array(void **pointer_array, size_t left, size_t rig
     }
 }
 
-void _quick_sort_pointer_array(void **pointer_array, size_t left, size_t right) {
+static void _quick_sort_pointer_array(void **pointer_array, size_t left, size_t right) {
     // 挑选中位数 pivot:
     void *pivot;
     {
@@ -576,7 +576,7 @@ void _quick_sort_pointer_array(void **pointer_array, size_t left, size_t right) 
     }
 }
 
-void _sort_pointer_array(void **pointer_array, size_t pointer_array_size) {
+static void _sort_pointer_array(void **pointer_array, size_t pointer_array_size) {
     if (pointer_array_size > 1) {
         if (pointer_array_size <= 10) {
             _insertion_sort_pointer_array(pointer_array, 0, pointer_array_size);
@@ -586,7 +586,7 @@ void _sort_pointer_array(void **pointer_array, size_t pointer_array_size) {
     }
 }
 
-int _check_free_list_and_heap_consistency(size_t heap_free_block_number, size_t free_list_block_number) {
+static int _check_free_list_and_heap_consistency(size_t heap_free_block_number, size_t free_list_block_number) {
     if (heap_free_block_number != free_list_block_number) {
         DEBUG &&printf("堆中空闲块与空闲链表中空闲块的数量不一致\n");
         return 0;
@@ -718,7 +718,7 @@ int _check_free_list_and_heap_consistency(size_t heap_free_block_number, size_t 
     return check_result;
 }
 
-int mm_check(void) {
+static int mm_check(void) {
     // DEBUG &&printf("[mm_check]\n");
 
     int heap_free_block_number;

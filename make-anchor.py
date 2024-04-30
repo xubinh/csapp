@@ -49,7 +49,17 @@ def get_headers(content_lines: list[str]) -> tuple[list[str], list[int]]:
     """按顺序提取出所有标题行内容, 以及这些标题在原文中的行号"""
     headers = []
     header_positions = []
+    is_code_block = False
     for idx, line in enumerate(content_lines):
+        if line.startswith("```"):
+            if is_code_block:
+                is_code_block = False
+            else:
+                is_code_block = True
+            continue
+        else:
+            if is_code_block:
+                continue
         if line and line[0] == "#":
             headers.append(line)
             header_positions.append(idx)
@@ -73,7 +83,7 @@ def insert_anchors(headers: list[str]) -> tuple[list[str], list[str]]:
 
     def _get_header_info(header: str) -> tuple[int, str]:
         header_match = regex_get_header_info.fullmatch(header)
-        assert header_match, "分割标题内容失败"
+        assert header_match, "分割标题内容失败, 标题内容: " + header
         header_level = len(header_match.group(1))
         header_text = header_match.group(2)
         return header_level, header_text

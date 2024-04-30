@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# Array of trace files
 trace_files=(
     "amptjp-bal.rep"
     "cccp-bal.rep"
@@ -15,13 +14,16 @@ trace_files=(
     "realloc2-bal.rep"
 )
 
-# Loop through the array of trace files
+# 运行总测试 (提供概览):
+echo '--------------------------------'
+./mdriver -t traces/ -V
+echo ""
+echo ""
+
+# 单独运行每个测试 (提供详细信息):
 for trace_file in "${trace_files[@]}"; do
     echo '--------------------------------'
-    echo "Running test for $trace_file"
     ./mdriver -f traces/"$trace_file" -V -l
-    echo "Test completed for $trace_file"
-    echo "" # Print a blank line for better readability between tests
+    echo ""
+    echo ""
 done
-
-echo "All tests have been completed."

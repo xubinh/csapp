@@ -1,0 +1,334 @@
+--------------------------------
+Team Name:xubinh-team
+Member 1 :xubinh:xubinh@email.com
+Using default tracefiles in traces/
+Measuring performance with gettimeofday().
+
+Testing mm malloc
+Reading tracefile: amptjp-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+Reading tracefile: cccp-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+Reading tracefile: cp-decl-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+Reading tracefile: expr-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+Reading tracefile: coalescing-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+Reading tracefile: random-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+Reading tracefile: random2-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+Reading tracefile: binary-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+Reading tracefile: binary2-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+Reading tracefile: realloc-bal.rep
+Checking mm_malloc for correctness, ERROR [trace 9, line 7]: mm_realloc failed.
+Reading tracefile: realloc2-bal.rep
+Checking mm_malloc for correctness, ERROR [trace 10, line 7]: mm_realloc failed.
+
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes   97%    5694  0.000136 41960
+ 1       yes   93%    5848  0.000162 36121
+ 2       yes   98%    6648  0.000164 40661
+ 3       yes   99%    5380  0.000122 43954
+ 4       yes   98%   14400  0.000181 79690
+ 5       yes   89%    4800  0.000288 16649
+ 6       yes   86%    4800  0.000330 14568
+ 7       yes   55%   12000  0.000195 61475
+ 8       yes   51%   24000  0.000340 70630
+ 9        no     -       -         -     -
+10        no     -       -         -     -
+Total            -       -         -     -
+
+Terminated with 2 errors
+
+
+--------------------------------
+Team Name:xubinh-team
+Member 1 :xubinh:xubinh@email.com
+Measuring performance with gettimeofday().
+
+Testing libc malloc
+Reading tracefile: traces/amptjp-bal.rep
+Checking libc malloc for correctness, and performance.
+
+Results for libc malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes    0%    5694  0.000290 19628
+Total           0%    5694  0.000290 19628
+
+Testing mm malloc
+Reading tracefile: traces/amptjp-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes   97%    5694  0.000130 43901
+Total          97%    5694  0.000130 43901
+
+Perf index = 58 (util) + 40 (thru) = 98/100
+
+
+--------------------------------
+Team Name:xubinh-team
+Member 1 :xubinh:xubinh@email.com
+Measuring performance with gettimeofday().
+
+Testing libc malloc
+Reading tracefile: traces/cccp-bal.rep
+Checking libc malloc for correctness, and performance.
+
+Results for libc malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes    0%    5848  0.000235 24875
+Total           0%    5848  0.000235 24875
+
+Testing mm malloc
+Reading tracefile: traces/cccp-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes   93%    5848  0.000158 37130
+Total          93%    5848  0.000158 37130
+
+Perf index = 56 (util) + 40 (thru) = 96/100
+
+
+--------------------------------
+Team Name:xubinh-team
+Member 1 :xubinh:xubinh@email.com
+Measuring performance with gettimeofday().
+
+Testing libc malloc
+Reading tracefile: traces/cp-decl-bal.rep
+Checking libc malloc for correctness, and performance.
+
+Results for libc malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes    0%    6648  0.000758  8769
+Total           0%    6648  0.000758  8769
+
+Testing mm malloc
+Reading tracefile: traces/cp-decl-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes   98%    6648  0.000170 39037
+Total          98%    6648  0.000170 39037
+
+Perf index = 59 (util) + 40 (thru) = 99/100
+
+
+--------------------------------
+Team Name:xubinh-team
+Member 1 :xubinh:xubinh@email.com
+Measuring performance with gettimeofday().
+
+Testing libc malloc
+Reading tracefile: traces/expr-bal.rep
+Checking libc malloc for correctness, and performance.
+
+Results for libc malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes    0%    5380  0.000754  7137
+Total           0%    5380  0.000754  7137
+
+Testing mm malloc
+Reading tracefile: traces/expr-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes   99%    5380  0.000119 45401
+Total          99%    5380  0.000119 45401
+
+Perf index = 59 (util) + 40 (thru) = 99/100
+
+
+--------------------------------
+Team Name:xubinh-team
+Member 1 :xubinh:xubinh@email.com
+Measuring performance with gettimeofday().
+
+Testing libc malloc
+Reading tracefile: traces/coalescing-bal.rep
+Checking libc malloc for correctness, and performance.
+
+Results for libc malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes    0%   14400  0.000228 63130
+Total           0%   14400  0.000228 63130
+
+Testing mm malloc
+Reading tracefile: traces/coalescing-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes   98%   14400  0.000183 78517
+Total          98%   14400  0.000183 78517
+
+Perf index = 59 (util) + 40 (thru) = 99/100
+
+
+--------------------------------
+Team Name:xubinh-team
+Member 1 :xubinh:xubinh@email.com
+Measuring performance with gettimeofday().
+
+Testing libc malloc
+Reading tracefile: traces/random-bal.rep
+Checking libc malloc for correctness, and performance.
+
+Results for libc malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes    0%    4800  0.000463 10369
+Total           0%    4800  0.000463 10369
+
+Testing mm malloc
+Reading tracefile: traces/random-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes   89%    4800  0.000287 16707
+Total          89%    4800  0.000287 16707
+
+Perf index = 53 (util) + 40 (thru) = 93/100
+
+
+--------------------------------
+Team Name:xubinh-team
+Member 1 :xubinh:xubinh@email.com
+Measuring performance with gettimeofday().
+
+Testing libc malloc
+Reading tracefile: traces/random2-bal.rep
+Checking libc malloc for correctness, and performance.
+
+Results for libc malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes    0%    4800  0.000462 10394
+Total           0%    4800  0.000462 10394
+
+Testing mm malloc
+Reading tracefile: traces/random2-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes   86%    4800  0.000307 15645
+Total          86%    4800  0.000307 15645
+
+Perf index = 52 (util) + 40 (thru) = 92/100
+
+
+--------------------------------
+Team Name:xubinh-team
+Member 1 :xubinh:xubinh@email.com
+Measuring performance with gettimeofday().
+
+Testing libc malloc
+Reading tracefile: traces/binary-bal.rep
+Checking libc malloc for correctness, and performance.
+
+Results for libc malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes    0%   12000  0.000558 21494
+Total           0%   12000  0.000558 21494
+
+Testing mm malloc
+Reading tracefile: traces/binary-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes   55%   12000  0.000201 59850
+Total          55%   12000  0.000201 59850
+
+Perf index = 33 (util) + 40 (thru) = 73/100
+
+
+--------------------------------
+Team Name:xubinh-team
+Member 1 :xubinh:xubinh@email.com
+Measuring performance with gettimeofday().
+
+Testing libc malloc
+Reading tracefile: traces/binary2-bal.rep
+Checking libc malloc for correctness, and performance.
+
+Results for libc malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes    0%   24000  0.000536 44793
+Total           0%   24000  0.000536 44793
+
+Testing mm malloc
+Reading tracefile: traces/binary2-bal.rep
+Checking mm_malloc for correctness, efficiency, and performance.
+
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes   51%   24000  0.000339 70817
+Total          51%   24000  0.000339 70817
+
+Perf index = 31 (util) + 40 (thru) = 71/100
+
+
+--------------------------------
+Team Name:xubinh-team
+Member 1 :xubinh:xubinh@email.com
+Measuring performance with gettimeofday().
+
+Testing libc malloc
+Reading tracefile: traces/realloc-bal.rep
+Checking libc malloc for correctness, and performance.
+
+Results for libc malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes    0%   14401  0.000285 50494
+Total           0%   14401  0.000285 50494
+
+Testing mm malloc
+Reading tracefile: traces/realloc-bal.rep
+Checking mm_malloc for correctness, ERROR [trace 0, line 7]: mm_realloc failed.
+
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0        no     -       -         -     -
+Total            -       -         -     -
+
+Terminated with 1 errors
+
+
+--------------------------------
+Team Name:xubinh-team
+Member 1 :xubinh:xubinh@email.com
+Measuring performance with gettimeofday().
+
+Testing libc malloc
+Reading tracefile: traces/realloc2-bal.rep
+Checking libc malloc for correctness, and performance.
+
+Results for libc malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes    0%   14401  0.000123116702
+Total           0%   14401  0.000123116702
+
+Testing mm malloc
+Reading tracefile: traces/realloc2-bal.rep
+Checking mm_malloc for correctness, ERROR [trace 0, line 7]: mm_realloc failed.
+
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0        no     -       -         -     -
+Total            -       -         -     -
+
+Terminated with 1 errors
+
+
