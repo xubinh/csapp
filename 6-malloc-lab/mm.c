@@ -41,6 +41,7 @@ team_t team = {
     "",
 };
 
+// #define DEBUG ((unsigned int)1)
 #define DEBUG ((unsigned int)0)
 
 // `void *` 类型变量的大小 (假设为 4 的倍数):
@@ -176,9 +177,16 @@ static void _pick_from_free_list(void *bp) {
 static void _coalesce_current_and_next_free_block(void *bp, void *next_bp) {
     DEBUG &&printf("[_coalesce_current_and_next_free_block]\n");
 
+    // 获取当前块的大小:
     size_t total_size = GET_BLOCK_SIZE_FROM_BP(bp);
+
+    // 加上下一个块的大小得到总大小:
     total_size += GET_BLOCK_SIZE_FROM_BP(next_bp);
+
+    // 设置当前块的大小:
     SET_BLOCK_SIZE_BY_BP(bp, total_size);
+
+    // 复制头部至尾部:
     SET_FOOTER_BY_BP(bp);
 }
 
@@ -251,22 +259,29 @@ static void *_find_in_free_lists(size_t block_size) {
         DEBUG &&printf("当前等价类上界: %d\n", current_equivalence_class_upper_bound);
 
         void *head_node = GET_LINKED_LIST_POINTER_BY_INDEX(idx);
-        void *current_node = head_node;
-        void *next_node;
+        void *previous_node = head_node;
+        void *current_node;
+        size_t current_block_size;
+        void *best_node = NULL;
+        size_t best_block_size = ((size_t)0) - 1;
 
         // 不断查找下一个结点, 直至下一个结点重新回到链表或是下一个结点满足放置条件:
-        while ((next_node = GET_NEXT_LINKED_LIST_BP_FROM_BP(current_node)) != head_node
-               && GET_BLOCK_SIZE_FROM_BP(next_node) < block_size) {
-            current_node = next_node;
+        while ((current_node = GET_NEXT_LINKED_LIST_BP_FROM_BP(previous_node)) != head_node) {
+            if ((current_block_size = GET_BLOCK_SIZE_FROM_BP(current_node)) >= block_size
+                && current_block_size < best_block_size) {
+                best_block_size = current_block_size;
+                best_node = current_node;
+            }
+            previous_node = current_node;
         }
 
         // 如果下一个结点满足放置条件:
-        if (next_node != head_node) {
+        if (best_node) {
             // 将其从链表中摘下:
-            _pick_from_free_list(next_node);
+            _pick_from_free_list(best_node);
 
             // 返回该结点:
-            return next_node;
+            return best_node;
         }
     }
 
@@ -275,15 +290,29 @@ static void *_find_in_free_lists(size_t block_size) {
         DEBUG &&printf("当前等价类上界: ∞\n");
 
         void *head_node = GET_LINKED_LIST_POINTER_BY_INDEX(idx);
-        void *current_node = head_node;
-        void *next_node;
-        while ((next_node = GET_NEXT_LINKED_LIST_BP_FROM_BP(current_node)) != head_node
-               && GET_BLOCK_SIZE_FROM_BP(next_node) < block_size) {
-            current_node = next_node;
+        void *previous_node = head_node;
+        void *current_node;
+        size_t current_block_size;
+        void *best_node = NULL;
+        size_t best_block_size = ((size_t)0) - 1;
+
+        // 不断查找下一个结点, 直至下一个结点重新回到链表或是下一个结点满足放置条件:
+        while ((current_node = GET_NEXT_LINKED_LIST_BP_FROM_BP(previous_node)) != head_node) {
+            if ((current_block_size = GET_BLOCK_SIZE_FROM_BP(current_node)) >= block_size
+                && current_block_size < best_block_size) {
+                best_block_size = current_block_size;
+                best_node = current_node;
+            }
+            previous_node = current_node;
         }
-        if (next_node != head_node) {
-            _pick_from_free_list(next_node);
-            return next_node;
+
+        // 如果下一个结点满足放置条件:
+        if (best_node) {
+            // 将其从链表中摘下:
+            _pick_from_free_list(best_node);
+
+            // 返回该结点:
+            return best_node;
         }
     }
 
@@ -293,9 +322,6 @@ static void *_find_in_free_lists(size_t block_size) {
 
 static void *_extend(size_t new_free_block_size) {
     DEBUG &&printf("[_extend]\n");
-
-    // 合理性检查, 确保块大小向上对齐为 8 字节形成合法块大小:
-    new_free_block_size = ALIGN(new_free_block_size);
 
     // 新的空闲块 (从结尾块后面开始延伸堆空间, 同时在逻辑上将新结尾块移至延伸后的堆空间的末尾,
     // 旧结尾块的位置用于放置新空闲块的头部):
@@ -312,6 +338,7 @@ static void *_extend(size_t new_free_block_size) {
     // 先格式化新结尾块:
     SET_CURRENT_BLOCK_ALLOCATE_STATUS_BY_BP(new_epilogue_block_pointer); // 结尾块从不释放
     SET_BLOCK_SIZE_BY_BP(new_epilogue_block_pointer, (size_t)0);         // 结尾块长度设置为 0
+    // 结尾块的前一个块的分配状态由调用者设置.
 
     // 设置新的空闲块的大小:
     SET_BLOCK_SIZE_BY_BP(new_free_block, new_free_block_size);
@@ -885,6 +912,7 @@ void mm_free(void *p) {
     }
 
     DEBUG &&printf("\n");
+
     return;
 }
 
@@ -892,15 +920,178 @@ void mm_free(void *p) {
  * mm_realloc - <待填充>
  */
 void *mm_realloc(void *ptr, size_t size) {
-    // 分配新的块:
-    void *new_ptr = mm_malloc(size);
+    DEBUG &&printf("[mm_realloc]\n");
 
-    // 复制内容:
-    memcpy(new_ptr, ptr, size);
+    void *bp = GET_BP_FROM_P(ptr);
+    size_t block_size = GET_BLOCK_SIZE_FROM_BP(bp);
+    size_t new_block_size = GET_BLOCK_SIZE_FROM_PAYLOAD_SIZE(size);
 
-    // 释放原有块:
-    mm_free(ptr);
+    // 如果大小不变则直接返回原分配块:
+    if (new_block_size == block_size) {
+        if (DEBUG && !mm_check()) {
+            exit(1);
+        }
 
-    // 返回新的块:
+        DEBUG &&printf("\n");
+
+        return ptr;
+    }
+
+    void *new_ptr = NULL;
+
+    void *next_bp = GET_NEXT_BP_FROM_BP(bp);
+    size_t next_block_allocate_status = GET_CURRENT_BLOCK_ALLOCATE_STATUS_FROM_BP(next_bp);
+    size_t next_block_size = GET_BLOCK_SIZE_FROM_BP(next_bp);
+
+    // 需要收缩:
+    if (new_block_size < block_size) {
+        DEBUG &&printf("收缩\n");
+
+        // 下一块为已分配块:
+        if (next_block_allocate_status) {
+            // 如果剩下的内存空间长度不足以形成新的空闲块:
+            if (new_block_size + MIN_BLOCK_SIZE > block_size) {
+                // 以内部碎片的形式保留在原分配块中:
+                new_ptr = ptr;
+            }
+
+            // 否则分割:
+            else {
+                // 收缩当前块:
+                SET_BLOCK_SIZE_BY_BP(bp, new_block_size);
+
+                // 分割形成新空闲块并插入空闲链表:
+                void *new_next_bp = (void *)((char *)bp + new_block_size);
+                size_t new_next_block_size = block_size - new_block_size;
+                SET_BLOCK_SIZE_BY_BP(new_next_bp, new_next_block_size);
+                SET_PREVIOUS_BLOCK_ALLOCATE_STATUS_BY_BP(new_next_bp);
+                _format_free_block(new_next_bp);
+                _insert_to_free_lists(new_next_bp);
+
+                new_ptr = ptr;
+            }
+        }
+
+        // 下一块为空闲块:
+        else {
+            // 收缩当前块:
+            SET_BLOCK_SIZE_BY_BP(bp, new_block_size);
+
+            // 将下一块从空闲链表中摘出:
+            _pick_from_free_list(next_bp);
+
+            // 拓展空闲块形成新空闲块:
+            void *new_next_bp = (void *)((char *)bp + new_block_size);
+            size_t new_next_block_size = next_block_size + (block_size - new_block_size);
+            SET_BLOCK_SIZE_BY_BP(new_next_bp, new_next_block_size);
+            SET_PREVIOUS_BLOCK_ALLOCATE_STATUS_BY_BP(new_next_bp);
+            _format_free_block(new_next_bp);
+
+            // 重新挂回空闲链表中:
+            _insert_to_free_lists(new_next_bp);
+
+            new_ptr = ptr;
+        }
+    }
+
+    // 需要拓展:
+    else {
+        DEBUG &&printf("拓展\n");
+
+        size_t available_size;
+
+        // 下一块为已分配块, 或者下一块为空闲块但不足以容纳拓展的空间:
+        if (next_block_allocate_status || (available_size = block_size + next_block_size) < new_block_size) {
+            // 下一块虽然为已分配块但是为结尾块:
+            if (next_block_allocate_status && !next_block_size) {
+                // 直接拓展堆:
+                _extend(new_block_size - block_size);
+
+                // 延长当前块:
+                SET_BLOCK_SIZE_BY_BP(bp, new_block_size);
+
+                // 设置结尾块的前一个块的分配状态:
+                SET_PREVIOUS_BLOCK_ALLOCATE_STATUS_BY_BP(GET_NEXT_BP_FROM_BP(bp));
+
+                new_ptr = ptr;
+            }
+
+            // 下一块空闲块虽然不足以容纳拓展的空间, 但下下一块为结尾块:
+            else if (!next_block_allocate_status && !GET_BLOCK_SIZE_FROM_BP(GET_NEXT_BP_FROM_BP(next_bp))) {
+                // 将下一块从空闲链表中摘出:
+                _pick_from_free_list(next_bp);
+
+                // 直接拓展堆:
+                _extend(new_block_size - block_size - next_block_size);
+
+                // 延长当前块:
+                SET_BLOCK_SIZE_BY_BP(bp, new_block_size);
+
+                // 设置结尾块的前一个块的分配状态:
+                SET_PREVIOUS_BLOCK_ALLOCATE_STATUS_BY_BP(GET_NEXT_BP_FROM_BP(bp));
+
+                new_ptr = ptr;
+            }
+
+            // 其余情况:
+            else {
+                DEBUG &&printf("分配新的块\n");
+
+                // 分配新的块:
+                new_ptr = mm_malloc(size);
+
+                // 复制内容:
+                memcpy(new_ptr, ptr, size);
+
+                // 释放原有块:
+                mm_free(ptr);
+            }
+        }
+
+        // 下一块是空闲块并且能够容纳拓展的空间:
+        else {
+            DEBUG &&printf("拓展原有块\n");
+
+            // 将下一块从空闲链表中摘出:
+            _pick_from_free_list(next_bp);
+
+            // 如果拓展之后原空闲块剩下的空间不足以形成新的空闲块则以内部碎片的形式保留在新分配块中:
+            if (available_size - MIN_BLOCK_SIZE < new_block_size) {
+                // 拓展当前块为整个可用空间:
+                new_block_size = available_size;
+                SET_BLOCK_SIZE_BY_BP(bp, new_block_size);
+
+                // 将后一个块的 "前一个块的分配状态位" 设置为 "已分配":
+                SET_PREVIOUS_BLOCK_ALLOCATE_STATUS_BY_BP(GET_NEXT_BP_FROM_BP(bp));
+
+                new_ptr = ptr;
+            }
+
+            // 否则分割:
+            else {
+                // 拓展当前块:
+                SET_BLOCK_SIZE_BY_BP(bp, new_block_size);
+
+                // 收缩旧空闲块形成新空闲块:
+                void *new_next_bp = (void *)((char *)bp + new_block_size);
+                size_t new_next_block_size = next_block_size + (block_size - new_block_size);
+                SET_BLOCK_SIZE_BY_BP(new_next_bp, new_next_block_size);
+                SET_PREVIOUS_BLOCK_ALLOCATE_STATUS_BY_BP(new_next_bp);
+                _format_free_block(new_next_bp);
+                _insert_to_free_lists(new_next_bp);
+
+                new_ptr = ptr;
+            }
+
+            DEBUG &&printf("块大小: %d\n", new_block_size);
+        }
+    }
+
+    if (DEBUG && !mm_check()) {
+        exit(1);
+    }
+
+    DEBUG &&printf("\n");
+
     return new_ptr;
 }
