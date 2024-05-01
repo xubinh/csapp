@@ -844,8 +844,8 @@ void *mm_malloc(size_t size) {
 
     // 如果没找到则直接分配:
     if (!target_block) {
-        // 对于不超过页面大小的块, 一次性请求至少两倍大小的空间, 对于大于页面大小的块则按原样大小请求:
-        size_t allocated_block_size = block_size <= PAGE_SIZE ? (2 * block_size) : ALIGN(block_size);
+        // 对于不超过页面大小的块, 一次性请求一定倍数大小的空间, 对于大于页面大小的块则按原样大小请求:
+        size_t allocated_block_size = block_size <= PAGE_SIZE ? (5 * block_size) : ALIGN(block_size);
         target_block = _extend(allocated_block_size);
     }
 
@@ -892,5 +892,15 @@ void mm_free(void *p) {
  * mm_realloc - <待填充>
  */
 void *mm_realloc(void *ptr, size_t size) {
-    return NULL;
+    // 分配新的块:
+    void *new_ptr = mm_malloc(size);
+
+    // 复制内容:
+    memcpy(new_ptr, ptr, size);
+
+    // 释放原有块:
+    mm_free(ptr);
+
+    // 返回新的块:
+    return new_ptr;
 }
