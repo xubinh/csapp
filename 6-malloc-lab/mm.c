@@ -871,8 +871,8 @@ void *mm_malloc(size_t size) {
 
     // 如果没找到则直接分配:
     if (!target_block) {
-        // 对于不超过页面大小的块, 一次性请求一定倍数大小的空间, 对于大于页面大小的块则按原样大小请求:
-        size_t allocated_block_size = block_size <= PAGE_SIZE ? (5 * block_size) : ALIGN(block_size);
+        // 对于小于页面大小的块, 一次性请求一定倍数大小的空间, 对于不低于页面大小的块则按原样大小请求:
+        size_t allocated_block_size = block_size < PAGE_SIZE ? (5 * block_size) : ALIGN(block_size);
         target_block = _extend(allocated_block_size);
     }
 
@@ -928,6 +928,8 @@ void *mm_realloc(void *ptr, size_t size) {
 
     // 如果大小不变则直接返回原分配块:
     if (new_block_size == block_size) {
+        DEBUG &&printf("大小不变\n");
+
         if (DEBUG && !mm_check()) {
             exit(1);
         }
@@ -1004,6 +1006,8 @@ void *mm_realloc(void *ptr, size_t size) {
         if (next_block_allocate_status || (available_size = block_size + next_block_size) < new_block_size) {
             // 下一块虽然为已分配块但是为结尾块:
             if (next_block_allocate_status && !next_block_size) {
+                DEBUG &&printf("下一块虽然为已分配块但是为结尾块\n");
+
                 // 直接拓展堆:
                 _extend(new_block_size - block_size);
 
@@ -1018,11 +1022,13 @@ void *mm_realloc(void *ptr, size_t size) {
 
             // 下一块空闲块虽然不足以容纳拓展的空间, 但下下一块为结尾块:
             else if (!next_block_allocate_status && !GET_BLOCK_SIZE_FROM_BP(GET_NEXT_BP_FROM_BP(next_bp))) {
+                DEBUG &&printf("下一块空闲块虽然不足以容纳拓展的空间, 但下下一块为结尾块\n");
+
                 // 将下一块从空闲链表中摘出:
                 _pick_from_free_list(next_bp);
 
                 // 直接拓展堆:
-                _extend(new_block_size - block_size - next_block_size);
+                _extend(new_block_size - available_size);
 
                 // 延长当前块:
                 SET_BLOCK_SIZE_BY_BP(bp, new_block_size);
