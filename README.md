@@ -145,23 +145,51 @@
     - <a href="#6.2.5.4">用于自动化测试的脚本</a>
 - <a href="#6.3">实验思路与总结</a>
   - <a href="#6.3.1">最终得分</a>
-  - <a href="#6.3.2">实现 `mm_malloc` 和 `mm_free`</a>
-  - <a href="#6.3.3">DEBUG</a>
-    - <a href="#6.3.3.1">`mm_free` 中忘记接住合并函数 `_coalesce` 的返回值</a>
-    - <a href="#6.3.3.2">放置函数 `_place` 中对不分割的情况的处理存在错误</a>
-    - <a href="#6.3.3.3">忘记在检查程序 `mm_check` 中释放内存</a>
-  - <a href="#6.3.4">优化 `mm_malloc` 和 `mm_free`</a>
-    - <a href="#6.3.4.1">测试样例 `binary-bal.rep` 和 `binary2-bal.rep` 的内存利用率过低</a>
-  - <a href="#6.3.5">实现 `mm_realloc`</a>
-  - <a href="#6.3.6">优化 `mm_realloc`</a>
+  - <a href="#6.3.2">定义</a>
+  - <a href="#6.3.3">实现 `mm_init`, `mm_malloc` 和 `mm_free`</a>
+  - <a href="#6.3.4">实现 `mm_check`</a>
+  - <a href="#6.3.5">DEBUG</a>
+    - <a href="#6.3.5.1">`mm_free` 中忘记接住合并函数 `_coalesce` 的返回值</a>
+    - <a href="#6.3.5.2">放置函数 `_place` 中对不分割的情况的处理存在错误</a>
+    - <a href="#6.3.5.3">忘记在检查程序 `mm_check` 中释放内存</a>
+  - <a href="#6.3.6">优化 `mm_malloc` 和 `mm_free`</a>
+    - <a href="#6.3.6.1">测试样例 `binary-bal.rep` 和 `binary2-bal.rep` 的内存利用率过低</a>
+  - <a href="#6.3.7">实现 `mm_realloc`</a>
+  - <a href="#6.3.8">优化 `mm_realloc`</a>
 - <a href="#6.4">相关资料</a>
 
 </details>
-<details><summary><a href="#7">GDB 入门</a></summary>
+<details><summary><a href="#7">7. Proxy Lab</a></summary>
+
+- <a href="#7.1">实验目的</a>
+- <a href="#7.2">实验框架</a>
+  - <a href="#7.2.1">`csapp.h` - 帮手库头文件</a>
+  - <a href="#7.2.2">`csapp.c` - 帮手库</a>
+  - <a href="#7.2.3">`proxy.c` - 要实现的代理服务器的源文件</a>
+  - <a href="#7.2.4">`Makefile`</a>
+  - <a href="#7.2.5">`port-for-user.pl` - 随机生成端口号</a>
+  - <a href="#7.2.6">`free-port.sh` - 探测并返回一个可用的端口号</a>
+  - <a href="#7.2.7">`driver.sh` - 评分工具</a>
+  - <a href="#7.2.8">`nop-server.py` - 评分工具帮手脚本</a>
+  - <a href="#7.2.9">`tiny/` - CS:APP 官方实现的 TINY 服务器</a>
+  - <a href="#7.2.10">其他</a>
+- <a href="#7.3">实验思路与总结</a>
+  - <a href="#7.3.1">Cheat Sheet</a>
+    - <a href="#7.3.1.1">Unix I/O</a>
+    - <a href="#7.3.1.2">标准 I/O</a>
+    - <a href="#7.3.1.3">CS:APP 所实现的 RIO</a>
+    - <a href="#7.3.1.4">网络</a>
+    - <a href="#7.3.1.5">I/O 多路复用</a>
+    - <a href="#7.3.1.6">Posix 线程 Pthreads</a>
+    - <a href="#7.3.1.7">Posix 信号量</a>
+- <a href="#7.4">相关资料</a>
+
 </details>
-<details><summary><a href="#8">make 入门</a></summary>
+<details><summary><a href="#8">GDB 入门</a></summary>
 </details>
-<details><summary><a href="#9">待办</a></summary>
+<details><summary><a href="#9">make 入门</a></summary>
+</details>
+<details><summary><a href="#10">待办</a></summary>
 </details>
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
@@ -1525,7 +1553,7 @@ Perf index = 57 (util) + 40 (thru) = 97/100
 
 总分为 20 (正确性得分) + 35 * 0.97 (性能得分) + 5 (实现 checker 得分) + 5 (注释得分).
 
-#### 定义
+#### <a id="6.3.2"></a>定义
 
 - 假设**页大小**为 2 的幂.
 - 假设**堆空间的起始地址**为 8 的倍数.
@@ -1547,7 +1575,7 @@ Perf index = 57 (util) + 40 (thru) = 97/100
   - 若没有找到合适的块则转向下一个等价类;
   - 若没有在任何链表中找到合适的块则向系统请求内存空间.
 
-#### <a id="6.3.2"></a>实现 `mm_init`, `mm_malloc` 和 `mm_free`
+#### <a id="6.3.3"></a>实现 `mm_init`, `mm_malloc` 和 `mm_free`
 
 函数 `mm_init` 的执行逻辑:
 
@@ -1626,7 +1654,7 @@ Perf index = 57 (util) + 40 (thru) = 97/100
     - 调用函数 `void _coalesce_current_and_next_free_block(void *bp, void *next_bp)`
 - 返回合并得到的大空闲块.
 
-#### 实现 `mm_check`
+#### <a id="6.3.4"></a>实现 `mm_check`
 
 函数 `mm_check` 的执行逻辑:
 
@@ -1662,9 +1690,9 @@ Perf index = 57 (util) + 40 (thru) = 97/100
 - 对两个地址数组进行排序;
 - 检查两个集合是否一致, 若一致则返回零, 否则返回非零值.
 
-#### <a id="6.3.3"></a>DEBUG
+#### <a id="6.3.5"></a>DEBUG
 
-##### <a id="6.3.3.1"></a>`mm_free` 中忘记接住合并函数 `_coalesce` 的返回值
+##### <a id="6.3.5.1"></a>`mm_free` 中忘记接住合并函数 `_coalesce` 的返回值
 
 在出错的最后一次释放操作之前的空闲链表情况如下 (方括号代表即将从链表中摘出并参与合并的前后两个空闲块):
 
@@ -1721,7 +1749,7 @@ bp = _coalesce(bp);
 
 消除了 BUG.
 
-##### <a id="6.3.3.2"></a>放置函数 `_place` 中对不分割的情况的处理存在错误
+##### <a id="6.3.5.2"></a>放置函数 `_place` 中对不分割的情况的处理存在错误
 
 最后一次 (函数 `mm_malloc` 中的) 放置函数的运行情况如下:
 
@@ -1750,13 +1778,13 @@ Segmentation fault
 
 最后在程序中稍加修改消除了 BUG.
 
-##### <a id="6.3.3.3"></a>忘记在检查程序 `mm_check` 中释放内存
+##### <a id="6.3.5.3"></a>忘记在检查程序 `mm_check` 中释放内存
 
 之所以能够发现这个 BUG 是因为程序 `./mdriver` 在指定使用所有 trace 文件并且运行了非常久之后报了段错误, 而单拎出来运行一个 trace 文件则一切正常, 并且还有个异常现象, 那就是吞吐量巨低. 运行时间久说明必然是 `printf` 或者 `mm_check` 忘记关闭了, 单拎出来运行一个 trace 文件一切正常说明程序本身是没有问题的, 而最后依然报了段错误那就只能是内存泄漏了. 经过检查发现是函数 `mm_check` 中在检查堆中的空闲块集合与链表中的空闲块集合的一致性时使用 `malloc` 动态请求了内存但忘了在检查完成之后释放.
 
-#### <a id="6.3.4"></a>优化 `mm_malloc` 和 `mm_free`
+#### <a id="6.3.6"></a>优化 `mm_malloc` 和 `mm_free`
 
-##### <a id="6.3.4.1"></a>测试样例 `binary-bal.rep` 和 `binary2-bal.rep` 的内存利用率过低
+##### <a id="6.3.6.1"></a>测试样例 `binary-bal.rep` 和 `binary2-bal.rep` 的内存利用率过低
 
 测试时发现其他的都挺好, 就这两个测试样例 `binary-bal.rep` 和 `binary2-bal.rep` 的内存利用率非常低, 仅为 55% 左右.
 
@@ -1806,7 +1834,7 @@ void *mm_malloc(size_t size) {
 
 最终选择将超参设置为 5.
 
-#### <a id="6.3.5"></a>实现 `mm_realloc`
+#### <a id="6.3.7"></a>实现 `mm_realloc`
 
 实现 `mm_realloc` 的初始方案是直接调用 `mm_alloc` 和 `mm_free`, 代码如下:
 
@@ -1847,7 +1875,7 @@ void *mm_realloc(void *ptr, size_t size) {
       - 以内部碎片的形式保留在新分配块中.
     - 否则分割.
 
-#### <a id="6.3.6"></a>优化 `mm_realloc`
+#### <a id="6.3.8"></a>优化 `mm_realloc`
 
 实现之后发现两个测试用例的结果还是改进前一样糟糕. 观察发现分配器在 `realloc-bal.rep` 的请求模式下会在结尾块之前维护一个不断 realloc 的块, 每当这个块拓展到结尾块时便会触发一次重分配以及数据迁移, 但显然此时完全可以直接通过分配空间来原地拓展 (因为结尾块同一般已分配块不一样, 并非不可移动的). 解决办法是额外添加针对恰好位于结尾块之前的块的重分配机制. 除了添加该机制以外, 这一版本为了尝试提高内存利用率还将放置策略从首次适配更改为最佳适配. 更改后的函数 `mm_realloc` 的执行策略:
 
@@ -1900,7 +1928,301 @@ void *mm_realloc(void *ptr, size_t size) {
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-## <a id="7"></a>GDB 入门
+## <a id="7"></a>7. Proxy Lab
+
+### <a id="7.1"></a>实验目的
+
+实现一个简单的代理服务器 (proxy), 使其能够并发处理来自客户端的请求并且能够缓存 (cache) 所请求的对象.
+
+### <a id="7.2"></a>实验框架
+
+#### <a id="7.2.1"></a>`csapp.h` - 帮手库头文件
+
+#### <a id="7.2.2"></a>`csapp.c` - 帮手库
+
+#### <a id="7.2.3"></a>`proxy.c` - 要实现的代理服务器的源文件
+
+一个代理服务器的功能:
+
+- 用于防火墙, 防止内部客户端访问不允许的网站.
+- 用作匿名器, 剔除客户端请求中的任何可识别信息, 代替客户端向服务器请求数据.
+- 缓存客户端近期已请求过的对象, 提高请求速率.
+
+本实验要求实现一个拥有缓存功能的 HTTP 代理服务器, 整个实验一共分为三个循序渐进的阶段:
+
+1. 实现一个顺序 (sequential) 处理请求的代理服务器;
+2. 添加并行机制, 并行化代理服务器;
+3. 添加缓存机制.
+
+第一个阶段需要实现一个顺序处理请求的代理服务器. 具体细节:
+
+- 通过命令行指定代理服务器将要监听的端口.
+- 启动代理服务器之后, 代理服务器应监听来自客户端的请求, 读取整个请求的内容, 解析请求内容, 并代替客户端向目标服务器建立连接. 最后代理服务器负责接收来自目标服务器的响应内容并将其转发回客户端.
+- 假设客户端的请求行的内容为
+  
+  ```text
+  GET http://www.cmu.edu/hub/index.html HTTP/1.1
+  ```
+
+  代理服务器应爬取域名 `www.cmu.edu` 和所请求的对象路径以及可选参数 (本例没有参数) `/hub/index.html`, 然后向服务器发送如下请求:
+
+  ```text
+  GET /hub/index.html HTTP/1.0
+  ```
+
+- HTTP 请求中的每一行都以 `\r\n` 结尾, 并且以一个空行结束整个请求.
+- 代理服务器只需实现 HTTP/1.0 GET 方法, 但是需要能够正确**解析**来自客户端的 HTTP/1.0 和 HTTP/1.1 GET 请求. 代理服务器需要负责解析来自客户端的所有版本的 HTTP 协议的请求, 并统一向服务器发送 HTTP 1.0 版本的请求.
+- 代理服务器的请求解析器不需要处理跨越多行的请求字段, 除此之外的其他场景下解析器应该都非常鲁棒.
+- 代理服务器不应由于请求不合法这样的简单错误而提前终止. 
+- 代理服务器应该总是在请求头中添加 `Host` 字段. 不过如果客户端已经在请求头中添加了该字段, 代理服务器就不需要再添加了.
+- 代理服务器可以在请求头中添加如下的 `User-Agent` 字段:
+  
+  ```text
+  User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:10.0.3) Gecko/20120305 Firefox/10.0.3
+  ```
+
+- 代理服务器应该总是在请求头中添加固定的 `Connection: close` 字段.
+- 代理服务器应该总是在请求头中添加固定的 `Proxy-Connection: close` 字段.
+- 对于客户端在请求头中添加的其他任何字段, 代理服务器都应该原样转发给目标服务器.
+- 代理服务器应能够正确解析 HTTP 请求行中的可选端口号, 例如 `http://www.cmu.edu:8080/hub/index.html` 中的 `8080`, 并在此后向该端口 (而不是默认端口) 发起连接.
+- 代理服务器需要正确处理 `write` 函数, `SIGPIPE` 信号, 以及 `EPIPE` 错误, 具体参考教材 11.6 节末的 Aside 部分.
+- 代理服务器需要正确处理客户端提前关闭连接时 `read` 函数报 `ECONNRESET` 错误的问题.
+- 代理服务器需要正确处理不同的内容类型 (文本内容如 HTML, 二进制内容如图像或视频).
+
+第二个阶段需要添加并行机制, 并行化代理服务器. 具体细节:
+
+- 可选的实现方案包括实时创建线程和使用线程池等等.
+- 创建的线程应立即 detach, 减少内存泄露风险.
+- 可以在线程中安全地使用 `open clientfd` 函数和 `open listenfd` 函数, 因为这两个函数是基于 `getaddrinfo` 函数的, 因此是线程安全的.
+
+第三个阶段需要添加缓存机制. 具体细节:
+
+- **缓存**指的是代理服务器将来自目标服务器的内容转发回客户端时应同时在内存中保留该内容的一个副本. 这样如果之后来自某个客户端的某个请求要求相同的内容, 那么代理服务器可以直接发送该副本而不用再次向目标服务器请求内容.
+- 由于缓存不可能无限大, 并且所请求的内容的大小也无法预知, 缓存需要同时设置一个最大容量 `MAX_CACHE_SIZE` 和一个最大内容大小 `MAX_OBJECT_SIZE`. 每个内容的大小不应超过最大内容大小, 而全部内容加起来不应该超过最大缓存容量大小.
+- 缓存的驱逐 (eviction) 策略可以近似于 LRU, 但没必要严格按照 LRU 策略来实现, 因为缓存还需要处理并发问题.
+- 缓存的并发读写问题是一个经典的读者-写者问题, 解决方案可以是对缓存进行分块, 使用现成的 Pthreads 读者-写者锁, 以及使用信号量来实现一个自定义方案等等.
+
+#### <a id="7.2.4"></a>`Makefile`
+
+构建项目.
+
+#### <a id="7.2.5"></a>`port-for-user.pl` - 随机生成端口号
+
+脚本 `port-for-user.pl` 使用哈希函数为用户名生成 (重复的概率很小但不为零) 随机端口号.
+
+#### <a id="7.2.6"></a>`free-port.sh` - 探测并返回一个可用的端口号
+
+脚本 `free-port.sh` 探测并返回一个可用的 TCP 端口号.
+
+#### <a id="7.2.7"></a>`driver.sh` - 评分工具
+
+脚本 `driver.sh` 用于对代理服务器实现进行自动评分, 使用方法:
+
+```text
+./driver.sh
+```
+
+最终评分针对实验的三个阶段分别进行评分, 评分标准:
+
+- Basic Correctness (阶段一): 40 分.
+- Concurrency (阶段二): 15 分.
+- Cache (阶段三): 15 分.
+
+#### <a id="7.2.8"></a>`nop-server.py` - 评分工具帮手脚本
+
+#### <a id="7.2.9"></a>`tiny/` - CS:APP 官方实现的 TINY 服务器
+
+#### <a id="7.2.10"></a>其他
+
+- 关于调试, 本实验并没有提供任何测试用例或是测试程序. 为了能够进行调试需要构建自己的测试用例框架 (testing harness). 可选的调试工具有:
+  - CS:APP 官方实现的 TINY 服务器. 实际上 TINY 服务器本就用于在最终评分过程中充当目标服务器的角色.
+  - Linux 程序 `telnet`. 如教材 11.5.3 小节中所示, `telnet` 可被用于与代理服务器建立 TCP 连接并向其发送 HTTP 请求.
+  - Linux 程序 `curl`. 使用 `curl` 可以通过显式指定代理服务器来发送请求, 例如:
+    
+    ```text
+    curl -v --proxy http://localhost:15214 http://localhost:15213/home.html
+    ```
+  
+  - Linux 程序 `netcat` (或等价的 `nc`). `nc` 不仅可用于建立与服务器的连接并手动发送 HTTP 请求, 例如 `nc catshark.ics.cs.cmu.edu 12345` 将连接至服务器 `catshark.ics.cs.cmu.edu` 的 `12345` 端口, 也可以用于充当一个目标服务器来探查代理服务器的请求内容, 例如 `nc -l 12345` 将在本机建立一个服务器并监听 `12345` 端口. 代理服务器可以向 `nc` 请求任意伪对象, 而 `nc` 将能够探查代理服务器的请求内容.
+  - 现代浏览器 (Google Chrome, Mozilla Firefox 等等). 有两个点要注意, 一个是需要在浏览器的设置中配置好代理服务器, 另一个是如果要测试代理服务器的缓存功能, 需要先关闭浏览器本身自带的缓存功能.
+- 使用 `csapp.c` 中提供的 RIO 函数进行套接字 I/O.
+- `csapp.c` 中的错误处理函数在检测到错误之后会立即关闭整个进程, 不适合用于代理服务器这样的长时间运行的程序. 可以选择修改或重写新的错误处理函数.
+- 本实验允许对 handout 目录进行任意修改. 例如为了模块化可以将缓存实现在文件 `cache.c` 和对应的头文件 `cache.h` 中 (记得同时修改 `Makefile` 文件).
+- 不论是关于程序错误, 关于任何不合法或可疑的输入, 还是关于段错误和内存/文件描述符泄露, 代理服务器都应该非常鲁棒.
+- 关于 HTTP/1.0 请求的规范, 具体参考 [RFC 1945](https://datatracker.ietf.org/doc/html/rfc1945)
+
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
+
+### <a id="7.3"></a>实验思路与总结
+
+#### <a id="7.3.1"></a>Cheat Sheet
+
+##### <a id="7.3.1.1"></a>Unix I/O
+
+头文件:
+
+1. `<sys/types.h>`
+2. `<sys/stat.h>`
+3. `<fcntl.h>`
+4. `<unistd.h>`
+5. `<dirent.h>`
+
+I/O 函数:
+
+- 打开或创建文件: `int open(char *filename, int flags, mode_t mode)` [1,2,3]
+- 设置文件的默认权限禁用位: `mode_t umask(mode_t cmask);` [2]
+- 关闭文件描述符: `int close(int fd);` [4]
+- 读文件: `ssize_t read(int fd, void *buf, size_t n);` [4]
+- 写文件: `ssize_t write(int fd, const void *buf, size_t n);` [4]
+- 重新设置文件描述符的位置: `off_t lseek(int fildes, off_t offset, int whence);` [4]
+
+获取文件元数据:
+
+- 使用文件名检索: `int stat(const char *filename, struct stat *buf);` [2,4]
+- 使用文件描述符检索: `int fstat(int fd, struct stat *buf);` [2,4]
+
+获取目录内容:
+
+- 打开目录流: `DIR *opendir(const char *name);` [1,5]
+- 遍历目录流: `struct dirent *readdir(DIR *dirp)` [5]
+- 关闭目录流: `int closedir(DIR *dirp);` [5]
+
+I/O 重定向:
+
+- 复制文件描述符: `int dup2(int oldfd, int newfd);` [4]
+
+##### <a id="7.3.1.2"></a>标准 I/O
+
+头文件: `<stdio.h>`
+
+I/O 函数:
+
+- 根据文件名打开文件 (返回文件流): `FILE *fopen(const char *restrict filename, const char *restrict mode);`
+- 根据文件描述符打开文件 (返回文件流): `FILE *fdopen(int fildes, const char *mode);`
+- 关闭文件流: `int fclose(FILE *stream);`
+- 读文件: `size_t fread(void *restrict ptr, size_t size, size_t nitems, FILE *restrict stream);`
+- 写文件: `size_t fwrite(const void *restrict ptr, size_t size, size_t nitems, FILE *restrict stream);`
+- 读文本行: `char *fgets(char *restrict s, int n, FILE *restrict stream);`
+- 写文本行: `int fputs(const char *restrict s, FILE *restrict stream);`
+- 格式化输入 (从文件流): `int fscanf(FILE *restrict stream, const char *restrict format, ... );`
+- 格式化输入 (从标准输入): `int scanf(const char *restrict format, ... );`
+- 格式化输入 (从字符串): `int sscanf(const char *restrict s, const char *restrict format, ... );`
+- 格式化输出 (至文件流): `int fprintf(FILE *restrict stream, const char *restrict format, ...);`
+- 格式化输出 (至标准输出): `int printf(const char *restrict format, ...);`
+- 格式化输出 (至字符串): `int sprintf(char *restrict s, const char *restrict format, ...);`
+- 清空缓冲区: `int fflush(FILE *stream);`
+- 设置文件读写偏移: `int fseek(FILE *stream, long offset, int whence);`
+
+##### <a id="7.3.1.3"></a>CS:APP 所实现的 RIO
+
+内部缓冲区类型定义:
+
+```c
+#define RIO_BUFSIZE 8192
+typedef struct {
+    int rio_fd;                // 文件描述符
+    int rio_cnt;               // 当前内部缓冲区中的数据大小
+    char *rio_bufptr;          // 当前内部缓冲区的读/写位置
+    char rio_buf[RIO_BUFSIZE]; // 内部缓冲区
+} rio_t;
+```
+
+无缓冲 I/O 函数:
+
+- 无缓冲读: `ssize_t rio_readn(int file_descriptor, void *user_buffer, size_t total_bytes_number)`
+- 无缓冲写: `ssize_t rio_writen(int file_descriptor, void *user_buffer, size_t total_bytes_number)`
+
+带缓冲 I/O 函数:
+
+- 初始化缓冲区, 关联文件描述符: `void rio_readinitb(rio_t *rp, int fd)`
+- Unix I/O `read` 函数的带缓冲版本: `static ssize_t rio_read(rio_t *rp, char *usrbuf, size_t n)`
+- 带缓冲读: `ssize_t rio_readnb(rio_t *rp, void *user_buffer, size_t total_bytes_number)`
+- 带缓冲读 (文本行): `ssize_t rio_readlineb(rio_t *rp, void *user_buffer, size_t max_line_length)`
+
+##### <a id="7.3.1.4"></a>网络
+
+头文件:
+
+1. `<arpa/inet.h>`
+2. `<sys/types.h>`
+3. `<sys/socket.h>`
+4. `<netdb.h>`
+
+网络字节序转换:
+
+- 主机至网络 (long): `uint32_t htonl(uint32_t hostlong);` [1]
+- 主机至网络 (short): `uint16_t htons(uint16_t hostshort);` [1]
+- 网络至主机 (long): `uint32_t ntohl(uint32_t netlong);` [1]
+- 网络至主机 (short): `uint16_t ntohs(uint16_t netshort);` [1]
+
+IP 的整数形式与点分十进制字符串形式之间的转换:
+
+- 字符串至整数: `int inet_pton(AF_INET, const char *src, void *dst);` [1]
+- 整数至字符串: `const char *inet_ntop(AF_INET, const void *src, char *dst, socklen_t size);` [1]
+
+套接字接口:
+
+- 创建套接字描述符: `int socket(int domain, int type, int protocol);` [2,3]
+- 客户端连接服务器: `int connect(int client_sockfd, const struct sockaddr *addr, socklen_t addrlen);` [3]
+- 服务器将套接字描述符与套接字地址相关联: `int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);` [3]
+- 服务器将主动套接字描述符转换为监听套接字描述符: `int listen(int sockfd, int backlog);` [3]
+- 服务器接受连接: `int accept(int listenfd, struct sockaddr *addr, int *addrlen);` [3]
+- 给定主机与服务, 查询套接字地址结构: `int getaddrinfo(const char *host, const char *service, const struct addrinfo *hints, struct addrinfo **result);` [2,3,4]
+- 释放查询到的服务所占用的内存: `void freeaddrinfo(struct addrinfo *result);` [2,3,4]
+- 将调用函数 `getaddrinfo` 报错所产生的错误代码转换为字符串: `const char *gai_strerror(int errcode);` [2,3,4]
+- 给定套接字地址结构, 返回主机与服务信息: `int getnameinfo(const struct sockaddr *sa, socklen_t salen, char *host, size_t hostlen, char *service, size_t servlen, int flags);` [3,4]
+
+CS:APP 官方提供的包装函数:
+
+- 客户端主动建立连接: `int open_clientfd(char *hostname, char *port)`
+- 服务器创建监听描述符: `int open_listenfd(char *port)`
+
+##### <a id="7.3.1.5"></a>I/O 多路复用
+
+头文件: `<sys/select.h>`
+
+函数:
+
+- 统一监听一组描述符的状态: `int select(int n, fd_set *fdset, NULL, NULL, NULL);`
+
+配套的宏:
+
+- `FD_ZER0(fd_set *fdset);`
+- `FD_CLR(int fd, fd set *fdset);`
+- `FD_SET(int fd, fd set *fdset);`
+- `FD_ISSET(int fd, fd set *fdset);`
+
+##### <a id="7.3.1.6"></a>Posix 线程 Pthreads
+
+头文件: `<pthread.h>`
+
+函数:
+
+- 创建线程: `int pthread_create(pthread t *tid, pthread_attr_t *attr, func *f, void *arg);`
+- 返回当前线程自身的 TID: `pthread_t pthread_self(void);`
+- 当前进程主动终止自身: `void pthread_exit(void *thread_return);`
+- 取消任意线程: `int pthread_cancel(pthread_t tid);`
+- 回收任意线程: `int pthread_join(pthread_t tid, void **thread_return);`
+- 当前线程分离自身: `int pthread_detach(pthread_t tid);`
+- 首个线程执行初始化: `int pthread_once(pthread_once_t *once_control, void (*init_routine)(void));`
+
+##### <a id="7.3.1.7"></a>Posix 信号量
+
+头文件: `<semaphore.h>`
+
+函数:
+
+- 初始化信号量: `int sem_init(sem_t *sem, 0, unsigned int value)`
+- P 操作: `int sem_wait(sem_t *s);`
+- V 操作: `int sem_post(sem_t *s);`
+
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
+
+### <a id="7.4"></a>相关资料
+
+- HTTP/1.0 规范: [RFC 1945](https://datatracker.ietf.org/doc/html/rfc1945).
+
+## <a id="8"></a>GDB 入门
 
 **进入 gdb 环境**:
 
@@ -1987,9 +2309,9 @@ void *mm_realloc(void *ptr, size_t size) {
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-## <a id="8"></a>make 入门
+## <a id="9"></a>make 入门
 
-## <a id="9"></a>待办
+## <a id="10"></a>待办
 
 - [x] 添加 gdb 入门小节
 - [ ] 添加 make 入门小节
