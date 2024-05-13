@@ -2076,6 +2076,276 @@ void *mm_realloc(void *ptr, size_t size) {
 
 #### <a id="7.3.3"></a>实现
 
+##### HTTP 解析器
+
+HTTP 请求的定义:
+
+- 一个 HTTP 请求要么为简单请求, 要么为完整请求. HTTP 请求的定义:
+
+  ```text
+       Request        = Simple-Request | Full-Request
+  ```
+
+- 完整请求的定义:
+
+  ```text
+       Full-Request   = Request-Line
+                        *( General-Header
+                         | Request-Header
+                         | Entity-Header )
+                        CRLF
+                        [ Entity-Body ]
+  ```
+
+  - 本实验不需要处理 Simple-Request.
+
+- 请求行的定义:
+
+  ```text
+       Request-Line = Method SP Request-URI SP HTTP-Version CRLF
+  ```
+
+- 方法的定义:
+
+  ```text
+       Method         = "GET"
+                      | "HEAD"
+                      | "POST"
+                      | extension-method
+
+       extension-method = token
+  ```
+
+  - `token` 的定义见[RFC1945#2.2](https://datatracker.ietf.org/doc/html/rfc1945#section-2.2).
+
+- 请求 URL 的定义:
+
+  ```text
+       Request-URI    = absoluteURI | abs_path
+  ```
+
+  - `absoluteURI` 的定义见[RFC1945#3.2.1](https://datatracker.ietf.org/doc/html/rfc1945#section-3.2.1).
+  - `abs_path` 的定义见[RFC1945#3.2.1](https://datatracker.ietf.org/doc/html/rfc1945#section-3.2.1).
+  - 文档中指出绝对 URI `absoluteURI` 只能被用于请求代理服务器, 而绝对路径 `abs_path` 则需要在与目标服务器建立连接的前提下使用.
+  - 包含绝对 URI 的请求行例子:
+
+    ```text
+    GET http://www.w3.org/pub/WWW/TheProject.html HTTP/1.0
+    ```
+
+    对应的绝对路径的请求行的例子:
+
+    ```text
+    GET /pub/WWW/TheProject.html HTTP/1.0
+    ```
+
+- HTTP 中的 URI (即 `absoluteURI`) 的定义:
+
+  [RFC 1945](https://datatracker.ietf.org/doc/html/rfc1945#section-3.2.2):
+
+  ```text
+       http_URL       = "http:" "//" host [ ":" port ] [ abs_path ]
+
+       host           = <A legal Internet host domain name
+                         or IP address (in dotted-decimal form),
+                         as defined by Section 2.1 of RFC 1123>
+
+       port           = *DIGIT
+
+   If the port is empty or not given, port 80 is assumed. The semantics
+   are that the identified resource is located at the server listening
+   for TCP connections on that port of that host, and the Request-URI
+   for the resource is abs_path. If the abs_path is not present in the
+   URL, it must be given as "/" when used as a Request-URI (Section
+   5.1.2).
+
+      Note: Although the HTTP protocol is independent of the transport
+      layer protocol, the http URL only identifies resources by their
+      TCP location, and thus non-TCP resources must be identified by
+      some other URI scheme.
+
+   The canonical form for "http" URLs is obtained by converting any
+   UPALPHA characters in host to their LOALPHA equivalent (hostnames are
+   case-insensitive), eliding the [ ":" port ] if the port is 80, and
+   replacing an empty abs_path with "/".
+  ```
+
+  [RFC 1738](https://datatracker.ietf.org/doc/html/rfc1738#section-3.3):
+
+  ```text
+   An HTTP URL takes the form:
+
+      http://<host>:<port>/<path>?<searchpart>
+
+   where <host> and <port> are as described in Section 3.1. If :<port>
+   is omitted, the port defaults to 80.  No user name or password is
+   allowed.  <path> is an HTTP selector, and <searchpart> is a query
+   string. The <path> is optional, as is the <searchpart> and its
+   preceding "?". If neither <path> nor <searchpart> is present, the "/"
+   may also be omitted.
+
+   Within the <path> and <searchpart> components, "/", ";", "?" are
+   reserved.  The "/" character may be used within HTTP to designate a
+   hierarchical structure.
+  ```
+
+  - 请求 URI 要么是以 `http` 开头的绝对 URI 形式, 要么是以斜杠 `/` 开头的绝对路径形式. 如果是绝对 URI 形式, 那么其后的路径和查询字符串均可省略. 在路径和查询字符串都省略的情况下根目录 `/` 也可以省略.
+  - HTTP URL 的标准形式中的域名部分 `host` 总是小写的 (域名是大小写不敏感的), 如果给定的端口号为 80 则可以省略端口号部分, 最后在 HTTP 请求的场景下若 `abs_path` 部分为空则必须将其设置为默认的 `/`.
+
+- host 的定义:
+
+  [RFC 952](https://datatracker.ietf.org/doc/html/rfc952):
+
+  ```text
+   1. A "name" (Net, Host, Gateway, or Domain name) is a text string up
+   to 24 characters drawn from the alphabet (A-Z), digits (0-9), minus
+   sign (-), and period (.).  Note that periods are only allowed when
+   they serve to delimit components of "domain style names". (See
+   RFC-921, "Domain Name System Implementation Schedule", for
+   background).  No blank or space characters are permitted as part of a
+   name. No distinction is made between upper and lower case.  The first
+   character must be an alpha character.  The last character must not be
+   a minus sign or period.  A host which serves as a GATEWAY should have
+   "-GATEWAY" or "-GW" as part of its name.  Hosts which do not serve as
+   Internet gateways should not use "-GATEWAY" and "-GW" as part of
+   their names. A host which is a TAC should have "-TAC" as the last
+   part of its host name, if it is a DoD host.  Single character names
+   or nicknames are not allowed.
+
+   2. Internet Addresses are 32-bit addresses [See RFC-796].  In the
+   host table described herein each address is represented by four
+   decimal numbers separated by a period.  Each decimal number
+   represents 1 octet.
+  ```
+
+  [RFC 1123](https://datatracker.ietf.org/doc/html/rfc1123#page-13):
+
+  ```text
+   2.1  Host Names and Numbers
+
+      The syntax of a legal Internet host name was specified in RFC-952
+      [DNS:4].  One aspect of host name syntax is hereby changed: the
+      restriction on the first character is relaxed to allow either a
+      letter or a digit.  Host software MUST support this more liberal
+      syntax.
+
+      Host software MUST handle host names of up to 63 characters and
+      SHOULD handle host names of up to 255 characters.
+
+      Whenever a user inputs the identity of an Internet host, it SHOULD
+      be possible to enter either (1) a host domain name or (2) an IP
+      address in dotted-decimal ("#.#.#.#") form.  The host SHOULD check
+      the string syntactically for a dotted-decimal number before
+      looking it up in the Domain Name System.
+
+      DISCUSSION:
+           This last requirement is not intended to specify the complete
+           syntactic form for entering a dotted-decimal host number;
+           that is considered to be a user-interface issue.  For
+           example, a dotted-decimal number must be enclosed within
+           "[ ]" brackets for SMTP mail (see Section 5.2.17).  This
+           notation could be made universal within a host system,
+           simplifying the syntactic checking for a dotted-decimal
+           number.
+
+           If a dotted-decimal number can be entered without such
+           identifying delimiters, then a full syntactic check must be
+           made, because a segment of a host domain name is now allowed
+           to begin with a digit and could legally be entirely numeric
+           (see Section 6.1.2.4).  However, a valid host name can never
+           have the dotted-decimal form #.#.#.#, since at least the
+           highest-level component label will be alphabetic.
+  ```
+
+  - 域名是大小写不敏感的.
+  - 域名由字母 (A-Z), 数字 (0-9), 减号 (-), 以及句号 (.) 组成, 长度至少为 2 个字符且不超过 255 个字符.
+  - 域名的首字符可以是字母或数字, 末尾字符不能是减号或句号.
+  - IP 是一个 32 位二进制模式, 可以分为连续四个字节并以句号分隔的四个十进制整数的形式来表示, 每个整数表示一个字节的二进制模式的无符号字面大小 (点分十进制格式).
+  - host 要么是一个域名, 要么是一个点分十进制格式的 IP.
+
+- HTTP 版本的定义:
+  
+  ```text
+       HTTP-Version   = "HTTP" "/" 1*DIGIT "." 1*DIGIT
+  ```
+
+  - 注意要处理任何可能的前导零.
+
+- 一般头部的定义:
+
+  ```text
+       General-Header = Date
+                      | Pragma
+  ```
+
+- 请求头部的定义:
+
+  ```text
+       Request-Header = Authorization
+                      | From
+                      | If-Modified-Since
+                      | Referer
+                      | User-Agent
+  ```
+
+- 实体头部的定义:
+
+  ```text
+       Entity-Header  = Allow
+                      | Content-Encoding
+                      | Content-Length
+                      | Content-Type
+                      | Expires
+                      | Last-Modified
+                      | extension-header
+
+       extension-header = HTTP-header
+  ```
+
+- 通用头部的定义:
+
+  ```text
+       HTTP-header    = field-name ":" [ field-value ] CRLF
+
+       field-name     = token
+       field-value    = *( field-content | LWS )
+
+       field-content  = <the OCTETs making up the field-value
+                        and consisting of either *TEXT or combinations
+                        of token, tspecials, and quoted-string>
+  ```
+
+  - `LWS` 为线性空白符 (linear whitespace), 包括 `CRLF` 和空格, 用于生成跨越多行的头部值. 由于本实验不需要处理跨行头部值, 因此 `LWS` 可被忽略.
+
+解析内容:
+
+- 方法名 (本实验只考虑 `GET` 方法, 不考虑其他任何方法)
+- URL (本实验只考虑 `http_URL` 形式与 `abs_path` 形式, 不考虑其他任何形式)
+  - 域名
+  - 端口号
+  - 所请求对象的绝对路径
+- HTTP 版本 (本实验只考虑 `HTTP/1.0` 版本与 `HTTP/1.1` 版本, 不考虑其他任何版本)
+- 请求头部 (本实验只考虑各种特定头部, 不考虑任何扩展头部)
+- 由于只考虑 `GET` 方法, 解析器将忽略 `Entity-Body` 部分.
+
+实现细节:
+
+- 使用正则表达式解析 HTTP 请求.
+- 所有解析内容使用指针+缓冲区以参数形式传入解析器, 解析器返回非零值 (True) 当且仅当**请求位于解析器的能力范围内并且格式正确**, 此时各个缓冲区中包含对应的属性值, 否则解析器返回零 (False).
+- `Entity-Body` 部分总是返回空指针.
+
+逻辑:
+
+- 对于 request line, 使用空格将其分割为 method, URL, 以及 HTTP version 三个部分. 若分割失败则返回错误页面.
+  - 对于 method, 使用正则表达式检查其合法性. 若不合法或不是 `GET` 方法则返回错误页面.
+  - 对于 URL (代理服务器只需要处理来自客户端的请求, 因此必然是 `absoluteURI` 形式的 URL), 使用正则表达式将其分割为 host, port, path, 以及 query string 四个部分. 若分割失败则返回错误页面.
+    - 对于 host, 检查其合法性. 若不合法则返回错误页面.
+    - 对于 port, 分割等价于检查合法性, 因此不需要检查合法性.
+    - 对于 path, 分割等价于检查合法性, 因此不需要检查合法性.
+    - 对于 query string, 分割等价于检查合法性, 因此不需要检查合法性.
+  - 对于 HTTP version, 使用正则表达式检查其合法性. 若不合法或不是 HTTP/1.0 或 HTTP/1.1 则返回错误页面.
+- 对于 headers, [TODO]
+
 ##### <a id="7.3.3.1"></a>线程池 [TODO]
 
 线程池是通过实现一个同步工作队列来实现的.
@@ -2280,6 +2550,10 @@ CS:APP 官方提供的包装函数:
 ### <a id="7.4"></a>相关资料
 
 - HTTP/1.0 规范: [RFC 1945](https://datatracker.ietf.org/doc/html/rfc1945).
+- C 语言下使用正则表达式:
+  - [8.5.10 ‘posix-extended’ regular expression syntax - GNU Findutils 4.9.0](https://www.gnu.org/software/findutils/manual/html_node/find_html/posix_002dextended-regular-expression-syntax.html)
+  - [Regular expression - Wikipedia](https://en.wikipedia.org/wiki/Regular_expression)
+  - [Regular expressions in C: examples? - Stack Overflow](https://stackoverflow.com/questions/1085083/regular-expressions-in-c-examples)
 
 ## <a id="8"></a>GDB 入门
 

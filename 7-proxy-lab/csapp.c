@@ -789,27 +789,40 @@ ssize_t rio_readnb(rio_t *rp, void *usrbuf, size_t n) {
  * rio_readlineb - Robustly read a text line (buffered)
  */
 /* $begin rio_readlineb */
-ssize_t rio_readlineb(rio_t *rp, void *usrbuf, size_t maxlen) {
-    int n, rc;
-    char c, *bufp = usrbuf;
+ssize_t rio_readlineb(rio_t *rp, void *user_buffer, size_t max_line_length) {
+    int read_count, read_status;
+    char current_char, *user_buffer_current_position = user_buffer;
 
-    for (n = 1; n < maxlen; n++) {
-        if ((rc = rio_read(rp, &c, 1)) == 1) {
-            *bufp++ = c;
-            if (c == '\n') {
-                n++;
+    // 一次读取一个字节, 一行不超过 max_line_length 个字节:
+    read_count = 0;
+    while (read_count < max_line_length - 1) {
+        // 如果成功读取一个字节:
+        if ((read_status = rio_read(rp, &current_char, 1)) == 1) {
+            // 复制至用户缓冲区:
+            *user_buffer_current_position = current_char;
+            user_buffer_current_position++;
+            read_count++;
+
+            // 如果是行尾则结束读取:
+            if (current_char == '\n') {
                 break;
             }
-        } else if (rc == 0) {
-            if (n == 1)
-                return 0; /* EOF, no data read */
-            else
-                break; /* EOF, some data was read */
-        } else
-            return -1; /* Error */
+        }
+
+        // 如果遇到 EOF 则结束读取:
+        else if (read_status == 0) {
+            break;
+        }
+
+        // 如果报错则直接返回:
+        else {
+            return -1;
+        }
     }
-    *bufp = 0;
-    return n - 1;
+
+    *user_buffer_current_position = 0;
+
+    return read_count;
 }
 /* $end rio_readlineb */
 

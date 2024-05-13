@@ -1,5 +1,6 @@
 #include "cache.h"
 #include "csapp.h"
+#include "proxy_utils.h"
 #include <stddef.h>
 
 // 初始化整个缓存:
@@ -89,18 +90,6 @@ void cache_free(Cache *cache) {
     Free(cache->read_only_reader_counts);
     Free(cache->read_only_reader_semaphores);
     Free(cache->read_only_readers_try_modify_readers_mutexes);
-}
-
-// 对字符串进行哈希, 参考自 <https://stackoverflow.com/questions/2535284/how-can-i-hash-a-string-to-an-int-using-c>:
-static unsigned long hash(unsigned char *str) {
-    unsigned long hash = 5381;
-    int c;
-
-    while (c = *str++) {
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-    }
-
-    return hash;
 }
 
 // 将数据复制到缓存中, 并覆盖旧值, 若成功则返回非零值, 否则返回零:
