@@ -7,7 +7,7 @@
 #include <string.h>
 
 static regex_t regex_method;
-static const char *parrern_method = "^[^\x00-\x1F\x7F()<>@,;:\\\"/\\[\\]?={} \\t]+$";
+static const char *parrern_method = "^[!#$%&'*+-.0-9A-Z^_`a-z|~]+$";
 
 static regex_t regex_url;
 static const char *pattern_url = "^http://((\\w+\\.)*\\w+)(:([0-9]+))?(/([^?]*)?(\\?(.*))?)?$";
@@ -33,10 +33,18 @@ static const char *pattern_http_version = "^HTTP/[0-9]+\\.[0-9]+$";
 
 static regex_t regex_request_header;
 // field-content = OCTET - CTL + LWS:
-static const char *parrern_request_header = "^([^\x00-\x1F\x7F()<>@,;:\\\"/\\[\\]?={} \\t]+):([^\x00-\x1F\x7F]*)\r\n";
+static const char *parrern_request_header = "^([!#$%&'*+-.0-9A-Z^_`a-z|~]+):([ -~]*)\r\n";
 static const size_t regex_request_header_group_number = 3;
 static const size_t regex_request_header_field_name_group_index = 1;
 static const size_t regex_request_header_field_value_group_index = 2;
+
+static void initialize_request_header_node(RequestHeaderNode *request_header_node) {
+    request_header_node->field_name = NULL;
+    request_header_node->field_name_length = -1;
+    request_header_node->field_value = NULL;
+    request_header_node->field_value_length = -1;
+    request_header_node->next_node = NULL;
+}
 
 void initialize_http_parse_result(HTTPParseResult *http_parse_result) {
     http_parse_result->method = NULL;
@@ -53,8 +61,8 @@ void initialize_http_parse_result(HTTPParseResult *http_parse_result) {
     http_parse_result->http_version = NULL;
     http_parse_result->http_version_length = -1;
     http_parse_result->request_headers = (RequestHeaderNode *)Malloc(sizeof(RequestHeaderNode));
+    initialize_request_header_node(http_parse_result->request_headers);
     http_parse_result->last_request_header = http_parse_result->request_headers;
-    http_parse_result->request_header_number = 0;
     http_parse_result->entity_body = NULL;
     http_parse_result->entity_body_length = -1;
 }
@@ -67,10 +75,20 @@ static void free_request_header_linked_list(RequestHeaderNode *request_header_li
     RequestHeaderNode *current_node = request_header_linked_list;
     RequestHeaderNode *next_node = current_node->next_node;
     while (1) {
+        if (current_node->field_name) {
+            Free(current_node->field_name);
+        }
+
+        if (current_node->field_value) {
+            Free(current_node->field_value);
+        }
+
         Free(current_node);
+
         if (!next_node) {
             return;
         }
+
         current_node = next_node;
         next_node = current_node->next_node;
     }
@@ -84,29 +102,50 @@ void free_http_parse_result(HTTPParseResult *http_parse_result) {
     if (http_parse_result->method) {
         Free(http_parse_result->method);
     }
+
+    printf("已释放 http_parse_result->method 指针\n");
+
     if (http_parse_result->host) {
-        Free(http_parse_result->method);
+        Free(http_parse_result->host);
     }
+
+    printf("已释放 http_parse_result->host 指针\n");
+
     if (http_parse_result->port) {
-        Free(http_parse_result->method);
+        Free(http_parse_result->port);
     }
+
+    printf("已释放 http_parse_result->port 指针\n");
+
     if (http_parse_result->path) {
-        Free(http_parse_result->method);
+        Free(http_parse_result->path);
     }
+
+    printf("已释放 http_parse_result->path 指针\n");
+
     if (http_parse_result->query_string) {
-        Free(http_parse_result->method);
+        Free(http_parse_result->query_string);
     }
+
+    printf("已释放 http_parse_result->query_string 指针\n");
+
     if (http_parse_result->http_version) {
-        Free(http_parse_result->method);
+        Free(http_parse_result->http_version);
     }
+
+    printf("已释放 http_parse_result->http_version 指针\n");
+
     if (http_parse_result->request_headers) {
         free_request_header_linked_list(http_parse_result->request_headers);
     }
+
+    printf("已释放 http_parse_result->request_headers 链表\n");
+
     if (http_parse_result->entity_body) {
-        Free(http_parse_result->method);
+        Free(http_parse_result->entity_body);
     }
 
-    Free(http_parse_result);
+    printf("已释放 http_parse_result->entity_body 指针\n");
 }
 
 int initialize_http_request_parser() {
@@ -216,7 +255,7 @@ static int is_valid_host(HTTPParseResult *http_parse_result) {
 }
 
 static int is_valid_url(const char *url, HTTPParseResult *http_parse_result) {
-    if (url[0] != 'h') {
+    if (url[0] != 'h') { // [TODO] 这里简单将语法检查和不支持场景的过滤混杂在了一起
         return FALSE;
     }
 
@@ -236,12 +275,16 @@ static int is_valid_url(const char *url, HTTPParseResult *http_parse_result) {
         return FALSE;
     }
 
+    printf("host: %s\n", http_parse_result->host);
+
     // port:
     if (matches[regex_url_port_group_index].rm_so != -1) {
         http_parse_result->port_length = matches[regex_url_port_group_index].rm_eo - matches[regex_url_port_group_index].rm_so;
         http_parse_result->port = (char *)Malloc(sizeof(char) * (http_parse_result->port_length + 1));
         strncpy(http_parse_result->port, url + matches[regex_url_port_group_index].rm_so, http_parse_result->port_length);
         http_parse_result->port[http_parse_result->port_length] = '\0';
+
+        printf("port: %s\n", http_parse_result->port);
     }
 
     // path:
@@ -254,10 +297,16 @@ static int is_valid_url(const char *url, HTTPParseResult *http_parse_result) {
         http_parse_result->path[http_parse_result->path_length] = '\0';
     } else {
         http_parse_result->path_length = 1;
-        http_parse_result->path = (char *)Malloc(sizeof(char) * (http_parse_result->path_length + 1));
+        http_parse_result->path = (char *)Malloc(sizeof(char) * 2);
         http_parse_result->path[0] = '/';
-        http_parse_result->path[http_parse_result->path_length] = '\0';
+        http_parse_result->path[1] = '\0';
     }
+
+    printf("path: %s\n", http_parse_result->path);
+
+    http_parse_result->is_dynamic = strstr(http_parse_result->path, "cgi-bin") ? TRUE : FALSE;
+
+    printf("is_dynamic: %s\n", http_parse_result->is_dynamic ? "TRUE" : "FALSE");
 
     // query string:
     if (matches[regex_url_query_string_group_index].rm_so != -1) {
@@ -265,13 +314,15 @@ static int is_valid_url(const char *url, HTTPParseResult *http_parse_result) {
         http_parse_result->query_string = (char *)Malloc(sizeof(char) * (http_parse_result->query_string_length + 1));
         strncpy(http_parse_result->query_string, url + matches[regex_url_query_string_group_index].rm_so, http_parse_result->query_string_length);
         http_parse_result->query_string[http_parse_result->query_string_length] = '\0';
+
+        printf("query_string: %s\n", http_parse_result->query_string);
     }
 
     return TRUE;
 }
 
 static int is_valid_http_version(const char *http_version, HTTPParseResult *http_parse_result) {
-    if (regexec(&regex_http_version, http_parse_result->http_version, 0, NULL, 0) != 0) {
+    if (regexec(&regex_http_version, http_version, 0, NULL, 0) != 0) {
         return FALSE;
     }
 
@@ -283,30 +334,45 @@ static int is_valid_http_version(const char *http_version, HTTPParseResult *http
 }
 
 static int is_valid_request_line(const char *request_line, HTTPParseResult *http_parse_result) {
+    printf("判断请求行的合法性\n");
+
+    int status = TRUE;
+
     char *method = (char *)Malloc(sizeof(char) * MAXLINE);
     char *url = (char *)Malloc(sizeof(char) * MAXLINE);
     char *http_version = (char *)Malloc(sizeof(char) * MAXLINE);
-    if (sscanf(request_line, "%s %s %s\r\n", method, url, http_version) != 3) {
-        Free(method);
-        Free(url);
-        Free(http_version);
 
-        return FALSE;
+    if (status && sscanf(request_line, "%s %s %s\r\n", method, url, http_version) != 3) {
+        status = FALSE;
     }
 
-    if (!is_valid_method(method, http_parse_result)) {
-        return FALSE;
+    printf("成功分割为三个部分:\n%s\n%s\n%s\n", method, url, http_version);
+
+    printf("字符串长度:\n%d\n%d\n%d\n", (int)strlen(method), (int)strlen(url), (int)strlen(http_version));
+
+    if (status && !is_valid_method(method, http_parse_result)) {
+        status = FALSE;
     }
 
-    if (!is_valid_url(url, http_parse_result)) {
-        return FALSE;
+    printf("第一个部分为合法\n");
+
+    if (status && !is_valid_url(url, http_parse_result)) {
+        status = FALSE;
     }
 
-    if (!is_valid_http_version(http_version, http_parse_result)) {
-        return FALSE;
+    printf("第二个部分为合法\n");
+
+    if (status && !is_valid_http_version(http_version, http_parse_result)) {
+        status = FALSE;
     }
 
-    return TRUE;
+    printf("第三个部分为合法\n");
+
+    Free(http_version);
+    Free(url);
+    Free(method);
+
+    return status;
 }
 
 static int request_line_parser(rio_t *rio, char *line_buffer, HTTPParseResult *http_parse_result) {
@@ -314,6 +380,8 @@ static int request_line_parser(rio_t *rio, char *line_buffer, HTTPParseResult *h
     if (Rio_readlineb(rio, line_buffer, MAXLINE) <= 7) {
         return FALSE;
     }
+
+    printf("读取请求行\n");
 
     if (!is_valid_request_line(line_buffer, http_parse_result)) {
         return FALSE;
@@ -373,18 +441,28 @@ static int request_headers_parser(rio_t *rio, char *line_buffer, HTTPParseResult
 }
 
 static int request_body_parser(rio_t *rio, char *line_buffer, HTTPParseResult *http_parse_result) {
-    // 不断读取并丢弃, 直至遇到 EOF:
-    while (rio_readnb(rio, line_buffer, 1))
-        ;
+    // 如果是 GET 方法则直接返回:
+    if (strcmp(http_parse_result->method, "GET") == 0) {
+        http_parse_result->entity_body = NULL;
+        http_parse_result->entity_body_length = -1;
 
-    return TRUE;
+        return TRUE;
+    }
+
+    printf("仅支持 GET 请求\n");
+
+    return FALSE;
 }
 
 int http_request_parser(int client_socket_descriptor, HTTPParseResult *http_parse_result) {
-    rio_t *rio = (rio_t *)Malloc(sizeof(rio_t));
-    char *line_buffer = (char *)Malloc(sizeof(char) * MAXLINE);
+    printf("进入解析器\n");
 
+    rio_t *rio = (rio_t *)Malloc(sizeof(rio_t));
     Rio_readinitb(rio, client_socket_descriptor);
+
+    printf("初始化缓冲区\n");
+
+    char *line_buffer = (char *)Malloc(sizeof(char) * MAXLINE);
 
     int result = TRUE;
 
@@ -392,13 +470,19 @@ int http_request_parser(int client_socket_descriptor, HTTPParseResult *http_pars
         result = FALSE;
     }
 
+    printf("成功解析请求行, 状态: %d\n", result);
+
     if (result && !request_headers_parser(rio, line_buffer, http_parse_result)) {
         result = FALSE;
     }
 
+    printf("成功解析所有请求头部, 状态: %d\n", result);
+
     if (result && !request_body_parser(rio, line_buffer, http_parse_result)) {
         result = FALSE;
     }
+
+    printf("成功解析请求主体, 状态: %d\n", result);
 
     Free(line_buffer);
     Free(rio);

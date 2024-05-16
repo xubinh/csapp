@@ -27,19 +27,20 @@
   - <a href="#1.2.5">`driver.pl` - 最终评分工具</a>
   - <a href="#1.2.6">其他</a>
 - <a href="#1.3">实验思路与总结</a>
-  - <a href="#1.3.1">#01 `bitXor` - 使用 `~` 和 `&` 实现 `^`</a>
-  - <a href="#1.3.2">#02 `tmin` - 返回 </a>$TMin_w$
-  - <a href="#1.3.3">#03 `isTmax` - 判断是否为 </a>$TMax_w$
-  - <a href="#1.3.4">#04 `allOddBits` - 判断一个二进制模式的所有奇数位是否均为 1</a>
-  - <a href="#1.3.5">#05 `negate` - 返回一个补码整数的相反数</a>
-  - <a href="#1.3.6">#06 `isAsciiDigit`</a>
-  - <a href="#1.3.7">#07 `conditional`</a>
-  - <a href="#1.3.8">#08 `isLessOrEqual`</a>
-  - <a href="#1.3.9">#09 `logicalNeg`</a>
-  - <a href="#1.3.10">#10 `howManyBits`</a>
-  - <a href="#1.3.11">#11 `floatScale2`</a>
-  - <a href="#1.3.12">#12 `floatFloat2Int`</a>
-  - <a href="#1.3.13">#13 `floatPower2`</a>
+  - <a href="#1.3.1">得分: 62/62</a>
+  - <a href="#1.3.2">#01 `bitXor` - 使用 `~` 和 `&` 实现 `^`</a>
+  - <a href="#1.3.3">#02 `tmin` - 返回 </a>$TMin_w$
+  - <a href="#1.3.4">#03 `isTmax` - 判断是否为 </a>$TMax_w$
+  - <a href="#1.3.5">#04 `allOddBits` - 判断一个二进制模式的所有奇数位是否均为 1</a>
+  - <a href="#1.3.6">#05 `negate` - 返回一个补码整数的相反数</a>
+  - <a href="#1.3.7">#06 `isAsciiDigit`</a>
+  - <a href="#1.3.8">#07 `conditional`</a>
+  - <a href="#1.3.9">#08 `isLessOrEqual`</a>
+  - <a href="#1.3.10">#09 `logicalNeg`</a>
+  - <a href="#1.3.11">#10 `howManyBits`</a>
+  - <a href="#1.3.12">#11 `floatScale2`</a>
+  - <a href="#1.3.13">#12 `floatFloat2Int`</a>
+  - <a href="#1.3.14">#13 `floatPower2`</a>
 - <a href="#1.4">相关资料</a>
   - <a href="#1.4.1">命题逻辑</a>
 
@@ -103,12 +104,12 @@
   - <a href="#4.2.8">`driver.py` - 最终评分工具</a>
   - <a href="#4.2.9">其他</a>
 - <a href="#4.3">实验思路与总结</a>
-  - <a href="#4.3.1">Part A</a>
-  - <a href="#4.3.2">Part B</a>
-    - <a href="#4.3.2.1">32 × 32</a>
-    - <a href="#4.3.2.2">64 × 64</a>
-    - <a href="#4.3.2.3">61 × 67</a>
-  - <a href="#4.3.3">实验结果展示</a>
+  - <a href="#4.3.1">得分: 51.6/53</a>
+  - <a href="#4.3.2">Part A</a>
+  - <a href="#4.3.3">Part B</a>
+    - <a href="#4.3.3.1">32 × 32</a>
+    - <a href="#4.3.3.2">64 × 64</a>
+    - <a href="#4.3.3.3">61 × 67</a>
 - <a href="#4.4">相关资料</a>
 
 </details>
@@ -124,9 +125,12 @@
   - <a href="#5.2.6">`tshref` - tsh 的参考实现</a>
   - <a href="#5.2.7">`tshref.out` - tsh 参考实现的自动化测试输出</a>
 - <a href="#5.3">实验思路与总结</a>
-  - <a href="#5.3.1">用于自动化测试的脚本</a>
-  - <a href="#5.3.2">`tsh.c` 中已实现函数速查表</a>
+  - <a href="#5.3.1">得分: 80/80</a>
+  - <a href="#5.3.2">用于自动化测试的脚本</a>
   - <a href="#5.3.3">所需填充的函数的思路</a>
+  - <a href="#5.3.4">Cheat Sheets</a>
+    - <a href="#5.3.4.1">`tsh.c` 中已实现的函数</a>
+    - <a href="#5.3.4.2">C 标准函数</a>
 - <a href="#5.4">相关资料</a>
 
 </details>
@@ -144,7 +148,7 @@
     - <a href="#6.2.5.3">关于评分工具 `./mdriver` 所使用的默认吞吐量配置</a>
     - <a href="#6.2.5.4">用于自动化测试的脚本</a>
 - <a href="#6.3">实验思路与总结</a>
-  - <a href="#6.3.1">最终得分</a>
+  - <a href="#6.3.1">得分: 54/55</a>
   - <a href="#6.3.2">定义</a>
   - <a href="#6.3.3">实现 `mm_init`, `mm_malloc` 和 `mm_free`</a>
   - <a href="#6.3.4">实现 `mm_check`</a>
@@ -174,19 +178,24 @@
   - <a href="#7.2.9">`tiny/` - CS:APP 官方实现的 TINY 服务器</a>
   - <a href="#7.2.10">其他</a>
 - <a href="#7.3">实验思路与总结</a>
-  - <a href="#7.3.1">大纲</a>
-  - <a href="#7.3.2">要点</a>
-  - <a href="#7.3.3">实现</a>
-    - <a href="#7.3.3.1">线程池 [TODO]</a>
-    - <a href="#7.3.3.2">缓存 [TODO]</a>
-  - <a href="#7.3.4">Cheat Sheet</a>
-    - <a href="#7.3.4.1">Unix I/O</a>
-    - <a href="#7.3.4.2">标准 I/O</a>
-    - <a href="#7.3.4.3">CS:APP 所实现的 RIO</a>
-    - <a href="#7.3.4.4">网络</a>
-    - <a href="#7.3.4.5">I/O 多路复用</a>
-    - <a href="#7.3.4.6">Posix 线程 Pthreads</a>
-    - <a href="#7.3.4.7">Posix 信号量</a>
+  - <a href="#7.3.1">得分: 70/70</a>
+  - <a href="#7.3.2">大纲</a>
+  - <a href="#7.3.3">要点</a>
+  - <a href="#7.3.4">字符串和缓冲区处理要点</a>
+  - <a href="#7.3.5">Posix 正则表达式 (`<regex.h>`) 要点</a>
+  - <a href="#7.3.6">Telnet 要点</a>
+  - <a href="#7.3.7">实现</a>
+    - <a href="#7.3.7.1">HTTP 解析器</a>
+    - <a href="#7.3.7.2">线程池</a>
+    - <a href="#7.3.7.3">缓存</a>
+  - <a href="#7.3.8">Cheat Sheet</a>
+    - <a href="#7.3.8.1">Unix I/O</a>
+    - <a href="#7.3.8.2">标准 I/O</a>
+    - <a href="#7.3.8.3">CS:APP 所实现的 RIO</a>
+    - <a href="#7.3.8.4">网络</a>
+    - <a href="#7.3.8.5">I/O 多路复用</a>
+    - <a href="#7.3.8.6">Posix 线程 Pthreads</a>
+    - <a href="#7.3.8.7">Posix 信号量</a>
 - <a href="#7.4">相关资料</a>
 
 </details>
@@ -303,7 +312,29 @@
 
 ### <a id="1.3"></a>实验思路与总结
 
-#### <a id="1.3.1"></a>#01 `bitXor` - 使用 `~` 和 `&` 实现 `^`
+#### <a id="1.3.1"></a>得分: 62/62
+
+```text
+Correctness Results     Perf Results
+Points  Rating  Errors  Points  Ops     Puzzle
+1       1       0       2       8       bitXor
+1       1       0       2       1       tmin
+1       1       0       2       8       isTmax
+2       2       0       2       10      allOddBits
+2       2       0       2       2       negate
+3       3       0       2       8       isAsciiDigit
+3       3       0       2       9       conditional
+3       3       0       2       17      isLessOrEqual
+4       4       0       2       12      logicalNeg
+4       4       0       2       34      howManyBits
+4       4       0       2       13      floatScale2
+4       4       0       2       20      floatFloat2Int
+4       4       0       2       12      floatPower2
+
+Score = 62/62 [36/36 Corr + 26/26 Perf] (154 total operators)
+```
+
+#### <a id="1.3.2"></a>#01 `bitXor` - 使用 `~` 和 `&` 实现 `^`
 
 设两个比特 $p$ 和 $q$ 以及对应的命题 $P$ 和 $Q$, 在命题逻辑 (propositional logic) 下, 由德摩根定律 (De Morgan's laws), 异或运算可表示为
 
@@ -319,7 +350,7 @@ $$
 p ^ q = ~((~(p & (~q))) & (~((~p) & q))).
 ```
 
-#### <a id="1.3.2"></a>#02 `tmin` - 返回 $TMin_w$
+#### <a id="1.3.3"></a>#02 `tmin` - 返回 $TMin_w$
 
 根据 $B2T_w$ 的定义,
 
@@ -337,7 +368,7 @@ $$
 int tmin = 1 << 31; // 0x100...00
 ```
 
-#### <a id="1.3.3"></a>#03 `isTmax` - 判断是否为 $TMax_w$
+#### <a id="1.3.4"></a>#03 `isTmax` - 判断是否为 $TMax_w$
 
 在没有任何运算符与常数使用限制的情况下, 判断一个整型值 $x$ 是否为 $TMax_w$ 只需将其二进制模式与 $TMax_w$ 的进行比较即可:
 
@@ -391,7 +422,7 @@ int constraint_2 = !!(~x);
 int is_tmax = constraint_1 & constraint_2;
 ```
 
-#### <a id="1.3.4"></a>#04 `allOddBits` - 判断一个二进制模式的所有奇数位是否均为 1
+#### <a id="1.3.5"></a>#04 `allOddBits` - 判断一个二进制模式的所有奇数位是否均为 1
 
 所有特定位均为 1 当且仅当所有特定位的按位与的结果为 1. 由于最大允许运算符数量为 12, 直接顺次对每个位进行按位与的暴力解法不可行. 一种办法是通过折半移位同时对多个位进行按位与:
 
@@ -409,41 +440,41 @@ int x_2 = x_4 & (x_4 >> 2);
 int are_all_odd_bits = (x_2 >> 1) & 1;
 ```
 
-#### <a id="1.3.5"></a>#05 `negate` - 返回一个补码整数的相反数
+#### <a id="1.3.6"></a>#05 `negate` - 返回一个补码整数的相反数
 
 最终实现为取反加一, 原理待补充.
 
-#### <a id="1.3.6"></a>#06 `isAsciiDigit`
+#### <a id="1.3.7"></a>#06 `isAsciiDigit`
 
 通过将两个模式相减并检查结果是否为负数来实现比较运算.
 
-#### <a id="1.3.7"></a>#07 `conditional`
+#### <a id="1.3.8"></a>#07 `conditional`
 
 首先判断是否为零, 若为零则选择全 0 模式, 否则取反得到全 1 模式; 再使用按位与 `&` 进行条件选择.
 
-#### <a id="1.3.8"></a>#08 `isLessOrEqual`
+#### <a id="1.3.9"></a>#08 `isLessOrEqual`
 
 先检查两个数是否同号, 若同号则通过相减是否得到负数进行判断, 若异号直接检查哪一个数为正哪一个数为负即可.
 
-#### <a id="1.3.9"></a>#09 `logicalNeg`
+#### <a id="1.3.10"></a>#09 `logicalNeg`
 
 逻辑非等价于检查取反后的结果是否为全 0.
 
-#### <a id="1.3.10"></a>#10 `howManyBits`
+#### <a id="1.3.11"></a>#10 `howManyBits`
 
 举例:
 
 - `0x0001101` 需要 5 位, 具体为 `0x00 01101`, 即从左往右找最长连续相同的子串, 然后退一格断开. 思路是先将模式与其自身的右移一位结果进行按位异或, 得到每两位之间是否相同的结果, 最终答案的大小等于按位异或得到的模式中从左往右最长全等子串的长度关于 32 的补集. 注意由于至少需要 1 位进行表示, 所以需要对异或的结果至少将其与 1 进行按位或. 最后使用二分法找到该子串的补集的长度.
 
-#### <a id="1.3.11"></a>#11 `floatScale2`
+#### <a id="1.3.12"></a>#11 `floatScale2`
 
 分情况讨论, 如果是特殊值, 直接返回; 如果是非规格化数, 直接对尾数部分进行左移; 否则就是规格化数, 对阶码加一即可. 注意如果加一之后变为特殊值还需要对尾数进行清空.
 
-#### <a id="1.3.12"></a>#12 `floatFloat2Int`
+#### <a id="1.3.13"></a>#12 `floatFloat2Int`
 
 分情况讨论, 如果阶码大于整型范围则直接返回 (由于返回值恰好为 -2147483648, 阶码真实值等于 31 的情况也可归纳至其中); 如果小于 0 则返回 0; 否则对尾数直接进行截断即可.
 
-#### <a id="1.3.13"></a>#13 `floatPower2`
+#### <a id="1.3.14"></a>#13 `floatPower2`
 
 分情况讨论, 如果指数大于阶码范围则直接返回, 如果小于阶码范围则返回 0, 然后分别处理位于规格化范围和非规格化范围两种情况即可.
 
@@ -994,51 +1025,7 @@ linux> ./driver.py
 
 ### <a id="4.3"></a>实验思路与总结
 
-#### <a id="4.3.1"></a>Part A
-
-- 主要任务是模拟一个具有组索引位数 $s$, 相联度 $E$ 和块偏移位数 $b$ 的 cache, 因为需要使用 LRU 作为驱逐策略, 所以用一个链表表示一个 cache 的组是比较合适的, 元素在链表中越靠前就代表其最近一次使用时间越晚, 然后通过遍历链表中的元素来模拟在组中查找特定行的行为. 若找到或者需要新载入一个行只需要将该行插入表头之后即可.
-- 由于写不命中时的策略是写分配, 所以写不命中的效果等价于读不命中的效果. 又因为写命中的效果等价于读命中的效果, 所以整个写操作的效果等价于读操作的效果. 而修改操作又等价于一个读操作加一个写操作, 所以总的加起来实际上只需要实现一个读操作即可.
-- 为了爬取 traces 文件所需的 I/O 操作以及爬取传入参数所需的 `getopt` 操作属于工具类代码, 并不是本实验考察的重点.
-- 由于选择了链表 (为了方便实际上采用了双链表) 作为 cache 的实现, 在写代码时格外需要注意常规的链表操作, 例如插入删除的先后顺序等等.
-
-#### <a id="4.3.2"></a>Part B
-
-- 首先整个 Part B 使用的都是 $s = 5, E = 1, b = 5$ 的 cache 配置, 其中 $s = 5$ 和 $b = 5$ 意味着 cache 行的块大小为 32 字节并且总共有 32 行, 对于 `int` 类型的整数而言, cache 的一行能包含 8 个整数; 而 $E = 1$ 意味着 cache 是直接映射, 每个组仅包含一行 (即相联度为 1), 于是每 8 × 32 = 256 个 `int` 整数就会占据一遍所有组, 也就是整个 cache 只能在同一时间保存 32 个组索引互不相同的 8 整数长条的副本.
-- 其次本实验部分的评价标准完全是 cache 未命中 (miss) 次数. 对于一个数据块, 若要对其进行处理, 就必须要将其读入 cache (前提是写分配, 写不分配直接对内存进行写入), 因此首次读入时必然会 miss 一次, 这是不可避免的. 为了降低 miss 次数, 真正的关键在于减少 "处理一次没处理完, 下次又要再读入" 的抖动现象, 因此整个思路应该围绕着 "如何单次读取单次处理完毕" 来展开.
-
-> [!NOTE]
->
-> 在 `tracegen.c` 中可以找到矩阵 A 和 B 的定义:
->
-> ```c
-> static int A[256][256];
-> static int B[256][256];
-> ```
->
-> 通过 GDB 可知 A 的初始地址为 `0x70a0`, B 的初始地址为 `0x470a0` (中间恰好相差 256 × 256 × 4 个字节). 因此 A 的初始地址以及 B 的初始地址都是和 $s = 5, ~~ E = 1, ~~ b = 5$ 配置下的 cache 对齐的, 并且 A 的初始地址对应的 cache 行号和 B 的初始地址对应的行号也相同.
-
-##### <a id="4.3.2.1"></a>32 × 32
-
-- 列数等于 32 意味着矩阵的每行等于 cache 的 4 行, 因此矩阵每 8 行就会对应一遍整个 cache.
-- 由于 cache 中的一个块等于 8 个 `int`, 所以矩阵一行中的每 8 个整数长条对应一个块, 一行可以划分为连续的 4 个长条, 对应于连续的 4 个 cache 块.
-- 为了尽量提高空间局部性, 最好就是一个 8 整数长条 (对应一个 cache 块) 仅加载一次就完成转置, 此后在逻辑上将该块所占用的 cache 行视作 "可用".
-- 由于要做的是转置, 所以 "行" 要对应至 "列", 又由于一次要转置一个 8 整数长条, 因此将矩阵分为 8 × 8 的小块 (分块完之后 A 就成为 4 × 4 分块矩阵) 来分别进行处理是比较好的方法.
-- 将 A 转置到 B 至少需要对 A 完全读取一遍, 对 B 完全写入一遍, 因此 miss 次数至少为 8 × (4 × 4) × 2 = 256 次. 满分为 300 次.
-- 非对角 8 × 8 小块所占据的 cache 空间互不重合, 因此可以放心按照一般的遍历顺序进行转置. 转置一个块所产生的 miss 次数为 16 次, 即最优情况. 对角 8 × 8 小块需要利用到 12 个局部变量的帮助, 转置一个块产生的 miss 次数为 20 次. 理论 miss 总次数为 272 次, 实际为 276 次.
-
-##### <a id="4.3.2.2"></a>64 × 64
-
-- 矩阵一行现在对应于 8 个 cache 块. 同样对矩阵采取划分为 8 × 8 小块的分块方式.
-- 整个 cache 现在仅对应于 4 个矩阵行, 这意味着现在即使是非对角块其上半部分和下半部分所占据的 cache 空间也会重叠. 对角块的重叠情况比非对角块还严重.
-- 使用 12 个局部变量仍然能够做到对非对角块的一次处理, 一个块的 miss 次数仍然为 16 次. 对角块则直接放弃尝试一次处理, 采用对其进行 4 × 4 分块并利用 12 个局部变量尽可能减少 miss 次数, 一个块的 miss 次数为 32 次. 理论 miss 总次数为 1152 次, 实际为 1156 次.
-
-##### <a id="4.3.2.3"></a>61 × 67
-
-- 因为矩阵的维数不再与 cache 相互对齐, 所以想要做到单次读取单次处理不现实. 最好的做法是仍然采取像 64 × 64 矩阵中那样的分块方案, 在一定程度上降低 miss 总数的数学期望值.
-- 对于完整的 8 × 8 对角块与非对角块, 处理方法是将其当作 64 × 64 中的对角块与非对角块来进行处理 (实际上代码就是复制粘贴 64 × 64 方案中的).
-- 对于剩下的不完整的边角料, 处理方案是每 4 行 (对于右侧边角料块) 或每 4 列 (对于下方边角料块) 循环遍历, 减少抖动. 实际 miss 总次数为 2140 次 (满分阈值 2000 次).
-
-#### <a id="4.3.3"></a>实验结果展示
+#### <a id="4.3.1"></a>得分: 51.6/53
 
 ```text
 Part A: Testing cache simulator
@@ -1069,6 +1056,50 @@ Trans perf 64x64           8.0         8        1156
 Trans perf 61x67           8.6        10        2140
           Total points    51.6        53
 ```
+
+#### <a id="4.3.2"></a>Part A
+
+- 主要任务是模拟一个具有组索引位数 $s$, 相联度 $E$ 和块偏移位数 $b$ 的 cache, 因为需要使用 LRU 作为驱逐策略, 所以用一个链表表示一个 cache 的组是比较合适的, 元素在链表中越靠前就代表其最近一次使用时间越晚, 然后通过遍历链表中的元素来模拟在组中查找特定行的行为. 若找到或者需要新载入一个行只需要将该行插入表头之后即可.
+- 由于写不命中时的策略是写分配, 所以写不命中的效果等价于读不命中的效果. 又因为写命中的效果等价于读命中的效果, 所以整个写操作的效果等价于读操作的效果. 而修改操作又等价于一个读操作加一个写操作, 所以总的加起来实际上只需要实现一个读操作即可.
+- 为了爬取 traces 文件所需的 I/O 操作以及爬取传入参数所需的 `getopt` 操作属于工具类代码, 并不是本实验考察的重点.
+- 由于选择了链表 (为了方便实际上采用了双链表) 作为 cache 的实现, 在写代码时格外需要注意常规的链表操作, 例如插入删除的先后顺序等等.
+
+#### <a id="4.3.3"></a>Part B
+
+- 首先整个 Part B 使用的都是 $s = 5, E = 1, b = 5$ 的 cache 配置, 其中 $s = 5$ 和 $b = 5$ 意味着 cache 行的块大小为 32 字节并且总共有 32 行, 对于 `int` 类型的整数而言, cache 的一行能包含 8 个整数; 而 $E = 1$ 意味着 cache 是直接映射, 每个组仅包含一行 (即相联度为 1), 于是每 8 × 32 = 256 个 `int` 整数就会占据一遍所有组, 也就是整个 cache 只能在同一时间保存 32 个组索引互不相同的 8 整数长条的副本.
+- 其次本实验部分的评价标准完全是 cache 未命中 (miss) 次数. 对于一个数据块, 若要对其进行处理, 就必须要将其读入 cache (前提是写分配, 写不分配直接对内存进行写入), 因此首次读入时必然会 miss 一次, 这是不可避免的. 为了降低 miss 次数, 真正的关键在于减少 "处理一次没处理完, 下次又要再读入" 的抖动现象, 因此整个思路应该围绕着 "如何单次读取单次处理完毕" 来展开.
+
+> [!NOTE]
+>
+> 在 `tracegen.c` 中可以找到矩阵 A 和 B 的定义:
+>
+> ```c
+> static int A[256][256];
+> static int B[256][256];
+> ```
+>
+> 通过 GDB 可知 A 的初始地址为 `0x70a0`, B 的初始地址为 `0x470a0` (中间恰好相差 256 × 256 × 4 个字节). 因此 A 的初始地址以及 B 的初始地址都是和 $s = 5, ~~ E = 1, ~~ b = 5$ 配置下的 cache 对齐的, 并且 A 的初始地址对应的 cache 行号和 B 的初始地址对应的行号也相同.
+
+##### <a id="4.3.3.1"></a>32 × 32
+
+- 列数等于 32 意味着矩阵的每行等于 cache 的 4 行, 因此矩阵每 8 行就会对应一遍整个 cache.
+- 由于 cache 中的一个块等于 8 个 `int`, 所以矩阵一行中的每 8 个整数长条对应一个块, 一行可以划分为连续的 4 个长条, 对应于连续的 4 个 cache 块.
+- 为了尽量提高空间局部性, 最好就是一个 8 整数长条 (对应一个 cache 块) 仅加载一次就完成转置, 此后在逻辑上将该块所占用的 cache 行视作 "可用".
+- 由于要做的是转置, 所以 "行" 要对应至 "列", 又由于一次要转置一个 8 整数长条, 因此将矩阵分为 8 × 8 的小块 (分块完之后 A 就成为 4 × 4 分块矩阵) 来分别进行处理是比较好的方法.
+- 将 A 转置到 B 至少需要对 A 完全读取一遍, 对 B 完全写入一遍, 因此 miss 次数至少为 8 × (4 × 4) × 2 = 256 次. 满分为 300 次.
+- 非对角 8 × 8 小块所占据的 cache 空间互不重合, 因此可以放心按照一般的遍历顺序进行转置. 转置一个块所产生的 miss 次数为 16 次, 即最优情况. 对角 8 × 8 小块需要利用到 12 个局部变量的帮助, 转置一个块产生的 miss 次数为 20 次. 理论 miss 总次数为 272 次, 实际为 276 次.
+
+##### <a id="4.3.3.2"></a>64 × 64
+
+- 矩阵一行现在对应于 8 个 cache 块. 同样对矩阵采取划分为 8 × 8 小块的分块方式.
+- 整个 cache 现在仅对应于 4 个矩阵行, 这意味着现在即使是非对角块其上半部分和下半部分所占据的 cache 空间也会重叠. 对角块的重叠情况比非对角块还严重.
+- 使用 12 个局部变量仍然能够做到对非对角块的一次处理, 一个块的 miss 次数仍然为 16 次. 对角块则直接放弃尝试一次处理, 采用对其进行 4 × 4 分块并利用 12 个局部变量尽可能减少 miss 次数, 一个块的 miss 次数为 32 次. 理论 miss 总次数为 1152 次, 实际为 1156 次.
+
+##### <a id="4.3.3.3"></a>61 × 67
+
+- 因为矩阵的维数不再与 cache 相互对齐, 所以想要做到单次读取单次处理不现实. 最好的做法是仍然采取像 64 × 64 矩阵中那样的分块方案, 在一定程度上降低 miss 总数的数学期望值.
+- 对于完整的 8 × 8 对角块与非对角块, 处理方法是将其当作 64 × 64 中的对角块与非对角块来进行处理 (实际上代码就是复制粘贴 64 × 64 方案中的).
+- 对于剩下的不完整的边角料, 处理方案是每 4 行 (对于右侧边角料块) 或每 4 列 (对于下方边角料块) 循环遍历, 减少抖动. 实际 miss 总次数为 2140 次 (满分阈值 2000 次).
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
@@ -1171,9 +1202,18 @@ tsh 的参考实现程序.
 
 ### <a id="5.3"></a>实验思路与总结
 
-#### <a id="5.3.1"></a>用于自动化测试的脚本
+#### <a id="5.3.1"></a>得分: 80/80
 
-首先利用 `sdriver.pl` 和 `Makefile` 编写了一个自动化测试的 bash 脚本 `run.sh` 如下:
+具体结果见文件 [output_test.txt](./5-shell-lab/output_test.txt) 与 [output_rtest.txt](./5-shell-lab/output_rtest.txt). 复现命令:
+
+```bash
+./run.sh test all
+./run.sh rtest all
+```
+
+#### <a id="5.3.2"></a>用于自动化测试的脚本
+
+首先利用 `sdriver.pl` 和 `Makefile` 编写了一个自动化测试的 bash 脚本 `run.sh`, 代码如下:
 
 ```bash
 #!/usr/bin/env bash
@@ -1215,28 +1255,6 @@ fi
 - 输出结果可以通过使用 `Ctrl+Tab` 在两个结果之间快速翻页来肉眼检查.
 - 不失一般性, 最终输出结果中删除了程序 `ps` 的输出结果.
 
-#### <a id="5.3.2"></a>`tsh.c` 中已实现函数速查表
-
-`tsh.c` 中已经实现的函数归纳如下 (按调用顺序拓扑排序, 未调用的函数按出现顺序排序):
-
-- `usage`: 打印帮助信息并退出 (状态码为 1).
-- `sigquit_handler`: 信号处理程序, 打印提示信息然后直接退出, 非常简单的一个函数.
-- `clearjob`: 清空 `struct job_t` 类型的变量的内容 (起到初始化的作用).
-- `initjobs`: 调用 `clearjob` 函数对预定义的作业列表 `jobs` (全局数组, 长度为 `MAXJOBS = 16`) 中的每个作业变量进行初始化.
-- `app_error`: 应用风格 (application-style) 的报错函数, 打印提示信息并退出 (状态码为 1).
-- `main`: 安装信号处理程序, 初始化作业列表 `jobs`, 之后开始打印提示信息, 读取命令行, 调用 `eval` 函数执行命令行, 循环往复.
-- `parseline`: 解析命令行参数, 明确参数的数量, 明确程序是否后台执行. 命令行读取之后其内容副本保存在一个静态变量中, 返回的字符串数组 `argv` 中包含的是指向副本中字符位置的指针.
-- `maxjid`: 遍历作业列表 `jobs`, 返回最大的 JID.
-- `addjob`: 遍历作业列表 `jobs`, 将作业添加进第一个遍历到的空槽中. JID 由 1 开始分配, 每分配一个作业增加 1, 超过 `MAXJOBS` 之后重置为 1 (这里他代码应该打错了, 应该是超过 `MAXJID` 而不是 `MAXJOBS`, 前者才是最大 JID).
-- `deletejob`: 清空指定 PID 的作业, 并将下一个要分配的 JID 设置为作业列表中最大的 JID + 1 (这里他忘记加 1 之后如果超过 `MAXJID` 需要重置为 1).
-- `fgpid`: 遍历作业列表 `jobs`, 返回前台作业的 PID, 如果没有前台作业则返回 0.
-- `getjobpid`: 遍历作业列表 `jobs`, 返回 PID 等于指定 PID 的作业, 如果没有则返回空指针.
-- `getjobjid`: 遍历作业列表 `jobs`, 返回 JID 等于指定 JID 的作业, 如果没有则返回空指针.
-- `pid2jid`: 遍历作业列表 `jobs`, 返回 PID 等于指定 PID 的作业的 JID, 如果没有则返回 0.
-- `listjobs`: 遍历作业列表 `jobs`, 打印所有作业的信息.
-- `unix_error`: Unix 风格 (unix-style) 的报错函数, 打印提示信息与错误信息 (`strerror(errno)`) 并退出 (状态码为 1).
-- `Signal`: 书中提到的针对 `sigaction` 的包装函数, 作用是统一信号语义, 其功能与 `signal` 函数相同, 都是为给定的信号安装信号处理程序.
-
 #### <a id="5.3.3"></a>所需填充的函数的思路
 
 为了实现完整的 tsh 所需填充的 7 个重要函数的思路如下 (括号中数字代表预计代码行数 (包括注释)):
@@ -1268,6 +1286,73 @@ fi
   - 向前台作业发送终止信号.
 - `sigtstp_handler`: 信号处理程序, 负责接收 `SIGTSTP` (ctrl-z) 信号. [15 行 | 实际 25 行]
   - 向前台作业发送停止信号, 并打印提示信息.
+
+#### <a id="5.3.4"></a>Cheat Sheets
+
+##### <a id="5.3.4.1"></a>`tsh.c` 中已实现的函数
+
+`tsh.c` 中已经实现的函数归纳如下 (按调用顺序拓扑排序, 未调用的函数按出现顺序排序):
+
+- `usage`: 打印帮助信息并退出 (状态码为 1).
+- `sigquit_handler`: 信号处理程序, 打印提示信息然后直接退出, 非常简单的一个函数.
+- `clearjob`: 清空 `struct job_t` 类型的变量的内容 (起到初始化的作用).
+- `initjobs`: 调用 `clearjob` 函数对预定义的作业列表 `jobs` (全局数组, 长度为 `MAXJOBS = 16`) 中的每个作业变量进行初始化.
+- `app_error`: 应用风格 (application-style) 的报错函数, 打印提示信息并退出 (状态码为 1).
+- `main`: 安装信号处理程序, 初始化作业列表 `jobs`, 之后开始打印提示信息, 读取命令行, 调用 `eval` 函数执行命令行, 循环往复.
+- `parseline`: 解析命令行参数, 明确参数的数量, 明确程序是否后台执行. 命令行读取之后其内容副本保存在一个静态变量中, 返回的字符串数组 `argv` 中包含的是指向副本中字符位置的指针.
+- `maxjid`: 遍历作业列表 `jobs`, 返回最大的 JID.
+- `addjob`: 遍历作业列表 `jobs`, 将作业添加进第一个遍历到的空槽中. JID 由 1 开始分配, 每分配一个作业增加 1, 超过 `MAXJOBS` 之后重置为 1 (这里他代码应该打错了, 应该是超过 `MAXJID` 而不是 `MAXJOBS`, 前者才是最大 JID).
+- `deletejob`: 清空指定 PID 的作业, 并将下一个要分配的 JID 设置为作业列表中最大的 JID + 1 (这里他忘记加 1 之后如果超过 `MAXJID` 需要重置为 1).
+- `fgpid`: 遍历作业列表 `jobs`, 返回前台作业的 PID, 如果没有前台作业则返回 0.
+- `getjobpid`: 遍历作业列表 `jobs`, 返回 PID 等于指定 PID 的作业, 如果没有则返回空指针.
+- `getjobjid`: 遍历作业列表 `jobs`, 返回 JID 等于指定 JID 的作业, 如果没有则返回空指针.
+- `pid2jid`: 遍历作业列表 `jobs`, 返回 PID 等于指定 PID 的作业的 JID, 如果没有则返回 0.
+- `listjobs`: 遍历作业列表 `jobs`, 打印所有作业的信息.
+- `unix_error`: Unix 风格 (unix-style) 的报错函数, 打印提示信息与错误信息 (`strerror(errno)`) 并退出 (状态码为 1).
+- `Signal`: 书中提到的针对 `sigaction` 的包装函数, 作用是统一信号语义, 其功能与 `signal` 函数相同, 都是为给定的信号安装信号处理程序.
+
+##### <a id="5.3.4.2"></a>C 标准函数
+
+头文件:
+
+1. `sys/types.h`: 定义了一系列系统/硬件相关的类型, 例如 `pid_t`, `uid_t` 等等, 将具体硬件细节与 C 语言代码解耦, 主要是为了跨平台一致性.
+2. `unistd.h`: 定义了对 Unix 系统调用的封装, 例如 `fork`, `read` 和 `write` 等等.
+3. `stdlib.h`: 定义了一系列通用的函数, 包括动态内存管理 (`malloc`), 整数算术 (`atoi`), 搜索排序 (`bsearch`, `qsort`) 等等.
+4. `sys/wait.h`: 定义了有关等待进程状态变化的函数与宏, 例如 `wait`, `waitpid` 等等, 一般与子进程相关的函数配合使用.
+5. `signal.h`: 定义了用于处理信号 (signal) 的函数与宏, 例如 `signal`, `sigaction` 等等.
+6. `setjmp.h`: 定义了用于非本地跳转的函数, 例如 `setjmp`, `longjmp` 等等.
+
+函数:
+
+- `pid_t getpid(void)`: 返回本进程 PID. [1, 2]
+- `pid_t getppid(void)`: 返回父进程的 PID. [1, 2]
+- `void exit(int status)`: 以 `status` 为状态代码退出程序. [3]
+- `pid_t fork(void)`: 创建子进程. [1, 2]
+- `pid_t waitpid(pid_t pid, int *statusp, int options)`: 以挂起/无挂起的方式等待进程的终止/停止/恢复, 并且可以通过指针 `statusp` 所指向的变量中的值了解进程被终止/停止/恢复的原因, 若进程终止则还会将其回收. [1, 4]
+- `pid_t wait(int *statusp)`: `waitpid` 函数的简化版本, 等价于 `waitpid(-1, statusp, 0)`. [1, 4]
+- `unsigned int sleep(unsigned int secs)`: 挂起当前进程直到时间结束或者被强制唤醒 (信号 `SIGCONT`). [2]
+- `int pause(void)`: 挂起当前进程直到接收到任何一个信号. [2]
+- `int execve(const char *filename, const char *argv[], const char *envp[])`: 加载并执行一个程序. [2]
+- `char *getenv(const char *name)`: 寻找环境变量. [3]
+- `int setenv(const char *name, const char *newvalue, int overwrite)`: 设置环境变量. [3]
+- `void unsetenv(const char *name)`: 删除环境变量. [3]
+- `pid_t getpgrp(void)`: 返回当前进程的进程组 ID. [2]
+- `int setpgid(pid_t pid, pid_t pgid)`: 设置进程组. [2]
+- `int kill(pid_t pid, int sig)`: 向任意进程 (包括调用进程自身) 发送任意信号. [1, 5]
+- `unsigned int alarm(unsigned int secs)`: 在 `secs` 秒之后给调用进程自身发送 `SIGALRM` 信号. [2]
+- `sighandler_t signal(int signum, void (*handler)(int))`: 设置自定义的信号处理函数. [5]
+- `int sigprocmask(int how, const sigset_t *set, sigset_t *oldset)`: 修改阻塞信号集. [5]
+- `int sigemptyset(sigset_t *set)`: 初始化信号集 `set`. [5]
+- `int sigfillset(sigset_t *set)`: 将所有信号全部添加进信号集 `set`. [5]
+- `int sigaddset(sigset_t *set, int signum)`: 将特定信号 `signum` 添加进信号集 `set`. [5]
+- `int sigdelset(sigset_t *set, int signum)`: 将特定信号 `signum` 从信号集中删除. [5]
+- `int sigismember(const sigset_t *set, int signum)`: 检查特定信号 `signum` 是否是信号集 `set` 中的成员. [5]
+- `int sigaction(int signum, struct sigaction *act, struct sigaction *oldact)`: 用于统一不同 Unix 系统之间的信号处理语义. [5]
+- `int sigsuspend(const sigset_t *mask)`: 无限期挂起当前进程, 并在幕后做一些额外工作使得当前进程会在接收到特定信号并触发信号处理程序并且信号处理程序正常返回之后被唤醒. 函数 `sigsuspend` 的预期行为就是无限期挂起当前进程, 也就是说当前进程调用 `sigsuspend` 之后被唤醒当且仅当 `sigsuspend` 报错 (即返回值为 -1). [5]
+- `int setjmp(jmp_buf env)`: 设置非本地跳转锚点. [6]
+- `void longjmp(jmp_buf env, int retval)`: 执行非本地跳转至最近设置的锚点. [6]
+- `int sigsetjmp(sigjmp_buf env, int savesigs)`: 函数 `setjmp` 的信号处理版本. [6]
+- `void siglongjmp(sigjmp_buf env, int retval)`: 函数 `longjmp` 的信号处理版本. [6]
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
@@ -1533,9 +1618,7 @@ done
 
 ### <a id="6.3"></a>实验思路与总结
 
-#### <a id="6.3.1"></a>最终得分
-
-下面是本次实验所实现的分配器的最终评测得分:
+#### <a id="6.3.1"></a>得分: 54/55
 
 ```text
 Results for mm malloc:
@@ -1555,8 +1638,6 @@ Total          95%  112372  0.004737 23721
 
 Perf index = 57 (util) + 40 (thru) = 97/100
 ```
-
-总分为 20 (正确性得分) + 35 * 0.97 (性能得分) + 5 (实现 checker 得分) + 5 (注释得分).
 
 #### <a id="6.3.2"></a>定义
 
@@ -2060,23 +2141,143 @@ void *mm_realloc(void *ptr, size_t size) {
 
 ### <a id="7.3"></a>实验思路与总结
 
-#### <a id="7.3.1"></a>大纲
+#### <a id="7.3.1"></a>得分: 70/70
 
-- 主线程初始化线程池, 初始化缓存, 打开监听套接字描述符, 不断监听客户端请求. 对于每个客户端请求, 主线程负责将客户端描述符送入线程池.
-- 线程池中某个副线程接受任务, 读取客户端请求, 并调用 HTTP 请求解析器解析该请求.
-- 如果所请求的是静态内容, 副线程首先检查缓存中是否已经存在该对象的副本, 若存在则直接返回.
-- 若所请求的是静态内容且未缓存, 或者所请求的是动态内容, 副线程负责向目标服务器请求内容, 将内容存入缓存 (在此之前需要检查内容大小以及缓冲区剩余容量), 并将内容发送回客户端.
+```text
+Building the tiny executable.
 
-#### <a id="7.3.2"></a>要点
+*** Basic ***
+Starting tiny on 23735
+Starting proxy on 14186
+1: home.html
+   Fetching ./tiny/home.html into ./.noproxy directly from Tiny
+   Fetching ./tiny/home.html into ./.proxy using the proxy
+   Comparing the two files
+   Success: Files are identical.
+2: csapp.c
+   Fetching ./tiny/csapp.c into ./.noproxy directly from Tiny
+   Fetching ./tiny/csapp.c into ./.proxy using the proxy
+   Comparing the two files
+   Success: Files are identical.
+3: tiny.c
+   Fetching ./tiny/tiny.c into ./.noproxy directly from Tiny
+   Fetching ./tiny/tiny.c into ./.proxy using the proxy
+   Comparing the two files
+   Success: Files are identical.
+4: godzilla.jpg
+   Fetching ./tiny/godzilla.jpg into ./.noproxy directly from Tiny
+   Fetching ./tiny/godzilla.jpg into ./.proxy using the proxy
+   Comparing the two files
+   Success: Files are identical.
+5: tiny
+   Fetching ./tiny/tiny into ./.noproxy directly from Tiny
+   Fetching ./tiny/tiny into ./.proxy using the proxy
+   Comparing the two files
+   Success: Files are identical.
+Killing tiny and proxy
+basicScore: 40/40
 
-- 实现 HTTP 请求解析器.
-- 使用预线程化方法创建一个固定大小的线程池, 并应用生产者-消费者模型实现对客户端请求的并发响应.
-- 对缓存进行分区, 使用合适的哈希机制将请求的对象映射至缓存中的某一分区. 各个分区独立执行 LRU 驱逐策略, 拥有独立的锁, 并应用读者-写者模型实现同步.
-- 正确处理各种错误, 使得代理服务器能够持久运行.
+*** Concurrency ***
+Starting tiny on port 2622
+Starting proxy on port 27710
+Starting the blocking NOP server on port 13446
+Sleep for 1 seconds waiting for port to be used...
+Trying to fetch a file from the blocking nop-server
+Fetching ./tiny/home.html into ./.noproxy directly from Tiny
+Fetching ./tiny/home.html into ./.proxy using the proxy
+Checking whether the proxy fetch succeeded
+Success: Was able to fetch tiny/home.html from the proxy.
+Killing tiny, proxy, and nop-server
+concurrencyScore: 15/15
 
-#### <a id="7.3.3"></a>实现
+*** Cache ***
+Starting tiny on port 2713
+Starting proxy on port 29202
+Fetching ./tiny/tiny.c into ./.proxy using the proxy
+Fetching ./tiny/home.html into ./.proxy using the proxy
+Fetching ./tiny/csapp.c into ./.proxy using the proxy
+Killing tiny
+Fetching a cached copy of ./tiny/home.html into ./.noproxy
+Success: Was able to fetch tiny/home.html from the cache.
+Killing proxy
+cacheScore: 15/15
 
-##### HTTP 解析器
+totalScore: 70/70
+```
+
+#### <a id="7.3.2"></a>大纲
+
+- 主线程:
+  - 初始化线程池;
+  - 初始化缓存;
+  - 初始化 HTTP 请求解析器 (即编译全局正则表达式对象);
+  - 打开监听套接字描述符, 不断监听客户端请求;
+  - 对于每个客户端请求, 主线程负责将客户端已连接套接字描述符送入线程池.
+- 副线程:
+  - 分离自身;
+  - 不断从队列中获取客户端的已连接套接字描述符.
+  - 每当成功获取到一个描述符:
+    - 初始化 HTTP 请求解析对象;
+    - 使用 HTTP 请求解析器读取并解析该请求:
+      - 如果请求不合法, 则触发错误处理程序 (可以选择向客户端回送一个错误页面, 或者什么也不做);
+      - 如果所请求的是静态内容, 则检查缓存中是否已经存在该对象的副本, 若存在则直接将内容发送回客户端;
+      - 如果所请求的是静态内容但未缓存, 或者所请求的是动态内容, 则建立与目标服务器的连接, 向目标服务器请求内容;
+      - 如果所请求的是静态内容, 在获取到对象内容后需要将内容存入缓存 (在此之前需要检查内容大小以及缓冲区剩余容量);
+      - 将内容发送回客户端.
+    - 释放存储所请求对象内容的缓冲区;
+    - 释放 HTTP 请求解析对象.
+
+#### <a id="7.3.3"></a>要点
+
+- 实验前请务必关闭任何代理. `curl` 默认从环境变量中获取可能的代理设置, 这会导致连接服务器失败并返回空内容.
+- 每当遇到原因未知的 BUG 时记得打开调试工具的 `--verbose` 选项.
+- 需要将辅助脚本 `nop-server.py` 的 shebang 行改为 `#!/usr/bin/env python` 并在下方添加一行编码行 `# -*- coding: utf-8 -*-` 以便在任何场合下都能正确运行.
+- 确保所有 HTTP 请求合法但不在能力范围内的分支都得到处理.
+- 正确处理 `write` 函数, `SIGPIPE` 信号, 以及 `EPIPE` 错误, 具体参考教材 11.6 节末的 Aside 部分.
+- 正确处理客户端提前关闭连接时 `read` 函数报 `ECONNRESET` 错误的问题.
+- 确保所有以指针引用传入的实参的类型正确匹配形参的类型.
+  - 在编译选项中启用 `-Wall` 即可保证.
+- 为所有自定义的数据结构定义相应的构造 (初始化) 函数与析构 (释放) 函数, 并确保正确调用.
+- 确保所有套接字描述符在读取完毕之后都被关闭.
+- 确保**替换**所有固定头部 (例如将 `Proxy-Connection: Keep-Alive` 替换为 `Proxy-Connection: close`).
+- 确保请求的锁都已经按相反方向全部释放.
+- 请求头部是大小写**不**敏感的, 确保正确处理头部名称的对应问题.
+- 确保所有动态分配的内存在任何可能的函数退出路径上都被正确释放.
+- 确保正确释放多级指针 (例如对于 `char **object` 应先释放 `*object` 再释放 `object`).
+- 使用合适的逻辑处理各种可能的报错分支.
+- 编写充分的注释.
+- 可以使用非本地跳转实现报错.
+
+#### <a id="7.3.4"></a>字符串和缓冲区处理要点
+
+- 函数 `sscanf` 的 `%s` 会自动在传入的缓冲区末尾添加空字符 `\0`.
+- 函数 `strlen` 返回的字符串长度不包括空字符 `\0`.
+- 函数 `strcpy` 将源字符串复制到目的字符串, 直至遇到空字符 `\0` (空字符也会被复制).
+  - 大小写**不**敏感版本: `strcasecmp`.
+- 函数 `strcat` 将原字符串追加到目的字符串之后, 目的字符串的结尾空字符被原字符串的首字符所替代, 而原字符串的结尾空字符则称为二者所连接形成的新字符串的结尾空字符.
+- 函数 `strstr` 返回子串在原串的首次出现位置的指针, 若无则返回 `NULL`.
+- 函数 `memcpy` 将源缓冲区的 `n` 个字节的数据直接复制到目的缓冲区, 不考虑空字符, 并且假设两个缓冲区不会重叠.
+- 函数 `Rio_readlineb` 每次读取一行文本数据, 直至遇到字符 `\n` (该字符也会被读入缓冲区), 并自动添加空字符 `\0` 结尾.
+- 函数 `Rio_readnb` 每次读取 `n` 个字节的数据, 除非遇到 `EOF`.
+- 函数 `atoi` 默认忽略任何前导空白符.
+
+#### <a id="7.3.5"></a>Posix 正则表达式 (`<regex.h>`) 要点
+
+- 反斜杠 `\` 在字符类模式中失去转义作用.
+- 如果要在方括号字符类模式 `[]` 内实现对字符 `]` 的排他匹配, 由于反斜杠 `\` 在字符类模式中失去转义作用, 因此必须将 `]` 置于排他字符 `^` 之后, 即 `[^]]`.
+- 由于 C 语言自身对字符串具有转义处理, 对 regex 中的转义字符需要双重转义, 例如若要转义 `[` 字符, regex 模式为 `\[`, 对应的 C 语言字符串模式应为 `\\[`.
+- 无法在一个模式的字符类中嵌套另一个相反模式的字符类.
+- 无法使用 `\xHH` 的语法直接匹配 ASCII 字面量, 其中 `H` 表示一个十六进制字符.
+
+#### <a id="7.3.6"></a>Telnet 要点
+
+- 当 `telnet` 处于逐行模式的时候, 直接输入 `eof` 将会发送 EOF 给对方.
+- 在 `telnet` 中默认的 newline 为 CRLF, 每当键入换行符时将自动转换为 CRLF. 更好的方法是使用管道直接将一个行结束字符为 LF 的文本文件输入到 `telnet`.
+- `telnet` 无法在标准输入重定向至文件的同时将服务器返回的响应通过重定向标准输出存储到文件中, 猜测一个可能的原因是标准输入重定向至文件之后 `telnet` 便不再进入逐行模式, 而响应只会在逐行模式下才会打印. 因此唯一的做法是放弃将标准输入重定向至文件的方法, 直接手动输入请求 (复制粘贴即可), 并使用 `tee` 将响应同时输出至屏幕以及文件.
+
+#### <a id="7.3.7"></a>实现
+
+##### <a id="7.3.7.1"></a>HTTP 解析器
 
 HTTP 请求的定义:
 
@@ -2346,11 +2547,11 @@ HTTP 请求的定义:
   - 对于 HTTP version, 使用正则表达式检查其合法性. 若不合法或不是 HTTP/1.0 或 HTTP/1.1 则返回错误页面.
 - 对于 headers, [TODO]
 
-##### <a id="7.3.3.1"></a>线程池 [TODO]
+##### <a id="7.3.7.2"></a>线程池
 
 线程池是通过实现一个同步工作队列来实现的.
 
-##### <a id="7.3.3.2"></a>缓存 [TODO]
+##### <a id="7.3.7.3"></a>缓存
 
 对缓存进行分区, 各个分区独立执行 LRU 驱逐策略, 拥有独立的锁, 并应用读者-写者模型实现同步. 缓存的分区策略类似于低位交叉编址, 目的是为了更好的可拓展性并降低实现难度.
 
@@ -2384,9 +2585,9 @@ HTTP 请求的定义:
   - 一个指向所缓存的对象的数据缓冲区的指针
   - 下一个链表结点的指针
 
-#### <a id="7.3.4"></a>Cheat Sheet
+#### <a id="7.3.8"></a>Cheat Sheet
 
-##### <a id="7.3.4.1"></a>Unix I/O
+##### <a id="7.3.8.1"></a>Unix I/O
 
 头文件:
 
@@ -2420,7 +2621,7 @@ I/O 重定向:
 
 - 复制文件描述符: `int dup2(int oldfd, int newfd);` [4]
 
-##### <a id="7.3.4.2"></a>标准 I/O
+##### <a id="7.3.8.2"></a>标准 I/O
 
 头文件: `<stdio.h>`
 
@@ -2442,7 +2643,7 @@ I/O 函数:
 - 清空缓冲区: `int fflush(FILE *stream);`
 - 设置文件读写偏移: `int fseek(FILE *stream, long offset, int whence);`
 
-##### <a id="7.3.4.3"></a>CS:APP 所实现的 RIO
+##### <a id="7.3.8.3"></a>CS:APP 所实现的 RIO
 
 内部缓冲区类型定义:
 
@@ -2468,7 +2669,7 @@ typedef struct {
 - 带缓冲读: `ssize_t rio_readnb(rio_t *rp, void *user_buffer, size_t total_bytes_number)`
 - 带缓冲读 (文本行): `ssize_t rio_readlineb(rio_t *rp, void *user_buffer, size_t max_line_length)`
 
-##### <a id="7.3.4.4"></a>网络
+##### <a id="7.3.8.4"></a>网络
 
 头文件:
 
@@ -2506,7 +2707,7 @@ CS:APP 官方提供的包装函数:
 - 客户端主动建立连接: `int open_clientfd(char *hostname, char *port)`
 - 服务器创建监听描述符: `int open_listenfd(char *port)`
 
-##### <a id="7.3.4.5"></a>I/O 多路复用
+##### <a id="7.3.8.5"></a>I/O 多路复用
 
 头文件: `<sys/select.h>`
 
@@ -2521,7 +2722,7 @@ CS:APP 官方提供的包装函数:
 - `FD_SET(int fd, fd set *fdset);`
 - `FD_ISSET(int fd, fd set *fdset);`
 
-##### <a id="7.3.4.6"></a>Posix 线程 Pthreads
+##### <a id="7.3.8.6"></a>Posix 线程 Pthreads
 
 头文件: `<pthread.h>`
 
@@ -2535,7 +2736,7 @@ CS:APP 官方提供的包装函数:
 - 当前线程分离自身: `int pthread_detach(pthread_t tid);`
 - 首个线程执行初始化: `int pthread_once(pthread_once_t *once_control, void (*init_routine)(void));`
 
-##### <a id="7.3.4.7"></a>Posix 信号量
+##### <a id="7.3.8.7"></a>Posix 信号量
 
 头文件: `<semaphore.h>`
 

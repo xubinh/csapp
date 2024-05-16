@@ -3,7 +3,7 @@
 
 typedef struct {
     int *queue;
-    size_t size;
+    size_t max_queue_size;
     size_t front;
     size_t rear;
     sem_t mutex;
