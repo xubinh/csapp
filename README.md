@@ -16,7 +16,7 @@
 
 ## <a id="toc"></a>目录
 
-<details open="open"><summary><a href="#1">1. Data Lab</a></summary>
+<details open="open"><summary><a href="#1">1. Data Lab (得分: 62/62)</a></summary>
 
 - <a href="#1.1">实验目的</a>
 - <a href="#1.2">实验框架</a>
@@ -45,7 +45,7 @@
   - <a href="#1.4.1">命题逻辑</a>
 
 </details>
-<details><summary><a href="#2">2. Bomb Lab</a></summary>
+<details><summary><a href="#2">2. Bomb Lab (操作性实验, 无法评分)</a></summary>
 
 - <a href="#2.1">实验目的</a>
 - <a href="#2.2">实验框架</a>
@@ -73,7 +73,7 @@
   - <a href="#2.4.2">Linux 命令</a>
 
 </details>
-<details><summary><a href="#3">3. Attack Lab</a></summary>
+<details><summary><a href="#3">3. Attack Lab (得分: 100/100)</a></summary>
 
 - <a href="#3.1">实验目的</a>
 - <a href="#3.2">实验框架</a>
@@ -82,15 +82,16 @@
   - <a href="#3.2.3">`farm.c` - 零件仓库</a>
   - <a href="#3.2.4">其他</a>
 - <a href="#3.3">实验思路与总结</a>
-  - <a href="#3.3.1">`ctarget` - level#1</a>
-  - <a href="#3.3.2">`ctarget` - level#2</a>
-  - <a href="#3.3.3">`ctarget` - level#3</a>
-  - <a href="#3.3.4">`rtarget` - level#2</a>
-  - <a href="#3.3.5">`rtarget` - level#3</a>
+  - <a href="#3.3.1">得分: 100/100</a>
+  - <a href="#3.3.2">`ctarget` - level#1</a>
+  - <a href="#3.3.3">`ctarget` - level#2</a>
+  - <a href="#3.3.4">`ctarget` - level#3</a>
+  - <a href="#3.3.5">`rtarget` - level#2</a>
+  - <a href="#3.3.6">`rtarget` - level#3</a>
 - <a href="#3.4">相关资料</a>
 
 </details>
-<details><summary><a href="#4">4. Cache Lab</a></summary>
+<details><summary><a href="#4">4. Cache Lab (得分: 51.6/53)</a></summary>
 
 - <a href="#4.1">实验目的</a>
 - <a href="#4.2">实验框架</a>
@@ -113,7 +114,7 @@
 - <a href="#4.4">相关资料</a>
 
 </details>
-<details><summary><a href="#5">5. Shell Lab</a></summary>
+<details><summary><a href="#5">5. Shell Lab (得分: 80/80)</a></summary>
 
 - <a href="#5.1">实验目的</a>
 - <a href="#5.2">实验框架</a>
@@ -134,7 +135,7 @@
 - <a href="#5.4">相关资料</a>
 
 </details>
-<details><summary><a href="#6">6. Malloc Lab</a></summary>
+<details><summary><a href="#6">6. Malloc Lab (得分: 54/55)</a></summary>
 
 - <a href="#6.1">实验目的</a>
 - <a href="#6.2">实验框架</a>
@@ -163,7 +164,7 @@
 - <a href="#6.4">相关资料</a>
 
 </details>
-<details><summary><a href="#7">7. Proxy Lab</a></summary>
+<details><summary><a href="#7">7. Proxy Lab (得分: 70/70)</a></summary>
 
 - <a href="#7.1">实验目的</a>
 - <a href="#7.2">实验框架</a>
@@ -208,7 +209,7 @@
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-## <a id="1"></a>1. Data Lab
+## <a id="1"></a>1. Data Lab (得分: 62/62)
 
 ### <a id="1.1"></a>实验目的
 
@@ -486,7 +487,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 - [维基百科: 命题逻辑](https://en.wikipedia.org/wiki/Propositional_calculus)
 
-## <a id="2"></a>2. Bomb Lab
+## <a id="2"></a>2. Bomb Lab (操作性实验, 无法评分)
 
 ### <a id="2.1"></a>实验目的
 
@@ -637,7 +638,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-## <a id="3"></a>3. Attack Lab
+## <a id="3"></a>3. Attack Lab (得分: 100/100)
 
 ### <a id="3.1"></a>实验目的
 
@@ -719,7 +720,7 @@ unsigned getbuf(){
 
 ### <a id="3.3"></a>实验思路与总结
 
-#### 得分: 100/100
+#### <a id="3.3.1"></a>得分: 100/100
 
 具体见文件:
 
@@ -729,7 +730,7 @@ unsigned getbuf(){
 - [r2.txt](3-attack-lab/r2.txt);
 - [r3.txt](3-attack-lab/r3.txt).
 
-#### <a id="3.3.1"></a>`ctarget` - level#1
+#### <a id="3.3.2"></a>`ctarget` - level#1
 
 目标: 利用栈溢出漏洞使函数 `test` 在返回时跳转至函数 `touch1` 处.
 
@@ -739,7 +740,7 @@ unsigned getbuf(){
 
 因此最终的攻击策略是将攻击字符串的前 40 字节设置为任意内容用于填充缓冲区的 40 字节, 然后将接下来的 8 个字节设置为函数 `touch1` 的入口地址. 具体见文件[c1.txt](3-attack-lab/c1.txt).
 
-#### <a id="3.3.2"></a>`ctarget` - level#2
+#### <a id="3.3.3"></a>`ctarget` - level#2
 
 目标: 利用栈溢出漏洞使函数 `test` 在返回时跳转**并调用**函数 `touch2`.
 
@@ -753,7 +754,7 @@ unsigned getbuf(){
 
 综上可知攻击策略为 40 字节 padding + 8 字节攻击代码入口地址 + 攻击代码 (传入参数, 移动 `$rsp`, 执行 `ret`) + 16 字节对齐 padding + 函数 `touch2` 的入口地址. 具体见文件[c2.txt](3-attack-lab/c2.txt).
 
-#### <a id="3.3.3"></a>`ctarget` - level#3
+#### <a id="3.3.4"></a>`ctarget` - level#3
 
 思路:
 
@@ -778,7 +779,7 @@ unsigned getbuf(){
 
 具体见文件[c3.txt](3-attack-lab/c3.txt).
 
-#### <a id="3.3.4"></a>`rtarget` - level#2
+#### <a id="3.3.5"></a>`rtarget` - level#2
 
 > [!NOTE]
 >
@@ -815,7 +816,7 @@ unsigned getbuf(){
 
 具体见文件[r2.txt](3-attack-lab/r2.txt).
 
-#### <a id="3.3.5"></a>`rtarget` - level#3
+#### <a id="3.3.6"></a>`rtarget` - level#3
 
 > [!NOTE]
 >
@@ -871,7 +872,7 @@ unsigned getbuf(){
 
 无
 
-## <a id="4"></a>4. Cache Lab
+## <a id="4"></a>4. Cache Lab (得分: 51.6/53)
 
 ### <a id="4.1"></a>实验目的
 
@@ -1118,7 +1119,7 @@ Trans perf 61x67           8.6        10        2140
 - [分块 (blocking) - 提升时间局部性](http://csapp.cs.cmu.edu/public/waside/waside-blocking.pdf)
 - [`getopt` 函数文档](https://man7.org/linux/man-pages/man3/getopt.3.html)
 
-## <a id="5"></a>5. Shell Lab
+## <a id="5"></a>5. Shell Lab (得分: 80/80)
 
 ### <a id="5.1"></a>实验目的
 
@@ -1370,7 +1371,7 @@ fi
 
 无
 
-## <a id="6"></a>6. Malloc Lab
+## <a id="6"></a>6. Malloc Lab (得分: 54/55)
 
 ### <a id="6.1"></a>实验目的
 
@@ -2024,7 +2025,7 @@ void *mm_realloc(void *ptr, size_t size) {
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-## <a id="7"></a>7. Proxy Lab
+## <a id="7"></a>7. Proxy Lab (得分: 70/70)
 
 ### <a id="7.1"></a>实验目的
 
