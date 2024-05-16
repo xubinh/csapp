@@ -719,6 +719,16 @@ unsigned getbuf(){
 
 ### <a id="3.3"></a>实验思路与总结
 
+#### 得分: 100/100
+
+具体见文件:
+
+- [c1.txt](3-attack-lab/c1.txt);
+- [c2.txt](3-attack-lab/c2.txt);
+- [c3.txt](3-attack-lab/c3.txt);
+- [r2.txt](3-attack-lab/r2.txt);
+- [r3.txt](3-attack-lab/r3.txt).
+
 #### <a id="3.3.1"></a>`ctarget` - level#1
 
 目标: 利用栈溢出漏洞使函数 `test` 在返回时跳转至函数 `touch1` 处.
