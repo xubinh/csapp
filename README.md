@@ -26,51 +26,54 @@
   - <a href="#1.2.4">`dlc` - 合法性检查工具</a>
   - <a href="#1.2.5">`driver.pl` - 最终评分工具</a>
   - <a href="#1.2.6">其他</a>
-- <a href="#1.3">实验思路与总结</a>
-  - <a href="#1.3.1">得分: 62/62</a>
-  - <a href="#1.3.2">#01 `bitXor` - 使用 `~` 和 `&` 实现 `^`</a>
-  - <a href="#1.3.3">#02 `tmin` - 返回 </a>$TMin_w$
-  - <a href="#1.3.4">#03 `isTmax` - 判断是否为 </a>$TMax_w$
-  - <a href="#1.3.5">#04 `allOddBits` - 判断一个二进制模式的所有奇数位是否均为 1</a>
-  - <a href="#1.3.6">#05 `negate` - 返回一个补码整数的相反数</a>
-  - <a href="#1.3.7">#06 `isAsciiDigit`</a>
-  - <a href="#1.3.8">#07 `conditional`</a>
-  - <a href="#1.3.9">#08 `isLessOrEqual`</a>
-  - <a href="#1.3.10">#09 `logicalNeg`</a>
-  - <a href="#1.3.11">#10 `howManyBits`</a>
-  - <a href="#1.3.12">#11 `floatScale2`</a>
-  - <a href="#1.3.13">#12 `floatFloat2Int`</a>
-  - <a href="#1.3.14">#13 `floatPower2`</a>
-- <a href="#1.4">相关资料</a>
-  - <a href="#1.4.1">命题逻辑</a>
+- <a href="#1.3">评价标准</a>
+- <a href="#1.4">实验思路与总结</a>
+  - <a href="#1.4.1">#01 `bitXor` - 使用 `~` 和 `&` 实现 `^`</a>
+  - <a href="#1.4.2">#02 `tmin` - 返回 </a>$TMin_w$
+  - <a href="#1.4.3">#03 `isTmax` - 判断是否为 </a>$TMax_w$
+  - <a href="#1.4.4">#04 `allOddBits` - 判断一个二进制模式的所有奇数位是否均为 1</a>
+  - <a href="#1.4.5">#05 `negate` - 返回一个补码整数的相反数</a>
+  - <a href="#1.4.6">#06 `isAsciiDigit`</a>
+  - <a href="#1.4.7">#07 `conditional`</a>
+  - <a href="#1.4.8">#08 `isLessOrEqual`</a>
+  - <a href="#1.4.9">#09 `logicalNeg`</a>
+  - <a href="#1.4.10">#10 `howManyBits`</a>
+  - <a href="#1.4.11">#11 `floatScale2`</a>
+  - <a href="#1.4.12">#12 `floatFloat2Int`</a>
+  - <a href="#1.4.13">#13 `floatPower2`</a>
+- <a href="#1.5">实验结果展示</a>
+- <a href="#1.6">相关资料</a>
+  - <a href="#1.6.1">命题逻辑</a>
 
 </details>
-<details><summary><a href="#2">2. Bomb Lab (操作性实验, 无法评分)</a></summary>
+<details><summary><a href="#2">2. Bomb Lab (得分: 70/70)</a></summary>
 
 - <a href="#2.1">实验目的</a>
 - <a href="#2.2">实验框架</a>
   - <a href="#2.2.1">`bomb` - 待调试文件主体</a>
   - <a href="#2.2.2">`bomb.c` - 描述主体构成</a>
-- <a href="#2.3">实验思路与总结</a>
-  - <a href="#2.3.1">`sig_handler`</a>
-  - <a href="#2.3.2">`initialize_bomb`</a>
-  - <a href="#2.3.3">`string_length`</a>
-  - <a href="#2.3.4">`strings_not_equal`</a>
-  - <a href="#2.3.5">`explode_bomb`</a>
-  - <a href="#2.3.6">`phase_defused`</a>
-  - <a href="#2.3.7">`read_six_numbers`</a>
-  - <a href="#2.3.8">`func4`</a>
-  - <a href="#2.3.9">`fun7`</a>
-  - <a href="#2.3.10">`phase_1`</a>
-  - <a href="#2.3.11">`phase_2`</a>
-  - <a href="#2.3.12">`phase_3`</a>
-  - <a href="#2.3.13">`phase_4`</a>
-  - <a href="#2.3.14">`phase_5`</a>
-  - <a href="#2.3.15">`phase_6`</a>
-  - <a href="#2.3.16">`secret_phase`</a>
-- <a href="#2.4">相关资料</a>
-  - <a href="#2.4.1">GDB</a>
-  - <a href="#2.4.2">Linux 命令</a>
+- <a href="#2.3">评价标准</a>
+- <a href="#2.4">实验思路与总结</a>
+  - <a href="#2.4.1">`sig_handler`</a>
+  - <a href="#2.4.2">`initialize_bomb`</a>
+  - <a href="#2.4.3">`string_length`</a>
+  - <a href="#2.4.4">`strings_not_equal`</a>
+  - <a href="#2.4.5">`explode_bomb`</a>
+  - <a href="#2.4.6">`phase_defused`</a>
+  - <a href="#2.4.7">`read_six_numbers`</a>
+  - <a href="#2.4.8">`func4`</a>
+  - <a href="#2.4.9">`fun7`</a>
+  - <a href="#2.4.10">`phase_1`</a>
+  - <a href="#2.4.11">`phase_2`</a>
+  - <a href="#2.4.12">`phase_3`</a>
+  - <a href="#2.4.13">`phase_4`</a>
+  - <a href="#2.4.14">`phase_5`</a>
+  - <a href="#2.4.15">`phase_6`</a>
+  - <a href="#2.4.16">`secret_phase`</a>
+- <a href="#2.5">实验结果展示</a>
+- <a href="#2.6">相关资料</a>
+  - <a href="#2.6.1">GDB</a>
+  - <a href="#2.6.2">Linux 命令</a>
 
 </details>
 <details><summary><a href="#3">3. Attack Lab (得分: 100/100)</a></summary>
@@ -81,14 +84,15 @@
   - <a href="#3.2.2">`hex2raw` - 帮手程序</a>
   - <a href="#3.2.3">`farm.c` - 零件仓库</a>
   - <a href="#3.2.4">其他</a>
-- <a href="#3.3">实验思路与总结</a>
-  - <a href="#3.3.1">得分: 100/100</a>
-  - <a href="#3.3.2">`ctarget` - level#1</a>
-  - <a href="#3.3.3">`ctarget` - level#2</a>
-  - <a href="#3.3.4">`ctarget` - level#3</a>
-  - <a href="#3.3.5">`rtarget` - level#2</a>
-  - <a href="#3.3.6">`rtarget` - level#3</a>
-- <a href="#3.4">相关资料</a>
+- <a href="#3.3">评价标准</a>
+- <a href="#3.4">实验思路与总结</a>
+  - <a href="#3.4.1">`ctarget` - level#1</a>
+  - <a href="#3.4.2">`ctarget` - level#2</a>
+  - <a href="#3.4.3">`ctarget` - level#3</a>
+  - <a href="#3.4.4">`rtarget` - level#2</a>
+  - <a href="#3.4.5">`rtarget` - level#3</a>
+- <a href="#3.5">实验结果展示</a>
+- <a href="#3.6">相关资料</a>
 
 </details>
 <details><summary><a href="#4">4. Cache Lab (得分: 51.6/53)</a></summary>
@@ -98,20 +102,21 @@
   - <a href="#4.2.1">`csim.c` - 实现对高速缓存 cache 的模拟</a>
   - <a href="#4.2.2">`csim-ref` - 官方实现的高速缓存 cache 参考模拟器</a>
   - <a href="#4.2.3">`traces/` - 测试样例目录</a>
-  - <a href="#4.2.4">`test-csim` - 对 cache 模拟器进行打分</a>
+  - <a href="#4.2.4">`test-csim` - 对 cache 模拟器进行评价</a>
   - <a href="#4.2.5">`trans.c` - 实现最优化的矩阵转置</a>
-  - <a href="#4.2.6">`test-trans.c` - 对矩阵转置函数实现进行打分</a>
+  - <a href="#4.2.6">`test-trans.c` - 对所实现的矩阵转置函数进行评价</a>
   - <a href="#4.2.7">`Makefile`</a>
   - <a href="#4.2.8">`driver.py` - 最终评分工具</a>
   - <a href="#4.2.9">其他</a>
-- <a href="#4.3">实验思路与总结</a>
-  - <a href="#4.3.1">得分: 51.6/53</a>
-  - <a href="#4.3.2">Part A</a>
-  - <a href="#4.3.3">Part B</a>
-    - <a href="#4.3.3.1">32 × 32</a>
-    - <a href="#4.3.3.2">64 × 64</a>
-    - <a href="#4.3.3.3">61 × 67</a>
-- <a href="#4.4">相关资料</a>
+- <a href="#4.3">评价标准</a>
+- <a href="#4.4">实验思路与总结</a>
+  - <a href="#4.4.1">Part A</a>
+  - <a href="#4.4.2">Part B</a>
+    - <a href="#4.4.2.1">32 × 32</a>
+    - <a href="#4.4.2.2">64 × 64</a>
+    - <a href="#4.4.2.3">61 × 67</a>
+- <a href="#4.5">实验结果展示</a>
+- <a href="#4.6">相关资料</a>
 
 </details>
 <details><summary><a href="#5">5. Shell Lab (得分: 80/80)</a></summary>
@@ -125,14 +130,16 @@
   - <a href="#5.2.5">`tsh.c` - tsh 源文件</a>
   - <a href="#5.2.6">`tshref` - tsh 的参考实现</a>
   - <a href="#5.2.7">`tshref.out` - tsh 参考实现的自动化测试输出</a>
-- <a href="#5.3">实验思路与总结</a>
-  - <a href="#5.3.1">得分: 80/80</a>
-  - <a href="#5.3.2">用于自动化测试的脚本</a>
-  - <a href="#5.3.3">所需填充的函数的思路</a>
-  - <a href="#5.3.4">Cheat Sheets</a>
-    - <a href="#5.3.4.1">`tsh.c` 中已实现的函数</a>
-    - <a href="#5.3.4.2">C 标准函数</a>
-- <a href="#5.4">相关资料</a>
+  - <a href="#5.2.8">其他</a>
+- <a href="#5.3">评价标准</a>
+- <a href="#5.4">实验思路与总结</a>
+  - <a href="#5.4.1">用于自动化测试的脚本</a>
+  - <a href="#5.4.2">所需填充的函数的思路</a>
+  - <a href="#5.4.3">Cheat Sheets</a>
+    - <a href="#5.4.3.1">`tsh.c` 中已实现的函数</a>
+    - <a href="#5.4.3.2">C 标准函数</a>
+- <a href="#5.5">实验结果展示</a>
+- <a href="#5.6">相关资料</a>
 
 </details>
 <details><summary><a href="#6">6. Malloc Lab (得分: 54/55)</a></summary>
@@ -148,20 +155,21 @@
     - <a href="#6.2.5.2">一些提示</a>
     - <a href="#6.2.5.3">关于评分工具 `./mdriver` 所使用的默认吞吐量配置</a>
     - <a href="#6.2.5.4">用于自动化测试的脚本</a>
-- <a href="#6.3">实验思路与总结</a>
-  - <a href="#6.3.1">得分: 54/55</a>
-  - <a href="#6.3.2">定义</a>
-  - <a href="#6.3.3">实现 `mm_init`, `mm_malloc` 和 `mm_free`</a>
-  - <a href="#6.3.4">实现 `mm_check`</a>
-  - <a href="#6.3.5">DEBUG</a>
-    - <a href="#6.3.5.1">`mm_free` 中忘记接住合并函数 `_coalesce` 的返回值</a>
-    - <a href="#6.3.5.2">放置函数 `_place` 中对不分割的情况的处理存在错误</a>
-    - <a href="#6.3.5.3">忘记在检查程序 `mm_check` 中释放内存</a>
-  - <a href="#6.3.6">优化 `mm_malloc` 和 `mm_free`</a>
-    - <a href="#6.3.6.1">测试样例 `binary-bal.rep` 和 `binary2-bal.rep` 的内存利用率过低</a>
-  - <a href="#6.3.7">实现 `mm_realloc`</a>
-  - <a href="#6.3.8">优化 `mm_realloc`</a>
-- <a href="#6.4">相关资料</a>
+- <a href="#6.3">评价标准</a>
+- <a href="#6.4">实验思路与总结</a>
+  - <a href="#6.4.1">定义</a>
+  - <a href="#6.4.2">实现 `mm_init`, `mm_malloc` 和 `mm_free`</a>
+  - <a href="#6.4.3">实现 `mm_check`</a>
+  - <a href="#6.4.4">DEBUG</a>
+    - <a href="#6.4.4.1">`mm_free` 中忘记接住合并函数 `_coalesce` 的返回值</a>
+    - <a href="#6.4.4.2">放置函数 `_place` 中对不分割的情况的处理存在错误</a>
+    - <a href="#6.4.4.3">忘记在检查程序 `mm_check` 中释放内存</a>
+  - <a href="#6.4.5">优化 `mm_malloc` 和 `mm_free`</a>
+    - <a href="#6.4.5.1">测试样例 `binary-bal.rep` 和 `binary2-bal.rep` 的内存利用率过低</a>
+  - <a href="#6.4.6">实现 `mm_realloc`</a>
+  - <a href="#6.4.7">优化 `mm_realloc`</a>
+- <a href="#6.5">实验结果展示</a>
+- <a href="#6.6">相关资料</a>
 
 </details>
 <details><summary><a href="#7">7. Proxy Lab (得分: 70/70)</a></summary>
@@ -175,29 +183,31 @@
   - <a href="#7.2.5">`port-for-user.pl` - 随机生成端口号</a>
   - <a href="#7.2.6">`free-port.sh` - 探测并返回一个可用的端口号</a>
   - <a href="#7.2.7">`driver.sh` - 评分工具</a>
-  - <a href="#7.2.8">`nop-server.py` - 评分工具帮手脚本</a>
+  - <a href="#7.2.8">`nop-server.py` - 评分工具的帮手脚本</a>
   - <a href="#7.2.9">`tiny/` - CS:APP 官方实现的 TINY 服务器</a>
   - <a href="#7.2.10">其他</a>
-- <a href="#7.3">实验思路与总结</a>
-  - <a href="#7.3.1">得分: 70/70</a>
-  - <a href="#7.3.2">大纲</a>
-  - <a href="#7.3.3">要点</a>
-  - <a href="#7.3.4">字符串和缓冲区处理要点</a>
-  - <a href="#7.3.5">Posix 正则表达式 (`<regex.h>`) 要点</a>
-  - <a href="#7.3.6">Telnet 要点</a>
-  - <a href="#7.3.7">实现</a>
-    - <a href="#7.3.7.1">HTTP 解析器</a>
-    - <a href="#7.3.7.2">线程池</a>
-    - <a href="#7.3.7.3">缓存</a>
-  - <a href="#7.3.8">Cheat Sheet</a>
-    - <a href="#7.3.8.1">Unix I/O</a>
-    - <a href="#7.3.8.2">标准 I/O</a>
-    - <a href="#7.3.8.3">CS:APP 所实现的 RIO</a>
-    - <a href="#7.3.8.4">网络</a>
-    - <a href="#7.3.8.5">I/O 多路复用</a>
-    - <a href="#7.3.8.6">Posix 线程 Pthreads</a>
-    - <a href="#7.3.8.7">Posix 信号量</a>
-- <a href="#7.4">相关资料</a>
+- <a href="#7.3">评价标准</a>
+- <a href="#7.4">实验思路与总结</a>
+  - <a href="#7.4.1">大纲</a>
+  - <a href="#7.4.2">要点</a>
+    - <a href="#7.4.2.1">一般要点</a>
+    - <a href="#7.4.2.2">字符串和缓冲区处理要点</a>
+    - <a href="#7.4.2.3">Posix 正则表达式 (`<regex.h>`) 要点</a>
+    - <a href="#7.4.2.4">Telnet 要点</a>
+  - <a href="#7.4.3">实现</a>
+    - <a href="#7.4.3.1">HTTP 解析器 (位于 `http_request_parser.h`)</a>
+    - <a href="#7.4.3.2">线程池 (位于 `integer_queue.h`)</a>
+    - <a href="#7.4.3.3">并发缓存 (位于 `cache.h`)</a>
+  - <a href="#7.4.4">Cheat Sheets</a>
+    - <a href="#7.4.4.1">Unix I/O</a>
+    - <a href="#7.4.4.2">标准 I/O</a>
+    - <a href="#7.4.4.3">CS:APP 所实现的 RIO</a>
+    - <a href="#7.4.4.4">网络</a>
+    - <a href="#7.4.4.5">I/O 多路复用</a>
+    - <a href="#7.4.4.6">Posix 线程 Pthreads</a>
+    - <a href="#7.4.4.7">Posix 信号量</a>
+- <a href="#7.5">实验结果展示</a>
+- <a href="#7.6">相关资料</a>
 
 </details>
 <details><summary><a href="#8">GDB 入门</a></summary>
@@ -307,35 +317,17 @@
 
 - 如果要使用 `printf` 语句进行 debug, 直接使用即可, 无需包含 `stdio.h` 头文件 (可能 gcc 会报 warning, 忽略即可).
 
-- 具体打分细则见 handout.
-
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-### <a id="1.3"></a>实验思路与总结
+### <a id="1.3"></a>评价标准
 
-#### <a id="1.3.1"></a>得分: 62/62
+- 正确性占 36 分, 代码性能表现占 26 分, 良好的代码风格占 5 分.
+- 对于正确性, 每道题目都具有对应的分数, 通过一道题目即得分.
+- 对于代码性能表现, 每道题目都规定了一个最大允许的运算符使用次数, 只要最终的使用次数落在该范围内即得分.
 
-```text
-Correctness Results     Perf Results
-Points  Rating  Errors  Points  Ops     Puzzle
-1       1       0       2       8       bitXor
-1       1       0       2       1       tmin
-1       1       0       2       8       isTmax
-2       2       0       2       10      allOddBits
-2       2       0       2       2       negate
-3       3       0       2       8       isAsciiDigit
-3       3       0       2       9       conditional
-3       3       0       2       17      isLessOrEqual
-4       4       0       2       12      logicalNeg
-4       4       0       2       34      howManyBits
-4       4       0       2       13      floatScale2
-4       4       0       2       20      floatFloat2Int
-4       4       0       2       12      floatPower2
+### <a id="1.4"></a>实验思路与总结
 
-Score = 62/62 [36/36 Corr + 26/26 Perf] (154 total operators)
-```
-
-#### <a id="1.3.2"></a>#01 `bitXor` - 使用 `~` 和 `&` 实现 `^`
+#### <a id="1.4.1"></a>#01 `bitXor` - 使用 `~` 和 `&` 实现 `^`
 
 设两个比特 $p$ 和 $q$ 以及对应的命题 $P$ 和 $Q$, 在命题逻辑 (propositional logic) 下, 由德摩根定律 (De Morgan's laws), 异或运算可表示为
 
@@ -351,7 +343,7 @@ $$
 p ^ q = ~((~(p & (~q))) & (~((~p) & q))).
 ```
 
-#### <a id="1.3.3"></a>#02 `tmin` - 返回 $TMin_w$
+#### <a id="1.4.2"></a>#02 `tmin` - 返回 $TMin_w$
 
 根据 $B2T_w$ 的定义,
 
@@ -369,7 +361,7 @@ $$
 int tmin = 1 << 31; // 0x100...00
 ```
 
-#### <a id="1.3.4"></a>#03 `isTmax` - 判断是否为 $TMax_w$
+#### <a id="1.4.3"></a>#03 `isTmax` - 判断是否为 $TMax_w$
 
 在没有任何运算符与常数使用限制的情况下, 判断一个整型值 $x$ 是否为 $TMax_w$ 只需将其二进制模式与 $TMax_w$ 的进行比较即可:
 
@@ -423,7 +415,7 @@ int constraint_2 = !!(~x);
 int is_tmax = constraint_1 & constraint_2;
 ```
 
-#### <a id="1.3.5"></a>#04 `allOddBits` - 判断一个二进制模式的所有奇数位是否均为 1
+#### <a id="1.4.4"></a>#04 `allOddBits` - 判断一个二进制模式的所有奇数位是否均为 1
 
 所有特定位均为 1 当且仅当所有特定位的按位与的结果为 1. 由于最大允许运算符数量为 12, 直接顺次对每个位进行按位与的暴力解法不可行. 一种办法是通过折半移位同时对多个位进行按位与:
 
@@ -441,53 +433,77 @@ int x_2 = x_4 & (x_4 >> 2);
 int are_all_odd_bits = (x_2 >> 1) & 1;
 ```
 
-#### <a id="1.3.6"></a>#05 `negate` - 返回一个补码整数的相反数
+#### <a id="1.4.5"></a>#05 `negate` - 返回一个补码整数的相反数
 
 最终实现为取反加一, 原理待补充.
 
-#### <a id="1.3.7"></a>#06 `isAsciiDigit`
+#### <a id="1.4.6"></a>#06 `isAsciiDigit`
 
 通过将两个模式相减并检查结果是否为负数来实现比较运算.
 
-#### <a id="1.3.8"></a>#07 `conditional`
+#### <a id="1.4.7"></a>#07 `conditional`
 
 首先判断是否为零, 若为零则选择全 0 模式, 否则取反得到全 1 模式; 再使用按位与 `&` 进行条件选择.
 
-#### <a id="1.3.9"></a>#08 `isLessOrEqual`
+#### <a id="1.4.8"></a>#08 `isLessOrEqual`
 
 先检查两个数是否同号, 若同号则通过相减是否得到负数进行判断, 若异号直接检查哪一个数为正哪一个数为负即可.
 
-#### <a id="1.3.10"></a>#09 `logicalNeg`
+#### <a id="1.4.9"></a>#09 `logicalNeg`
 
 逻辑非等价于检查取反后的结果是否为全 0.
 
-#### <a id="1.3.11"></a>#10 `howManyBits`
+#### <a id="1.4.10"></a>#10 `howManyBits`
 
 举例:
 
 - `0x0001101` 需要 5 位, 具体为 `0x00 01101`, 即从左往右找最长连续相同的子串, 然后退一格断开. 思路是先将模式与其自身的右移一位结果进行按位异或, 得到每两位之间是否相同的结果, 最终答案的大小等于按位异或得到的模式中从左往右最长全等子串的长度关于 32 的补集. 注意由于至少需要 1 位进行表示, 所以需要对异或的结果至少将其与 1 进行按位或. 最后使用二分法找到该子串的补集的长度.
 
-#### <a id="1.3.12"></a>#11 `floatScale2`
+#### <a id="1.4.11"></a>#11 `floatScale2`
 
 分情况讨论, 如果是特殊值, 直接返回; 如果是非规格化数, 直接对尾数部分进行左移; 否则就是规格化数, 对阶码加一即可. 注意如果加一之后变为特殊值还需要对尾数进行清空.
 
-#### <a id="1.3.13"></a>#12 `floatFloat2Int`
+#### <a id="1.4.12"></a>#12 `floatFloat2Int`
 
 分情况讨论, 如果阶码大于整型范围则直接返回 (由于返回值恰好为 -2147483648, 阶码真实值等于 31 的情况也可归纳至其中); 如果小于 0 则返回 0; 否则对尾数直接进行截断即可.
 
-#### <a id="1.3.14"></a>#13 `floatPower2`
+#### <a id="1.4.13"></a>#13 `floatPower2`
 
 分情况讨论, 如果指数大于阶码范围则直接返回, 如果小于阶码范围则返回 0, 然后分别处理位于规格化范围和非规格化范围两种情况即可.
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-### <a id="1.4"></a>相关资料
+### <a id="1.5"></a>实验结果展示
 
-#### <a id="1.4.1"></a>命题逻辑
+```text
+Correctness Results     Perf Results
+Points  Rating  Errors  Points  Ops     Puzzle
+1       1       0       2       8       bitXor
+1       1       0       2       1       tmin
+1       1       0       2       8       isTmax
+2       2       0       2       10      allOddBits
+2       2       0       2       2       negate
+3       3       0       2       8       isAsciiDigit
+3       3       0       2       9       conditional
+3       3       0       2       17      isLessOrEqual
+4       4       0       2       12      logicalNeg
+4       4       0       2       34      howManyBits
+4       4       0       2       13      floatScale2
+4       4       0       2       20      floatFloat2Int
+4       4       0       2       12      floatPower2
+
+Score = 62/62 [36/36 Corr + 26/26 Perf] (154 total operators)
+```
+
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
+
+### <a id="1.6"></a>相关资料
+
+#### <a id="1.6.1"></a>命题逻辑
 
 - [维基百科: 命题逻辑](https://en.wikipedia.org/wiki/Propositional_calculus)
 
-## <a id="2"></a>2. Bomb Lab (操作性实验, 无法评分)
+## <a id="2"></a>2. Bomb Lab (得分: 70/70)
 
 ### <a id="2.1"></a>实验目的
 
@@ -512,7 +528,12 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-### <a id="2.3"></a>实验思路与总结
+### <a id="2.3"></a>评价标准
+
+- 前 4 个考验每个分别占 10 分, 最后 2 个考验每个占 15 分. 总分为 70 分.
+- 对于校内的同学, 每次炸弹爆炸将会向服务器发送一个消息并在最终得分中减去 0.5 分 (最多不超过 20 分, 即 40 次爆炸).
+
+### <a id="2.4"></a>实验思路与总结
 
 目录结构:
 
@@ -520,77 +541,81 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 - 下列所有函数的机器指令的具体解释见目录[disas-output](2-bomb-lab/disas-output), 某些特定函数所需要的额外信息 (例如跳转表或全局字符串等) 将会在对应的 `disas_xxx.txt` 文件开头列出.
 - 测试通过的 7 个密码见文件[password.txt](2-bomb-lab/password.txt).
 
-#### <a id="2.3.1"></a>`sig_handler`
+#### <a id="2.4.1"></a>`sig_handler`
 
 对炸弹拆除进度进行安全重置 `:-)`.
 
-#### <a id="2.3.2"></a>`initialize_bomb`
+#### <a id="2.4.2"></a>`initialize_bomb`
 
 函数 `initialize_bomb` 使用 C 库函数 `signal` 为信号 `SIGINT` 安装处理程序 `sig_handler`.
 
-#### <a id="2.3.3"></a>`string_length`
+#### <a id="2.4.3"></a>`string_length`
 
 函数 `string_length` 返回所传入字符串的长度.
 
-#### <a id="2.3.4"></a>`strings_not_equal`
+#### <a id="2.4.4"></a>`strings_not_equal`
 
 函数 `strings_not_equal` 检查传入的 2 个字符串是否相同.
 
-#### <a id="2.3.5"></a>`explode_bomb`
+#### <a id="2.4.5"></a>`explode_bomb`
 
 函数 `explode_bomb` 输出 "炸弹拆除失败" 的提示信息并终止整个程序.
 
-#### <a id="2.3.6"></a>`phase_defused`
+#### <a id="2.4.6"></a>`phase_defused`
 
 函数 `phase_defused` 首先检查是否已经通过前 6 个阶段, 若仍未通过前 6 个阶段则直接返回; 若已经通过前 6 个阶段则尝试从第四个阶段的密码中读取开启隐藏阶段的口令, 若口令读取成功并且与一个已知字符串相同则进入隐藏阶段; 否则输出 "成功拆除炸弹" 的提示信息并返回.
 
-#### <a id="2.3.7"></a>`read_six_numbers`
+#### <a id="2.4.7"></a>`read_six_numbers`
 
 函数 `read_six_numbers` 从传入的字符串中读取 6 个整数.
 
-#### <a id="2.3.8"></a>`func4`
+#### <a id="2.4.8"></a>`func4`
 
 函数 `func4` 在一个给定范围内对目标值进行二分查找, 并在递归过程中按一定规则产生最终的返回值.
 
 - 注: 在二分查找时还 `func4` 还实现了补码下整数除以 2 的幂的算法.
 
-#### <a id="2.3.9"></a>`fun7`
+#### <a id="2.4.9"></a>`fun7`
 
 函数 `fun7` 在一棵简单的二叉搜索树中查找给定整数, 并在递归过程中按一定规则产生最终的返回值.
 
-#### <a id="2.3.10"></a>`phase_1`
+#### <a id="2.4.10"></a>`phase_1`
 
 函数 `phase_1` 通过调用函数 `strings_not_equal` 来比较密码是否与一个已知字符串相同.
 
-#### <a id="2.3.11"></a>`phase_2`
+#### <a id="2.4.11"></a>`phase_2`
 
 函数 `phase_2` 首先调用函数 `read_six_numbers` 从密码中读入 6 个整数, 然后检查这 6 个整数是否满足特定规则.
 
-#### <a id="2.3.12"></a>`phase_3`
+#### <a id="2.4.12"></a>`phase_3`
 
 函数 `phase_3` 首先调用函数 `sscanf` 读入 2 个整数, 然后实现了一个简单的 C 语言 `switch` 语句来检查这 2 个数字是否满足特定规则.
 
-#### <a id="2.3.13"></a>`phase_4`
+#### <a id="2.4.13"></a>`phase_4`
 
 函数 `phase_4` 首先调用函数 `sscanf` 读入 2 个整数, 然后将第一个整数传入函数 `func4` 并得到 1 个整数结果, 最后检查所返回的整数结果以及第二个整数是否满足特定规则.
 
-#### <a id="2.3.14"></a>`phase_5`
+#### <a id="2.4.14"></a>`phase_5`
 
 函数 `phase_5` 将输入的密码字符串看作是一串整数数组, 通过将数组中的整数作为下标索引某个字母表来将整数数组映射为长度相等的新字符串, 最后比较新字符串是否与一个已知字符串相同.
 
-#### <a id="2.3.15"></a>`phase_6`
+#### <a id="2.4.15"></a>`phase_6`
 
 函数 `phase_6` 首先调用函数 `read_six_numbers` 从密码中读取 6 个整数, 并使用这 6 个整数从某个全局链表中依次挑选出 6 个结点并连接形成一个新的链表, 最后检查新的链表中的值是否满足特定规则.
 
-#### <a id="2.3.16"></a>`secret_phase`
+#### <a id="2.4.16"></a>`secret_phase`
 
 函数 `secret_phase` 首先调用 `read_line` 函数读入第七个密码, 然后使用 C 库函数 `strtol` 将其转换为整数, 将该整数传入函数 `fun7` 得到结果, 最后检查该结果是否满足特定规则.
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-### <a id="2.4"></a>相关资料
+### <a id="2.5"></a>实验结果展示
 
-#### <a id="2.4.1"></a>GDB
+见目录 [disas-output](./2-bomb-lab/disas-output/) 下的所有反汇编代码 (已详细注释).
+
+### <a id="2.6"></a>相关资料
+
+#### <a id="2.6.1"></a>GDB
 
 - [Beej's Quick Guide to GDB](https://beej.us/guide/bggdb/)
 - [GDB: The GNU Project Debugger](https://www.sourceware.org/gdb/)
@@ -598,7 +623,7 @@ int are_all_odd_bits = (x_2 >> 1) & 1;
 - stackoverflow: [How to highlight and color gdb output during interactive debugging?](https://stackoverflow.com/questions/209534/how-to-highlight-and-color-gdb-output-during-interactive-debugging)
   - GitHub: [gdb-dashboard](https://github.com/cyrus-and/gdb-dashboard)
 
-#### <a id="2.4.2"></a>Linux 命令
+#### <a id="2.6.2"></a>Linux 命令
 
 - `objdump -t <binary-executable>`:
 
@@ -718,19 +743,21 @@ unsigned getbuf(){
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-### <a id="3.3"></a>实验思路与总结
+### <a id="3.3"></a>评价标准
 
-#### <a id="3.3.1"></a>得分: 100/100
+| Phase | Program | Level | Method | Function | Points |
+|-------|---------|-------|--------|----------|--------|
+| 1     | CTARGET | 1     | CI     | touch1   | 10     |
+| 2     | CTARGET | 2     | CI     | touch2   | 25     |
+| 3     | CTARGET | 3     | CI     | touch3   | 25     |
+| 4     | RTARGET | 2     | ROP    | touch2   | 35     |
+| 5     | RTARGET | 3     | ROP    | touch3   | 5      |
 
-具体见文件:
+- 总分为 10 + 25 + 25 + 35 + 5 = 100 分.
 
-- [c1.txt](3-attack-lab/c1.txt);
-- [c2.txt](3-attack-lab/c2.txt);
-- [c3.txt](3-attack-lab/c3.txt);
-- [r2.txt](3-attack-lab/r2.txt);
-- [r3.txt](3-attack-lab/r3.txt).
+### <a id="3.4"></a>实验思路与总结
 
-#### <a id="3.3.2"></a>`ctarget` - level#1
+#### <a id="3.4.1"></a>`ctarget` - level#1
 
 目标: 利用栈溢出漏洞使函数 `test` 在返回时跳转至函数 `touch1` 处.
 
@@ -740,7 +767,7 @@ unsigned getbuf(){
 
 因此最终的攻击策略是将攻击字符串的前 40 字节设置为任意内容用于填充缓冲区的 40 字节, 然后将接下来的 8 个字节设置为函数 `touch1` 的入口地址. 具体见文件[c1.txt](3-attack-lab/c1.txt).
 
-#### <a id="3.3.3"></a>`ctarget` - level#2
+#### <a id="3.4.2"></a>`ctarget` - level#2
 
 目标: 利用栈溢出漏洞使函数 `test` 在返回时跳转**并调用**函数 `touch2`.
 
@@ -754,7 +781,7 @@ unsigned getbuf(){
 
 综上可知攻击策略为 40 字节 padding + 8 字节攻击代码入口地址 + 攻击代码 (传入参数, 移动 `$rsp`, 执行 `ret`) + 16 字节对齐 padding + 函数 `touch2` 的入口地址. 具体见文件[c2.txt](3-attack-lab/c2.txt).
 
-#### <a id="3.3.4"></a>`ctarget` - level#3
+#### <a id="3.4.3"></a>`ctarget` - level#3
 
 思路:
 
@@ -779,7 +806,7 @@ unsigned getbuf(){
 
 具体见文件[c3.txt](3-attack-lab/c3.txt).
 
-#### <a id="3.3.5"></a>`rtarget` - level#2
+#### <a id="3.4.4"></a>`rtarget` - level#2
 
 > [!NOTE]
 >
@@ -816,7 +843,7 @@ unsigned getbuf(){
 
 具体见文件[r2.txt](3-attack-lab/r2.txt).
 
-#### <a id="3.3.6"></a>`rtarget` - level#3
+#### <a id="3.4.5"></a>`rtarget` - level#3
 
 > [!NOTE]
 >
@@ -868,7 +895,17 @@ unsigned getbuf(){
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-### <a id="3.4"></a>相关资料
+### <a id="3.5"></a>实验结果展示
+
+具体见文件:
+
+- CTARGET#1: [c1.txt](3-attack-lab/c1.txt);
+- CTARGET#2: [c2.txt](3-attack-lab/c2.txt);
+- CTARGET#3: [c3.txt](3-attack-lab/c3.txt);
+- RTARGET#2: [r2.txt](3-attack-lab/r2.txt);
+- RTARGET#3: [r3.txt](3-attack-lab/r3.txt).
+
+### <a id="3.6"></a>相关资料
 
 无
 
@@ -934,9 +971,9 @@ I 0400d7d4,8
 - `address` 表示一个 64 位十六进制内存地址.
 - `size` 表示所操作的字节数.
 
-#### <a id="4.2.4"></a>`test-csim` - 对 cache 模拟器进行打分
+#### <a id="4.2.4"></a>`test-csim` - 对 cache 模拟器进行评价
 
-对所实现的 `csim.c` 进行打分.
+对所实现的 `csim.c` 进行评价.
 
 用法:
 
@@ -945,7 +982,7 @@ linux> make
 linux> ./test-csim
 ```
 
-打分时将使用一系列不同的 cache 配置对编译得到的 `csim` 程序进行评测:
+最终评价时将使用一系列不同的 cache 配置对编译得到的 `csim` 程序进行测试:
 
 ```bash
 linux> ./csim -s 1 -E 1 -b 1 -t traces/yi2.trace
@@ -985,9 +1022,9 @@ registerTransFunction(my_trans, my_trans_desc);
 - 因为测试时所用的 cache 配置为直接映射, 可能会发生抖动的问题, 因此在实现时要注意访问模式, 特别是沿着对角线时 (原文是 "think about the potential for conflict misses in your code, especially along the diagonal"). 尽量采取能够尽可能减少抖动的访问模式.
 - 实现时可以采取 "分块" 的思想提高时间局部性, 减少 cache 不命中次数, 具体见 "相关资料" 小节.
 
-#### <a id="4.2.6"></a>`test-trans.c` - 对矩阵转置函数实现进行打分
+#### <a id="4.2.6"></a>`test-trans.c` - 对所实现的矩阵转置函数进行评价
 
-对所实现的 `trans.c` 进行打分.
+对所实现的 `trans.c` 进行评价.
 
 用法:
 
@@ -1002,7 +1039,7 @@ linux> ./test-trans -M 32 -N 32
 - $64 \times 64 ~~(M = 64, ~~N = 64)$
 - $61 \times 67 ~~(M = 61, ~~N = 67)$
 
-具体打分过程是使用 `valgrind` 对编译得到的 `trans` 程序提取其跟踪信息, 然后传入参考 cache 模拟器 (配置固定为 $(s = 5, ~~E = 1, ~~b = 5)$) 获取未命中次数 $m$, 根据 $m$ 的值进行打分. $m$ 的值越小得分越高, 共计 26 分, 其中第一个配置的未命中数小于 300 时得满分, 第二个配置小于 1300 时得满分, 而第三个配置小于 2000 时得满分. 具体打分规则见 handout.
+具体打分过程是使用 `valgrind` 对编译得到的 `trans` 程序提取其跟踪信息, 然后传入参考 cache 模拟器 (配置固定为 $(s = 5, ~~E = 1, ~~b = 5)$) 获取未命中次数 $m$, 根据 $m$ 的值进行评价. $m$ 的值越小得分越高, 共计 26 分, 其中第一个配置的未命中数小于 300 时得满分, 第二个配置小于 1300 时得满分, 而第三个配置小于 2000 时得满分, 具体关系见 handout.
 
 - 本实验仅要求针对上述给出的三种矩阵配置以及参考模拟器的配置进行优化, 因此完全可以针对三种矩阵配置实现三个不同的函数, 然后在主函数中检查矩阵大小并分发给对应函数.
 - `test-trans` 程序会对 `valgrind` 的输出进行过滤, 剔除任何和栈有关的内存访问, 这是因为 `valgrind` 的输出中关于栈的部分绝大部分都跟本实验的代码无关. 但是也因为过滤掉了和本实验有关的栈访问, 所以本实验禁用了栈 (即数组) 的使用并限制了局部变量的使用.
@@ -1026,7 +1063,7 @@ linux> ./test-trans -M 32 -N 32
 linux> ./driver.py
 ```
 
-具体打分过程是首先调用 `test-csim` 程序对 cache 模拟器进行评分, 然后调用 `test-trans` 对矩阵转置函数进行打分.
+具体打分过程是首先调用 `test-csim` 程序对 cache 模拟器进行评分, 然后调用 `test-trans` 对矩阵转置函数进行评价.
 
 #### <a id="4.2.9"></a>其他
 
@@ -1034,9 +1071,60 @@ linux> ./driver.py
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-### <a id="4.3"></a>实验思路与总结
+### <a id="4.3"></a>评价标准
 
-#### <a id="4.3.1"></a>得分: 51.6/53
+- 对于 cache 模拟器, 总共有 8 个测试样例, 除了最后一个样例为 6 分以外, 其余样例均为 3 分, 共计 27 分.
+- 对于所实现的矩阵转置函数, 总共有 3 个测试配置, 其中第一个配置的未命中数小于 300 时得满分, 第二个配置小于 1300 时得满分, 而第三个配置小于 2000 时得满分 (超出阈值时的失分细则见 handout), 共计 26 分.
+
+### <a id="4.4"></a>实验思路与总结
+
+#### <a id="4.4.1"></a>Part A
+
+- 主要任务是模拟一个具有组索引位数 $s$, 相联度 $E$ 和块偏移位数 $b$ 的 cache, 因为需要使用 LRU 作为驱逐策略, 所以用一个链表表示一个 cache 的组是比较合适的, 元素在链表中越靠前就代表其最近一次使用时间越晚, 然后通过遍历链表中的元素来模拟在组中查找特定行的行为. 若找到或者需要新载入一个行只需要将该行插入表头之后即可.
+- 由于写不命中时的策略是写分配, 所以写不命中的效果等价于读不命中的效果. 又因为写命中的效果等价于读命中的效果, 所以整个写操作的效果等价于读操作的效果. 而修改操作又等价于一个读操作加一个写操作, 所以总的加起来实际上只需要实现一个读操作即可.
+- 为了爬取 traces 文件所需的 I/O 操作以及爬取传入参数所需的 `getopt` 操作属于工具类代码, 并不是本实验考察的重点.
+- 由于选择了链表 (为了方便实际上采用了双链表) 作为 cache 的实现, 在写代码时格外需要注意常规的链表操作, 例如插入删除的先后顺序等等.
+
+#### <a id="4.4.2"></a>Part B
+
+- 首先整个 Part B 使用的都是 $s = 5, E = 1, b = 5$ 的 cache 配置, 其中 $s = 5$ 和 $b = 5$ 意味着 cache 行的块大小为 32 字节并且总共有 32 行, 对于 `int` 类型的整数而言, cache 的一行能包含 8 个整数; 而 $E = 1$ 意味着 cache 是直接映射, 每个组仅包含一行 (即相联度为 1), 于是每 8 × 32 = 256 个 `int` 整数就会占据一遍所有组, 也就是整个 cache 只能在同一时间保存 32 个组索引互不相同的 8 整数长条的副本.
+- 其次本实验部分的评价标准完全是 cache 未命中 (miss) 次数. 对于一个数据块, 若要对其进行处理, 就必须要将其读入 cache (前提是写分配, 写不分配直接对内存进行写入), 因此首次读入时必然会 miss 一次, 这是不可避免的. 为了降低 miss 次数, 真正的关键在于减少 "处理一次没处理完, 下次又要再读入" 的抖动现象, 因此整个思路应该围绕着 "如何单次读取单次处理完毕" 来展开.
+
+> [!NOTE]
+>
+> 在 `tracegen.c` 中可以找到矩阵 A 和 B 的定义:
+>
+> ```c
+> static int A[256][256];
+> static int B[256][256];
+> ```
+>
+> 通过 GDB 可知 A 的初始地址为 `0x70a0`, B 的初始地址为 `0x470a0` (中间恰好相差 256 × 256 × 4 个字节). 因此 A 的初始地址以及 B 的初始地址都是和 $s = 5, ~~ E = 1, ~~ b = 5$ 配置下的 cache 对齐的, 并且 A 的初始地址对应的 cache 行号和 B 的初始地址对应的行号也相同.
+
+##### <a id="4.4.2.1"></a>32 × 32
+
+- 列数等于 32 意味着矩阵的每行等于 cache 的 4 行, 因此矩阵每 8 行就会对应一遍整个 cache.
+- 由于 cache 中的一个块等于 8 个 `int`, 所以矩阵一行中的每 8 个整数长条对应一个块, 一行可以划分为连续的 4 个长条, 对应于连续的 4 个 cache 块.
+- 为了尽量提高空间局部性, 最好就是一个 8 整数长条 (对应一个 cache 块) 仅加载一次就完成转置, 此后在逻辑上将该块所占用的 cache 行视作 "可用".
+- 由于要做的是转置, 所以 "行" 要对应至 "列", 又由于一次要转置一个 8 整数长条, 因此将矩阵分为 8 × 8 的小块 (分块完之后 A 就成为 4 × 4 分块矩阵) 来分别进行处理是比较好的方法.
+- 将 A 转置到 B 至少需要对 A 完全读取一遍, 对 B 完全写入一遍, 因此 miss 次数至少为 8 × (4 × 4) × 2 = 256 次. 满分为 300 次.
+- 非对角 8 × 8 小块所占据的 cache 空间互不重合, 因此可以放心按照一般的遍历顺序进行转置. 转置一个块所产生的 miss 次数为 16 次, 即最优情况. 对角 8 × 8 小块需要利用到 12 个局部变量的帮助, 转置一个块产生的 miss 次数为 20 次. 理论 miss 总次数为 272 次, 实际为 276 次.
+
+##### <a id="4.4.2.2"></a>64 × 64
+
+- 矩阵一行现在对应于 8 个 cache 块. 同样对矩阵采取划分为 8 × 8 小块的分块方式.
+- 整个 cache 现在仅对应于 4 个矩阵行, 这意味着现在即使是非对角块其上半部分和下半部分所占据的 cache 空间也会重叠. 对角块的重叠情况比非对角块还严重.
+- 使用 12 个局部变量仍然能够做到对非对角块的一次处理, 一个块的 miss 次数仍然为 16 次. 对角块则直接放弃尝试一次处理, 采用对其进行 4 × 4 分块并利用 12 个局部变量尽可能减少 miss 次数, 一个块的 miss 次数为 32 次. 理论 miss 总次数为 1152 次, 实际为 1156 次.
+
+##### <a id="4.4.2.3"></a>61 × 67
+
+- 因为矩阵的维数不再与 cache 相互对齐, 所以想要做到单次读取单次处理不现实. 最好的做法是仍然采取像 64 × 64 矩阵中那样的分块方案, 在一定程度上降低 miss 总数的数学期望值.
+- 对于完整的 8 × 8 对角块与非对角块, 处理方法是将其当作 64 × 64 中的对角块与非对角块来进行处理 (实际上代码就是复制粘贴 64 × 64 方案中的).
+- 对于剩下的不完整的边角料, 处理方案是每 4 行 (对于右侧边角料块) 或每 4 列 (对于下方边角料块) 循环遍历, 减少抖动. 实际 miss 总次数为 2140 次 (满分阈值 2000 次).
+
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
+
+### <a id="4.5"></a>实验结果展示
 
 ```text
 Part A: Testing cache simulator
@@ -1068,53 +1156,9 @@ Trans perf 61x67           8.6        10        2140
           Total points    51.6        53
 ```
 
-#### <a id="4.3.2"></a>Part A
-
-- 主要任务是模拟一个具有组索引位数 $s$, 相联度 $E$ 和块偏移位数 $b$ 的 cache, 因为需要使用 LRU 作为驱逐策略, 所以用一个链表表示一个 cache 的组是比较合适的, 元素在链表中越靠前就代表其最近一次使用时间越晚, 然后通过遍历链表中的元素来模拟在组中查找特定行的行为. 若找到或者需要新载入一个行只需要将该行插入表头之后即可.
-- 由于写不命中时的策略是写分配, 所以写不命中的效果等价于读不命中的效果. 又因为写命中的效果等价于读命中的效果, 所以整个写操作的效果等价于读操作的效果. 而修改操作又等价于一个读操作加一个写操作, 所以总的加起来实际上只需要实现一个读操作即可.
-- 为了爬取 traces 文件所需的 I/O 操作以及爬取传入参数所需的 `getopt` 操作属于工具类代码, 并不是本实验考察的重点.
-- 由于选择了链表 (为了方便实际上采用了双链表) 作为 cache 的实现, 在写代码时格外需要注意常规的链表操作, 例如插入删除的先后顺序等等.
-
-#### <a id="4.3.3"></a>Part B
-
-- 首先整个 Part B 使用的都是 $s = 5, E = 1, b = 5$ 的 cache 配置, 其中 $s = 5$ 和 $b = 5$ 意味着 cache 行的块大小为 32 字节并且总共有 32 行, 对于 `int` 类型的整数而言, cache 的一行能包含 8 个整数; 而 $E = 1$ 意味着 cache 是直接映射, 每个组仅包含一行 (即相联度为 1), 于是每 8 × 32 = 256 个 `int` 整数就会占据一遍所有组, 也就是整个 cache 只能在同一时间保存 32 个组索引互不相同的 8 整数长条的副本.
-- 其次本实验部分的评价标准完全是 cache 未命中 (miss) 次数. 对于一个数据块, 若要对其进行处理, 就必须要将其读入 cache (前提是写分配, 写不分配直接对内存进行写入), 因此首次读入时必然会 miss 一次, 这是不可避免的. 为了降低 miss 次数, 真正的关键在于减少 "处理一次没处理完, 下次又要再读入" 的抖动现象, 因此整个思路应该围绕着 "如何单次读取单次处理完毕" 来展开.
-
-> [!NOTE]
->
-> 在 `tracegen.c` 中可以找到矩阵 A 和 B 的定义:
->
-> ```c
-> static int A[256][256];
-> static int B[256][256];
-> ```
->
-> 通过 GDB 可知 A 的初始地址为 `0x70a0`, B 的初始地址为 `0x470a0` (中间恰好相差 256 × 256 × 4 个字节). 因此 A 的初始地址以及 B 的初始地址都是和 $s = 5, ~~ E = 1, ~~ b = 5$ 配置下的 cache 对齐的, 并且 A 的初始地址对应的 cache 行号和 B 的初始地址对应的行号也相同.
-
-##### <a id="4.3.3.1"></a>32 × 32
-
-- 列数等于 32 意味着矩阵的每行等于 cache 的 4 行, 因此矩阵每 8 行就会对应一遍整个 cache.
-- 由于 cache 中的一个块等于 8 个 `int`, 所以矩阵一行中的每 8 个整数长条对应一个块, 一行可以划分为连续的 4 个长条, 对应于连续的 4 个 cache 块.
-- 为了尽量提高空间局部性, 最好就是一个 8 整数长条 (对应一个 cache 块) 仅加载一次就完成转置, 此后在逻辑上将该块所占用的 cache 行视作 "可用".
-- 由于要做的是转置, 所以 "行" 要对应至 "列", 又由于一次要转置一个 8 整数长条, 因此将矩阵分为 8 × 8 的小块 (分块完之后 A 就成为 4 × 4 分块矩阵) 来分别进行处理是比较好的方法.
-- 将 A 转置到 B 至少需要对 A 完全读取一遍, 对 B 完全写入一遍, 因此 miss 次数至少为 8 × (4 × 4) × 2 = 256 次. 满分为 300 次.
-- 非对角 8 × 8 小块所占据的 cache 空间互不重合, 因此可以放心按照一般的遍历顺序进行转置. 转置一个块所产生的 miss 次数为 16 次, 即最优情况. 对角 8 × 8 小块需要利用到 12 个局部变量的帮助, 转置一个块产生的 miss 次数为 20 次. 理论 miss 总次数为 272 次, 实际为 276 次.
-
-##### <a id="4.3.3.2"></a>64 × 64
-
-- 矩阵一行现在对应于 8 个 cache 块. 同样对矩阵采取划分为 8 × 8 小块的分块方式.
-- 整个 cache 现在仅对应于 4 个矩阵行, 这意味着现在即使是非对角块其上半部分和下半部分所占据的 cache 空间也会重叠. 对角块的重叠情况比非对角块还严重.
-- 使用 12 个局部变量仍然能够做到对非对角块的一次处理, 一个块的 miss 次数仍然为 16 次. 对角块则直接放弃尝试一次处理, 采用对其进行 4 × 4 分块并利用 12 个局部变量尽可能减少 miss 次数, 一个块的 miss 次数为 32 次. 理论 miss 总次数为 1152 次, 实际为 1156 次.
-
-##### <a id="4.3.3.3"></a>61 × 67
-
-- 因为矩阵的维数不再与 cache 相互对齐, 所以想要做到单次读取单次处理不现实. 最好的做法是仍然采取像 64 × 64 矩阵中那样的分块方案, 在一定程度上降低 miss 总数的数学期望值.
-- 对于完整的 8 × 8 对角块与非对角块, 处理方法是将其当作 64 × 64 中的对角块与非对角块来进行处理 (实际上代码就是复制粘贴 64 × 64 方案中的).
-- 对于剩下的不完整的边角料, 处理方案是每 4 行 (对于右侧边角料块) 或每 4 列 (对于下方边角料块) 循环遍历, 减少抖动. 实际 miss 总次数为 2140 次 (满分阈值 2000 次).
-
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-### <a id="4.4"></a>相关资料
+### <a id="4.6"></a>相关资料
 
 - [分块 (blocking) - 提升时间局部性](http://csapp.cs.cmu.edu/public/waside/waside-blocking.pdf)
 - [`getopt` 函数文档](https://man7.org/linux/man-pages/man3/getopt.3.html)
@@ -1183,6 +1227,16 @@ shell 程序概览:
   - `fg <job>`: 通过发送信号 `SIGCONT` 唤醒一个停止的作业, 并于前台运行该作业. 参数 `<job>` 既可以是 PID 也可以是 JID.
 - tsh 应该回收其所有僵死子进程, 如果存在子进程因为接收信号而提前终止, 那么 tsh 应能识别该事件并打印一条包含该进程 PID 以及相关信号描述的信息.
 
+#### <a id="5.2.6"></a>`tshref` - tsh 的参考实现
+
+tsh 的参考实现程序.
+
+#### <a id="5.2.7"></a>`tshref.out` - tsh 参考实现的自动化测试输出
+
+对 tsh 参考实现执行自动化测试所得到的输出.
+
+#### <a id="5.2.8"></a>其他
+
 关于本实验的一些建议与提示:
 
 - **一字不落地阅读 CS:APP 第 8 章的内容**.
@@ -1194,35 +1248,18 @@ shell 程序概览:
 - 不要在 tsh 中运行如 `more`, `less`, `vi` 以及 `emacs` 等需要特殊终端设置的程序. 尽量只运行简单的文本程序, 例如 `/bin/ls`, `/bin/ps` 以及 `/bin/echo` 等等.
 - 由于 tsh 实际上是作为一个前台进程运行在标准 Unix shell 中的, 因此 tsh 所创建的所有子进程如果不加以额外设置默认都是同属于 tsh 的前台进程组之中. 为了模拟标准 shell 的行为需要注意在 tsh fork 出来的子进程中调用 `setpgid(0, 0)` 将其与 tsh 的进程组解耦并形成自己的独立进程组, 然后 tsh 自身负责向新产生的进程组转发用户输入的所有信号.
 
-评分标准:
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
+
+### <a id="5.3"></a>评价标准
 
 - 每个 trace 文件占 5 分, 共 80 分.
   - 满分当且仅当本实验实现的 tsh 和参考实现的 tshref 在执行过程中的输出**完全一致** (除了 PID 和官方 `/bin/ps` 程序的输出以外, 因为这两种输出随每次运行而不同).
 - 代码具有良好注释占 5 分.
 - 在代码中检查了所有系统调用的返回值占 5 分.
 
-#### <a id="5.2.6"></a>`tshref` - tsh 的参考实现
+### <a id="5.4"></a>实验思路与总结
 
-tsh 的参考实现程序.
-
-#### <a id="5.2.7"></a>`tshref.out` - tsh 参考实现的自动化测试输出
-
-对 tsh 参考实现执行自动化测试所得到的输出.
-
-<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
-
-### <a id="5.3"></a>实验思路与总结
-
-#### <a id="5.3.1"></a>得分: 80/80
-
-具体结果见文件 [output_test.txt](./5-shell-lab/output_test.txt) 与 [output_rtest.txt](./5-shell-lab/output_rtest.txt). 复现命令:
-
-```bash
-./run.sh test all
-./run.sh rtest all
-```
-
-#### <a id="5.3.2"></a>用于自动化测试的脚本
+#### <a id="5.4.1"></a>用于自动化测试的脚本
 
 首先利用 `sdriver.pl` 和 `Makefile` 编写了一个自动化测试的 bash 脚本 `run.sh`, 代码如下:
 
@@ -1266,7 +1303,7 @@ fi
 - 输出结果可以通过使用 `Ctrl+Tab` 在两个结果之间快速翻页来肉眼检查.
 - 不失一般性, 最终输出结果中删除了程序 `ps` 的输出结果.
 
-#### <a id="5.3.3"></a>所需填充的函数的思路
+#### <a id="5.4.2"></a>所需填充的函数的思路
 
 为了实现完整的 tsh 所需填充的 7 个重要函数的思路如下 (括号中数字代表预计代码行数 (包括注释)):
 
@@ -1298,9 +1335,9 @@ fi
 - `sigtstp_handler`: 信号处理程序, 负责接收 `SIGTSTP` (ctrl-z) 信号. [15 行 | 实际 25 行]
   - 向前台作业发送停止信号, 并打印提示信息.
 
-#### <a id="5.3.4"></a>Cheat Sheets
+#### <a id="5.4.3"></a>Cheat Sheets
 
-##### <a id="5.3.4.1"></a>`tsh.c` 中已实现的函数
+##### <a id="5.4.3.1"></a>`tsh.c` 中已实现的函数
 
 `tsh.c` 中已经实现的函数归纳如下 (按调用顺序拓扑排序, 未调用的函数按出现顺序排序):
 
@@ -1322,7 +1359,7 @@ fi
 - `unix_error`: Unix 风格 (unix-style) 的报错函数, 打印提示信息与错误信息 (`strerror(errno)`) 并退出 (状态码为 1).
 - `Signal`: 书中提到的针对 `sigaction` 的包装函数, 作用是统一信号语义, 其功能与 `signal` 函数相同, 都是为给定的信号安装信号处理程序.
 
-##### <a id="5.3.4.2"></a>C 标准函数
+##### <a id="5.4.3.2"></a>C 标准函数
 
 头文件:
 
@@ -1367,7 +1404,16 @@ fi
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-### <a id="5.4"></a>相关资料
+### <a id="5.5"></a>实验结果展示
+
+见文件 [output_test.txt](./5-shell-lab/output_test.txt) 与 [output_rtest.txt](./5-shell-lab/output_rtest.txt). 复现命令:
+
+```bash
+./run.sh test all
+./run.sh rtest all
+```
+
+### <a id="5.6"></a>相关资料
 
 无
 
@@ -1540,27 +1586,6 @@ fi
 - `-v`: 打印详细信息.
 - `-V`: 打印更加详细的信息.
 
-评价标准:
-
-正确性 (20 分): 通过一个 trace 文件得一定分数, 全部通过即得满分.
-
-性能 (35 分): 分为**内存利用率**和**吞吐量**两个维度, 最终的性能指标 $P$ 的计算公式为
-
-$$
-\begin{equation}
-P = \omega U + (1 - \omega) \min \bigg( 1, \frac{T}{T_{libc}} \bigg),
-\end{equation}
-$$
-
-其中 $U$ 为峰值利用率, $T$ 为吞吐率, $T_{libc}$ 为官方 `malloc` 包的吞吐率 (可在 `config.h` 中配置). $\omega$ 决定内存利用率与吞吐量在 $P$ 中的权重, $\omega$ 默认为 $0.6$.
-
-格式 (10 分):
-
-- `mm.c` 中的实现应该解耦为若干个函数, 并使用尽可能少的全局变量. `mm.c` 应以一个头部注释 (header comment) 开始, 该头部注释应解释空闲块与已分配块的结构, 空闲链表的组织方式, 以及分配器如何操作空闲链表. 此外 `mm.c` 中的每个函数也应该具有一个头部注释用于解释该函数的作用以及工作原理.
-- 合理性检查工具 `mm_check` 函数功能齐全并具有良好的文档.
-
-上述两点各占 5 分.
-
 #### <a id="6.2.5"></a>其他
 
 ##### <a id="6.2.5.1"></a>注意事项
@@ -1627,30 +1652,32 @@ done
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-### <a id="6.3"></a>实验思路与总结
+### <a id="6.3"></a>评价标准
 
-#### <a id="6.3.1"></a>得分: 54/55
+正确性 (20 分): 通过一个 trace 文件得一定分数, 全部通过即得满分.
 
-```text
-Results for mm malloc:
-trace  valid  util     ops      secs  Kops
- 0       yes   99%    5694  0.000151 37684
- 1       yes   99%    5848  0.000157 37177
- 2       yes   99%    6648  0.000183 36388
- 3       yes   99%    5380  0.000145 37129
- 4       yes   98%   14400  0.000254 56738
- 5       yes   95%    4800  0.000693  6923
- 6       yes   95%    4800  0.000701  6846
- 7       yes   91%   12000  0.000553 21692
- 8       yes   84%   24000  0.001509 15906
- 9       yes   98%   14401  0.000200 72005
-10       yes   87%   14401  0.000191 75437
-Total          95%  112372  0.004737 23721
+性能 (35 分): 分为**内存利用率**和**吞吐量**两个维度, 最终的性能指标 $P$ 的计算公式为
 
-Perf index = 57 (util) + 40 (thru) = 97/100
-```
+$$
+\begin{equation}
+P = \omega U + (1 - \omega) \min \bigg( 1, \frac{T}{T_{libc}} \bigg),
+\end{equation}
+$$
 
-#### <a id="6.3.2"></a>定义
+其中 $U$ 为峰值利用率, $T$ 为吞吐率, $T_{libc}$ 为官方 `malloc` 包的吞吐率 (可在 `config.h` 中配置). $\omega$ 决定内存利用率与吞吐量在 $P$ 中的权重, $\omega$ 默认为 $0.6$.
+
+格式 (10 分):
+
+- `mm.c` 中的实现应该解耦为若干个函数, 并使用尽可能少的全局变量. `mm.c` 应以一个头部注释 (header comment) 开始, 该头部注释应解释空闲块与已分配块的结构, 空闲链表的组织方式, 以及分配器如何操作空闲链表. 此外 `mm.c` 中的每个函数也应该具有一个头部注释用于解释该函数的作用以及工作原理.
+- 合理性检查工具 `mm_check` 函数功能齐全并具有良好的文档.
+
+上述两点各占 5 分.
+
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
+
+### <a id="6.4"></a>实验思路与总结
+
+#### <a id="6.4.1"></a>定义
 
 - 假设**页大小**为 2 的幂.
 - 假设**堆空间的起始地址**为 8 的倍数.
@@ -1672,7 +1699,7 @@ Perf index = 57 (util) + 40 (thru) = 97/100
   - 若没有找到合适的块则转向下一个等价类;
   - 若没有在任何链表中找到合适的块则向系统请求内存空间.
 
-#### <a id="6.3.3"></a>实现 `mm_init`, `mm_malloc` 和 `mm_free`
+#### <a id="6.4.2"></a>实现 `mm_init`, `mm_malloc` 和 `mm_free`
 
 函数 `mm_init` 的执行逻辑:
 
@@ -1751,7 +1778,7 @@ Perf index = 57 (util) + 40 (thru) = 97/100
     - 调用函数 `void _coalesce_current_and_next_free_block(void *bp, void *next_bp)`
 - 返回合并得到的大空闲块.
 
-#### <a id="6.3.4"></a>实现 `mm_check`
+#### <a id="6.4.3"></a>实现 `mm_check`
 
 函数 `mm_check` 的执行逻辑:
 
@@ -1787,9 +1814,9 @@ Perf index = 57 (util) + 40 (thru) = 97/100
 - 对两个地址数组进行排序;
 - 检查两个集合是否一致, 若一致则返回零, 否则返回非零值.
 
-#### <a id="6.3.5"></a>DEBUG
+#### <a id="6.4.4"></a>DEBUG
 
-##### <a id="6.3.5.1"></a>`mm_free` 中忘记接住合并函数 `_coalesce` 的返回值
+##### <a id="6.4.4.1"></a>`mm_free` 中忘记接住合并函数 `_coalesce` 的返回值
 
 在出错的最后一次释放操作之前的空闲链表情况如下 (方括号代表即将从链表中摘出并参与合并的前后两个空闲块):
 
@@ -1846,7 +1873,7 @@ bp = _coalesce(bp);
 
 消除了 BUG.
 
-##### <a id="6.3.5.2"></a>放置函数 `_place` 中对不分割的情况的处理存在错误
+##### <a id="6.4.4.2"></a>放置函数 `_place` 中对不分割的情况的处理存在错误
 
 最后一次 (函数 `mm_malloc` 中的) 放置函数的运行情况如下:
 
@@ -1875,13 +1902,13 @@ Segmentation fault
 
 最后在程序中稍加修改消除了 BUG.
 
-##### <a id="6.3.5.3"></a>忘记在检查程序 `mm_check` 中释放内存
+##### <a id="6.4.4.3"></a>忘记在检查程序 `mm_check` 中释放内存
 
 之所以能够发现这个 BUG 是因为程序 `./mdriver` 在指定使用所有 trace 文件并且运行了非常久之后报了段错误, 而单拎出来运行一个 trace 文件则一切正常, 并且还有个异常现象, 那就是吞吐量巨低. 运行时间久说明必然是 `printf` 或者 `mm_check` 忘记关闭了, 单拎出来运行一个 trace 文件一切正常说明程序本身是没有问题的, 而最后依然报了段错误那就只能是内存泄漏了. 经过检查发现是函数 `mm_check` 中在检查堆中的空闲块集合与链表中的空闲块集合的一致性时使用 `malloc` 动态请求了内存但忘了在检查完成之后释放.
 
-#### <a id="6.3.6"></a>优化 `mm_malloc` 和 `mm_free`
+#### <a id="6.4.5"></a>优化 `mm_malloc` 和 `mm_free`
 
-##### <a id="6.3.6.1"></a>测试样例 `binary-bal.rep` 和 `binary2-bal.rep` 的内存利用率过低
+##### <a id="6.4.5.1"></a>测试样例 `binary-bal.rep` 和 `binary2-bal.rep` 的内存利用率过低
 
 测试时发现其他的都挺好, 就这两个测试样例 `binary-bal.rep` 和 `binary2-bal.rep` 的内存利用率非常低, 仅为 55% 左右.
 
@@ -1931,7 +1958,7 @@ void *mm_malloc(size_t size) {
 
 最终选择将超参设置为 5.
 
-#### <a id="6.3.7"></a>实现 `mm_realloc`
+#### <a id="6.4.6"></a>实现 `mm_realloc`
 
 实现 `mm_realloc` 的初始方案是直接调用 `mm_alloc` 和 `mm_free`, 代码如下:
 
@@ -1972,7 +1999,7 @@ void *mm_realloc(void *ptr, size_t size) {
       - 以内部碎片的形式保留在新分配块中.
     - 否则分割.
 
-#### <a id="6.3.8"></a>优化 `mm_realloc`
+#### <a id="6.4.7"></a>优化 `mm_realloc`
 
 实现之后发现两个测试用例的结果还是改进前一样糟糕. 观察发现分配器在 `realloc-bal.rep` 的请求模式下会在结尾块之前维护一个不断 realloc 的块, 每当这个块拓展到结尾块时便会触发一次重分配以及数据迁移, 但显然此时完全可以直接通过分配空间来原地拓展 (因为结尾块同一般已分配块不一样, 并非不可移动的). 解决办法是额外添加针对恰好位于结尾块之前的块的重分配机制. 除了添加该机制以外, 这一版本为了尝试提高内存利用率还将放置策略从首次适配更改为最佳适配. 更改后的函数 `mm_realloc` 的执行策略:
 
@@ -1994,7 +2021,30 @@ void *mm_realloc(void *ptr, size_t size) {
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-### <a id="6.4"></a>相关资料
+### <a id="6.5"></a>实验结果展示
+
+```text
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes   99%    5694  0.000151 37684
+ 1       yes   99%    5848  0.000157 37177
+ 2       yes   99%    6648  0.000183 36388
+ 3       yes   99%    5380  0.000145 37129
+ 4       yes   98%   14400  0.000254 56738
+ 5       yes   95%    4800  0.000693  6923
+ 6       yes   95%    4800  0.000701  6846
+ 7       yes   91%   12000  0.000553 21692
+ 8       yes   84%   24000  0.001509 15906
+ 9       yes   98%   14401  0.000200 72005
+10       yes   87%   14401  0.000191 75437
+Total          95%  112372  0.004737 23721
+
+Perf index = 57 (util) + 40 (thru) = 97/100
+```
+
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
+
+### <a id="6.6"></a>相关资料
 
 - 完整的 trace 文件:
 
@@ -2036,6 +2086,8 @@ void *mm_realloc(void *ptr, size_t size) {
 #### <a id="7.2.1"></a>`csapp.h` - 帮手库头文件
 
 #### <a id="7.2.2"></a>`csapp.c` - 帮手库
+
+源文件 `csapp.c` 为 CS:APP 官方提供的源文件, 其中包括各种系统函数的包装函数, 以及 RIO 包的具体代码.
 
 #### <a id="7.2.3"></a>`proxy.c` - 要实现的代理服务器的源文件
 
@@ -2119,15 +2171,13 @@ void *mm_realloc(void *ptr, size_t size) {
 ./driver.sh
 ```
 
-最终评分针对实验的三个阶段分别进行评分, 评分标准:
+#### <a id="7.2.8"></a>`nop-server.py` - 评分工具的帮手脚本
 
-- Basic Correctness (阶段一): 40 分.
-- Concurrency (阶段二): 15 分.
-- Cache (阶段三): 15 分.
-
-#### <a id="7.2.8"></a>`nop-server.py` - 评分工具帮手脚本
+脚本 `nop-server.py` 用于在测试代理服务器的并发功能时模拟阻塞环境.
 
 #### <a id="7.2.9"></a>`tiny/` - CS:APP 官方实现的 TINY 服务器
+
+目录 `tiny/` 下存放的是官方实现的 TINY 服务器的源代码.
 
 #### <a id="7.2.10"></a>其他
 
@@ -2150,73 +2200,17 @@ void *mm_realloc(void *ptr, size_t size) {
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-### <a id="7.3"></a>实验思路与总结
+### <a id="7.3"></a>评价标准
 
-#### <a id="7.3.1"></a>得分: 70/70
+实验针对实验的三个阶段分别进行评分, 评分标准:
 
-```text
-Building the tiny executable.
+- Basic Correctness (阶段一): 40 分.
+- Concurrency (阶段二): 15 分.
+- Cache (阶段三): 15 分.
 
-*** Basic ***
-Starting tiny on 23735
-Starting proxy on 14186
-1: home.html
-   Fetching ./tiny/home.html into ./.noproxy directly from Tiny
-   Fetching ./tiny/home.html into ./.proxy using the proxy
-   Comparing the two files
-   Success: Files are identical.
-2: csapp.c
-   Fetching ./tiny/csapp.c into ./.noproxy directly from Tiny
-   Fetching ./tiny/csapp.c into ./.proxy using the proxy
-   Comparing the two files
-   Success: Files are identical.
-3: tiny.c
-   Fetching ./tiny/tiny.c into ./.noproxy directly from Tiny
-   Fetching ./tiny/tiny.c into ./.proxy using the proxy
-   Comparing the two files
-   Success: Files are identical.
-4: godzilla.jpg
-   Fetching ./tiny/godzilla.jpg into ./.noproxy directly from Tiny
-   Fetching ./tiny/godzilla.jpg into ./.proxy using the proxy
-   Comparing the two files
-   Success: Files are identical.
-5: tiny
-   Fetching ./tiny/tiny into ./.noproxy directly from Tiny
-   Fetching ./tiny/tiny into ./.proxy using the proxy
-   Comparing the two files
-   Success: Files are identical.
-Killing tiny and proxy
-basicScore: 40/40
+### <a id="7.4"></a>实验思路与总结
 
-*** Concurrency ***
-Starting tiny on port 2622
-Starting proxy on port 27710
-Starting the blocking NOP server on port 13446
-Sleep for 1 seconds waiting for port to be used...
-Trying to fetch a file from the blocking nop-server
-Fetching ./tiny/home.html into ./.noproxy directly from Tiny
-Fetching ./tiny/home.html into ./.proxy using the proxy
-Checking whether the proxy fetch succeeded
-Success: Was able to fetch tiny/home.html from the proxy.
-Killing tiny, proxy, and nop-server
-concurrencyScore: 15/15
-
-*** Cache ***
-Starting tiny on port 2713
-Starting proxy on port 29202
-Fetching ./tiny/tiny.c into ./.proxy using the proxy
-Fetching ./tiny/home.html into ./.proxy using the proxy
-Fetching ./tiny/csapp.c into ./.proxy using the proxy
-Killing tiny
-Fetching a cached copy of ./tiny/home.html into ./.noproxy
-Success: Was able to fetch tiny/home.html from the cache.
-Killing proxy
-cacheScore: 15/15
-
-totalScore: 70/70
-```
-
-#### <a id="7.3.2"></a>大纲
+#### <a id="7.4.1"></a>大纲
 
 - 主线程:
   - 初始化线程池;
@@ -2238,7 +2232,9 @@ totalScore: 70/70
     - 释放存储所请求对象内容的缓冲区;
     - 释放 HTTP 请求解析对象.
 
-#### <a id="7.3.3"></a>要点
+#### <a id="7.4.2"></a>要点
+
+##### <a id="7.4.2.1"></a>一般要点
 
 - 实验前请务必关闭任何代理. `curl` 默认从环境变量中获取可能的代理设置, 这会导致连接服务器失败并返回空内容.
 - 每当遇到原因未知的 BUG 时记得打开调试工具的 `--verbose` 选项.
@@ -2259,7 +2255,7 @@ totalScore: 70/70
 - 编写充分的注释.
 - 可以使用非本地跳转实现报错.
 
-#### <a id="7.3.4"></a>字符串和缓冲区处理要点
+##### <a id="7.4.2.2"></a>字符串和缓冲区处理要点
 
 - 函数 `sscanf` 的 `%s` 会自动在传入的缓冲区末尾添加空字符 `\0`.
 - 函数 `strlen` 返回的字符串长度不包括空字符 `\0`.
@@ -2272,7 +2268,7 @@ totalScore: 70/70
 - 函数 `Rio_readnb` 每次读取 `n` 个字节的数据, 除非遇到 `EOF`.
 - 函数 `atoi` 默认忽略任何前导空白符.
 
-#### <a id="7.3.5"></a>Posix 正则表达式 (`<regex.h>`) 要点
+##### <a id="7.4.2.3"></a>Posix 正则表达式 (`<regex.h>`) 要点
 
 - 反斜杠 `\` 在字符类模式中失去转义作用.
 - 如果要在方括号字符类模式 `[]` 内实现对字符 `]` 的排他匹配, 由于反斜杠 `\` 在字符类模式中失去转义作用, 因此必须将 `]` 置于排他字符 `^` 之后, 即 `[^]]`.
@@ -2280,15 +2276,15 @@ totalScore: 70/70
 - 无法在一个模式的字符类中嵌套另一个相反模式的字符类.
 - 无法使用 `\xHH` 的语法直接匹配 ASCII 字面量, 其中 `H` 表示一个十六进制字符.
 
-#### <a id="7.3.6"></a>Telnet 要点
+##### <a id="7.4.2.4"></a>Telnet 要点
 
 - 当 `telnet` 处于逐行模式的时候, 直接输入 `eof` 将会发送 EOF 给对方.
 - 在 `telnet` 中默认的 newline 为 CRLF, 每当键入换行符时将自动转换为 CRLF. 更好的方法是使用管道直接将一个行结束字符为 LF 的文本文件输入到 `telnet`.
 - `telnet` 无法在标准输入重定向至文件的同时将服务器返回的响应通过重定向标准输出存储到文件中, 猜测一个可能的原因是标准输入重定向至文件之后 `telnet` 便不再进入逐行模式, 而响应只会在逐行模式下才会打印. 因此唯一的做法是放弃将标准输入重定向至文件的方法, 直接手动输入请求 (复制粘贴即可), 并使用 `tee` 将响应同时输出至屏幕以及文件.
 
-#### <a id="7.3.7"></a>实现
+#### <a id="7.4.3"></a>实现
 
-##### <a id="7.3.7.1"></a>HTTP 解析器
+##### <a id="7.4.3.1"></a>HTTP 解析器 (位于 `http_request_parser.h`)
 
 HTTP 请求的定义:
 
@@ -2558,11 +2554,11 @@ HTTP 请求的定义:
   - 对于 HTTP version, 使用正则表达式检查其合法性. 若不合法或不是 HTTP/1.0 或 HTTP/1.1 则返回错误页面.
 - 对于 headers, [TODO]
 
-##### <a id="7.3.7.2"></a>线程池
+##### <a id="7.4.3.2"></a>线程池 (位于 `integer_queue.h`)
 
 线程池是通过实现一个同步工作队列来实现的.
 
-##### <a id="7.3.7.3"></a>缓存
+##### <a id="7.4.3.3"></a>并发缓存 (位于 `cache.h`)
 
 对缓存进行分区, 各个分区独立执行 LRU 驱逐策略, 拥有独立的锁, 并应用读者-写者模型实现同步. 缓存的分区策略类似于低位交叉编址, 目的是为了更好的可拓展性并降低实现难度.
 
@@ -2596,9 +2592,9 @@ HTTP 请求的定义:
   - 一个指向所缓存的对象的数据缓冲区的指针
   - 下一个链表结点的指针
 
-#### <a id="7.3.8"></a>Cheat Sheet
+#### <a id="7.4.4"></a>Cheat Sheets
 
-##### <a id="7.3.8.1"></a>Unix I/O
+##### <a id="7.4.4.1"></a>Unix I/O
 
 头文件:
 
@@ -2632,7 +2628,7 @@ I/O 重定向:
 
 - 复制文件描述符: `int dup2(int oldfd, int newfd);` [4]
 
-##### <a id="7.3.8.2"></a>标准 I/O
+##### <a id="7.4.4.2"></a>标准 I/O
 
 头文件: `<stdio.h>`
 
@@ -2654,7 +2650,7 @@ I/O 函数:
 - 清空缓冲区: `int fflush(FILE *stream);`
 - 设置文件读写偏移: `int fseek(FILE *stream, long offset, int whence);`
 
-##### <a id="7.3.8.3"></a>CS:APP 所实现的 RIO
+##### <a id="7.4.4.3"></a>CS:APP 所实现的 RIO
 
 内部缓冲区类型定义:
 
@@ -2680,7 +2676,7 @@ typedef struct {
 - 带缓冲读: `ssize_t rio_readnb(rio_t *rp, void *user_buffer, size_t total_bytes_number)`
 - 带缓冲读 (文本行): `ssize_t rio_readlineb(rio_t *rp, void *user_buffer, size_t max_line_length)`
 
-##### <a id="7.3.8.4"></a>网络
+##### <a id="7.4.4.4"></a>网络
 
 头文件:
 
@@ -2718,7 +2714,7 @@ CS:APP 官方提供的包装函数:
 - 客户端主动建立连接: `int open_clientfd(char *hostname, char *port)`
 - 服务器创建监听描述符: `int open_listenfd(char *port)`
 
-##### <a id="7.3.8.5"></a>I/O 多路复用
+##### <a id="7.4.4.5"></a>I/O 多路复用
 
 头文件: `<sys/select.h>`
 
@@ -2733,7 +2729,7 @@ CS:APP 官方提供的包装函数:
 - `FD_SET(int fd, fd set *fdset);`
 - `FD_ISSET(int fd, fd set *fdset);`
 
-##### <a id="7.3.8.6"></a>Posix 线程 Pthreads
+##### <a id="7.4.4.6"></a>Posix 线程 Pthreads
 
 头文件: `<pthread.h>`
 
@@ -2747,7 +2743,7 @@ CS:APP 官方提供的包装函数:
 - 当前线程分离自身: `int pthread_detach(pthread_t tid);`
 - 首个线程执行初始化: `int pthread_once(pthread_once_t *once_control, void (*init_routine)(void));`
 
-##### <a id="7.3.8.7"></a>Posix 信号量
+##### <a id="7.4.4.7"></a>Posix 信号量
 
 头文件: `<semaphore.h>`
 
@@ -2759,7 +2755,73 @@ CS:APP 官方提供的包装函数:
 
 <div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
 
-### <a id="7.4"></a>相关资料
+### <a id="7.5"></a>实验结果展示
+
+```text
+Building the tiny executable.
+
+*** Basic ***
+Starting tiny on 23735
+Starting proxy on 14186
+1: home.html
+   Fetching ./tiny/home.html into ./.noproxy directly from Tiny
+   Fetching ./tiny/home.html into ./.proxy using the proxy
+   Comparing the two files
+   Success: Files are identical.
+2: csapp.c
+   Fetching ./tiny/csapp.c into ./.noproxy directly from Tiny
+   Fetching ./tiny/csapp.c into ./.proxy using the proxy
+   Comparing the two files
+   Success: Files are identical.
+3: tiny.c
+   Fetching ./tiny/tiny.c into ./.noproxy directly from Tiny
+   Fetching ./tiny/tiny.c into ./.proxy using the proxy
+   Comparing the two files
+   Success: Files are identical.
+4: godzilla.jpg
+   Fetching ./tiny/godzilla.jpg into ./.noproxy directly from Tiny
+   Fetching ./tiny/godzilla.jpg into ./.proxy using the proxy
+   Comparing the two files
+   Success: Files are identical.
+5: tiny
+   Fetching ./tiny/tiny into ./.noproxy directly from Tiny
+   Fetching ./tiny/tiny into ./.proxy using the proxy
+   Comparing the two files
+   Success: Files are identical.
+Killing tiny and proxy
+basicScore: 40/40
+
+*** Concurrency ***
+Starting tiny on port 2622
+Starting proxy on port 27710
+Starting the blocking NOP server on port 13446
+Sleep for 1 seconds waiting for port to be used...
+Trying to fetch a file from the blocking nop-server
+Fetching ./tiny/home.html into ./.noproxy directly from Tiny
+Fetching ./tiny/home.html into ./.proxy using the proxy
+Checking whether the proxy fetch succeeded
+Success: Was able to fetch tiny/home.html from the proxy.
+Killing tiny, proxy, and nop-server
+concurrencyScore: 15/15
+
+*** Cache ***
+Starting tiny on port 2713
+Starting proxy on port 29202
+Fetching ./tiny/tiny.c into ./.proxy using the proxy
+Fetching ./tiny/home.html into ./.proxy using the proxy
+Fetching ./tiny/csapp.c into ./.proxy using the proxy
+Killing tiny
+Fetching a cached copy of ./tiny/home.html into ./.noproxy
+Success: Was able to fetch tiny/home.html from the cache.
+Killing proxy
+cacheScore: 15/15
+
+totalScore: 70/70
+```
+
+<div align="right"><b><a href="#toc">返回顶部↑</a></b></div>
+
+### <a id="7.6"></a>相关资料
 
 - HTTP/1.0 规范: [RFC 1945](https://datatracker.ietf.org/doc/html/rfc1945).
 - C 语言下使用正则表达式:
