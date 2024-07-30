@@ -1,4 +1,4 @@
-# <div align="center">Notes for CS:APP Labs</div>
+# <div align="center">Notes for CSAPP/CMU 15-213 Labs</div>
 
 <div align="center">
 
