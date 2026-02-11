@@ -333,11 +333,11 @@
 
 $$
 \begin{equation}
-P \oplus Q = (P \wedge \neg Q) \vee (\neg P \wedge Q) = \neg (\neg (P \wedge \neg Q) \wedge \neg (\neg P \wedge Q)), \tag{1} \label{1.3.1.bitXor-1}
+P \oplus Q = (P \wedge \neg Q) \vee (\neg P \wedge Q) = \neg (\neg (P \wedge \neg Q) \wedge \neg (\neg P \wedge Q)), \qquad \text{(1)}
 \end{equation}
 $$
 
-将 $\eqref{1.3.1.bitXor-1}$ 式翻译至布尔代数下即为
+将 $(1)$ 式翻译至布尔代数下即为
 
 ```text
 p ^ q = ~((~(p & (~q))) & (~((~p) & q))).
@@ -388,12 +388,14 @@ $$
 
 $$
 \begin{numcases}{}
-x + 1 \equiv 2^{w} - 1 - x \ \ (\text{mod}\ \  2^{w}), \tag{2} \label{1.3.3.isTmax-1}\\
-x \neq 2^w - 1. \tag{3} \label{1.3.3.isTmax-2}
+\begin{aligned}
+&x + 1 \equiv 2^{w} - 1 - x \ \ (\text{mod}\ \  2^{w}), & &\qquad \text{(2)} \\
+&x \neq 2^w - 1. & &\qquad \text{(3)}
+\end{aligned}
 \end{numcases}
 $$
 
-约束 $\eqref{1.3.3.isTmax-1}$ 左侧即为 `x + 1`, 右侧可表示为 `~x`. 由于整数 puzzle 同样限制了比较运算符的使用, 为了判断两个二进制位模式是否相同可以使用异或 `^` 与逻辑非 `!` 间接实现. 实际上两个位模式的异或结果为全 0 当且仅当这两个位模式相同, 而逻辑非能够方便的将异或结果转化为布尔值, 因此判断两个位模式 `x` 和 `y` 是否相同的表达式为 `!(x ^ y)`. 于是约束 $\eqref{1.3.3.isTmax-1}$ 可表示为:
+约束 $(2)$ 左侧即为 `x + 1`, 右侧可表示为 `~x`. 由于整数 puzzle 同样限制了比较运算符的使用, 为了判断两个二进制位模式是否相同可以使用异或 `^` 与逻辑非 `!` 间接实现. 实际上两个位模式的异或结果为全 0 当且仅当这两个位模式相同, 而逻辑非能够方便的将异或结果转化为布尔值, 因此判断两个位模式 `x` 和 `y` 是否相同的表达式为 `!(x ^ y)`. 于是约束 $(2)$ 可表示为:
 
 ```c
 int x_plus_one = x + 1;
@@ -401,7 +403,7 @@ int x_complement = ~x;
 int constraint_1 = !(x_plus_one ^ x_complement);
 ```
 
-约束 $\eqref{1.3.3.isTmax-2}$ 成立当且仅当 $x$ 取反不为全 0. 为了将取反结果转化为布尔值, 需要使用逻辑非 `!` 进行转化:
+约束 $(3)$ 成立当且仅当 $x$ 取反不为全 0. 为了将取反结果转化为布尔值, 需要使用逻辑非 `!` 进行转化:
 
 ```c
 int constraint_2 = !!(~x);
@@ -409,7 +411,7 @@ int constraint_2 = !!(~x);
 
 使用连续两个 `!` 是因为单次转化得到的布尔值为原值的相反结果.
 
-结合约束 $\eqref{1.3.3.isTmax-1}, \eqref{1.3.3.isTmax-2}$ 得到最终表达式:
+结合约束 $(2), (3)$ 得到最终表达式:
 
 ```c
 int is_tmax = constraint_1 & constraint_2;
@@ -626,23 +628,18 @@ Score = 62/62 [36/36 Corr + 26/26 Perf] (154 total operators)
 #### <a id="2.6.2"></a>Linux 命令
 
 - `objdump -t <binary-executable>`:
-
   - 打印符号表 (symbol table).
 
 - `objdump -d <binary-executable>`:
-
   - 反汇编. 对于像系统调用 (例如 `sscanf`) 这样的函数而言, 反汇编得到的函数名有可能不是很直观, 此时在 gdb 中进行反汇编是更好的选择.
 
 - `strings <binary-executable>`:
-
   - 打印可执行文件中的所有可打印字符串.
 
 - `man ascii`:
-
   - 打印关于 ascii 编码的相关文档.
 
 - `info gas`:
-
   - 打印关于 gas 的文档. 如果报错 `info: No menu item 'gas' in node '(dir)Top'`, 需要检查 `binutils` 包是否安装:
 
     ```bash
@@ -746,7 +743,7 @@ unsigned getbuf(){
 ### <a id="3.3"></a>评价标准
 
 | Phase | Program | Level | Method | Function | Points |
-|-------|---------|-------|--------|----------|--------|
+| ----- | ------- | ----- | ------ | -------- | ------ |
 | 1     | CTARGET | 1     | CI     | touch1   | 10     |
 | 2     | CTARGET | 2     | CI     | touch2   | 25     |
 | 3     | CTARGET | 3     | CI     | touch3   | 25     |
@@ -854,7 +851,6 @@ unsigned getbuf(){
 
 - `movl` 指令的字节模式是 `89` 加上 `c0`-`ff` 中的某一个数, 同 `movq` 指令类似.
 - 功能性 (functional) `nop` 指令, 即逻辑上不是 `nop` 指令但实际执行起来相当于 `nop` 指令的指令:
-
   - `andb`: 以 `20` 开头.
   - `orb`: 以 `08` 开头.
   - `cmpb`: 以 `38` 开头.
@@ -1172,7 +1168,11 @@ Trans perf 61x67           8.6        10        2140
 ### <a id="5.2"></a>实验框架
 
 > [!NOTE]
-> 如果在函数 `Signal` 中遇到结构类型 `struct sigaction` 报 `incomplete type is not allowed` 错误, 可以尝试将 VS Code 中的 `c_cpp_properties.json` 中的 `cStandard` 降级为 `gnu89`. 参考资料: [link](https://stackoverflow.com/questions/6491019/struct-sigaction-incomplete-error).
+> 如果在函数 `Signal` 中遇到结构类型 `struct sigaction` 报 `incomplete type is not allowed` 错误, 可以尝试将 VS Code 中的 `c_cpp_properties.json` 中的 `cStandard` 降级为 `gnu89`.
+>
+> 参考资料:
+>
+> - [c - struct sigaction incomplete error - Stack Overflow](https://stackoverflow.com/questions/6491019/struct-sigaction-incomplete-error).
 
 #### <a id="5.2.1"></a>`Makefile` - 编译 tsh 和一些帮手程序, 以及自动化测试
 
@@ -1442,7 +1442,6 @@ fi
 `mm.c` 中包含四个待填充的函数:
 
 - `int mm_init(void)`: 根据分配器的具体实现做对应的初始化.
-
   - 评分工具 `mdriver.c` 会在调用任何 `mm_malloc`, `mm_realloc` 和 `mm_free` 函数之前调用本函数以对堆进行必要的初始化.
   - 如果初始化失败则返回 -1, 否则返回 0.
 
@@ -1455,7 +1454,6 @@ fi
   ```
 
 - `void *mm_malloc(size_t size)`: 模仿官方 `malloc` 函数.
-
   - 函数 `mm_malloc` 需要返回一个指向已分配块中的有效载荷的首字节的指针, 并且该有效载荷的大小必须至少为 `size`.
   - 整个已分配块 (包含有效载荷以及可能的头部或尾部) 必须位于堆内存范围之内, 并且不允许与其他已分配块发生重叠.
   - 由于评分工具会将本函数与官方 `malloc` 函数进行比较, 而官方函数总是返回 8 字节对齐的指针, 因此本函数同样需要确保返回 8 字节对齐的指针.
@@ -1489,7 +1487,6 @@ fi
   ```
 
 - `void mm_free(void *ptr)`: 模仿官方 `free` 函数.
-
   - 函数 `mm_free` 负责释放指针 `ptr` 所指向的已分配块. 本函数只需要确保在指针 `ptr` 指向先前调用 `mm_malloc` 或 `mm_realloc` 所返回的未被释放的已分配块的前提下正常工作即可.
 
   初始实现什么也不做:
@@ -1500,7 +1497,6 @@ fi
   ```
 
 - `void *mm_realloc(void *ptr, size_t size)`: 模仿官方 `realloc` 函数.
-
   - 函数 `mm_realloc` 需要返回一个指向已分配的且大小至少为 `size` 的块, 其中:
     - 如果 `ptr` 等于 `NULL` (即不需要复制任何已有数据), 那么本函数等价于 `mm_malloc(size)`;
     - 如果 `size` 等于 0 (即指定新分配块的有效载荷大小为 0), 那么本函数等价于 `mm_free(ptr)`;
@@ -1942,19 +1938,19 @@ void *mm_malloc(size_t size) {
 通过命令行 `./run.sh > results/result_extend_no_coalesce_adapt_456_to_520.txt` 对不同超参配置下的分配器进行评测得到如下表格:
 
 | hyper-parameter | binary-bal.rep | binary2-bal.rep |
-| --- | --- | --- |
-| 2 | 73% | 68% |
-| 3 | 82% | 76% |
-| 4 | 88% | 81% |
-| 5 | 91% | 84% |
-| 6 | 94% | 51% |
-| 7 | 95% | 51% |
-| 8 | 53% | 55% |
-| 9 | 63% | 58% |
+| --------------- | -------------- | --------------- |
+| 2               | 73%            | 68%             |
+| 3               | 82%            | 76%             |
+| 4               | 88%            | 81%             |
+| 5               | 91%            | 84%             |
+| 6               | 94%            | 51%             |
+| 7               | 95%            | 51%             |
+| 8               | 53%            | 55%             |
+| 9               | 63%            | 58%             |
 
 其中超参从 5 到 6 时测试样例 `binary2-bal.rep` 的结果发生突变, 这是因为 `binary2-bal.rep` 中采用的是 (16, 112) 的组合, 其中 16 字节的载荷生成 24 字节的块大小, 112 字节的载荷生成 120 字节的块大小, 而超参等于 6 时, 为 24 字节的块多分配的 5 个块恰好组成一个 120 字节的空闲块, 从而造成该空闲块重新进入 112 字节载荷的搜索范围中 (与一开始的 "申请后分配前执行合并" 的效果等价), 导致最终堆内的分配布局又回到了大小块交叉而外部碎片巨多的情况. 在超参从 7 到 8 时 `binary-bal.rep` 结果的突变同理.
 
-对上述超参进行微调的意义是找到一个整数 a, 使得外部碎片 (448 * a) % 512 最小. 按照这个想法如果将 a 的选择范围拓展至实数轴效果肯定会更好, 但实际上不行, 因为调整 a 的比例不仅会影响 448 的块的分配, 还会影响 64 的块的分配, 而后者同样会产生外部碎片.
+对上述超参进行微调的意义是找到一个整数 a, 使得外部碎片 (448 \* a) % 512 最小. 按照这个想法如果将 a 的选择范围拓展至实数轴效果肯定会更好, 但实际上不行, 因为调整 a 的比例不仅会影响 448 的块的分配, 还会影响 64 的块的分配, 而后者同样会产生外部碎片.
 
 最终选择将超参设置为 5.
 
@@ -2047,7 +2043,6 @@ Perf index = 57 (util) + 40 (thru) = 97/100
 ### <a id="6.6"></a>相关资料
 
 - 完整的 trace 文件:
-
   - [patlewis/malloc-lab](https://github.com/patlewis/malloc-lab)
   - [Fanziyang-v/CSAPP-Lab](https://github.com/Fanziyang-v/CSAPP-Lab)
   - [jon-whit/malloc-lab](https://github.com/jon-whit/malloc-lab)
@@ -2108,7 +2103,7 @@ Perf index = 57 (util) + 40 (thru) = 97/100
 - 通过命令行指定代理服务器将要监听的端口.
 - 启动代理服务器之后, 代理服务器应监听来自客户端的请求, 读取整个请求的内容, 解析请求内容, 并代替客户端向目标服务器建立连接. 最后代理服务器负责接收来自目标服务器的响应内容并将其转发回客户端.
 - 假设客户端的请求行的内容为
-  
+
   ```text
   GET http://www.cmu.edu/hub/index.html HTTP/1.1
   ```
@@ -2122,10 +2117,10 @@ Perf index = 57 (util) + 40 (thru) = 97/100
 - HTTP 请求中的每一行都以 `\r\n` 结尾, 并且以一个空行结束整个请求.
 - 代理服务器需要能够正确解析来自客户端的 HTTP/1.0 和 HTTP/1.1 GET 请求并向服务器统一发送 HTTP/1.0 GET 请求.
 - 代理服务器的请求解析器不需要处理跨越多行的请求字段.
-- 代理服务器不应由于请求不合法这样的简单错误而提前终止. 
+- 代理服务器不应由于请求不合法这样的简单错误而提前终止.
 - 代理服务器应该总是在请求头中添加 `Host` 字段. 不过如果客户端已经在请求头中添加了该字段, 代理服务器就不需要再添加了.
 - 代理服务器可以在请求头中添加如下的 `User-Agent` 字段:
-  
+
   ```text
   User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:10.0.3) Gecko/20120305 Firefox/10.0.3
   ```
@@ -2185,13 +2180,14 @@ Perf index = 57 (util) + 40 (thru) = 97/100
   - CS:APP 官方实现的 TINY 服务器. 实际上 TINY 服务器本就用于在最终评分过程中充当目标服务器的角色.
   - Linux 程序 `telnet`. 如教材 11.5.3 小节中所示, `telnet` 可被用于与代理服务器建立 TCP 连接并向其发送 HTTP 请求.
   - Linux 程序 `curl`. 使用 `curl` 可以通过显式指定代理服务器来发送请求, 例如:
-    
+
     ```text
     curl -v --proxy http://localhost:15214 http://localhost:15213/home.html
     ```
-  
+
   - Linux 程序 `netcat` (或等价的 `nc`). `nc` 不仅可用于建立与服务器的连接并手动发送 HTTP 请求, 例如 `nc catshark.ics.cs.cmu.edu 12345` 将连接至服务器 `catshark.ics.cs.cmu.edu` 的 `12345` 端口, 也可以用于充当一个目标服务器来探查代理服务器的请求内容, 例如 `nc -l 12345` 将在本机建立一个服务器并监听 `12345` 端口. 代理服务器可以向 `nc` 请求任意伪对象, 而 `nc` 将能够探查代理服务器的请求内容.
   - 现代浏览器 (Google Chrome, Mozilla Firefox 等等). 有两个点要注意, 一个是需要在浏览器的设置中配置好代理服务器, 另一个是如果要测试代理服务器的缓存功能, 需要先关闭浏览器本身自带的缓存功能.
+
 - 使用 `csapp.c` 中提供的 RIO 函数进行套接字 I/O.
 - `csapp.c` 中的错误处理函数在检测到错误之后会立即关闭整个进程, 不适合用于代理服务器这样的长时间运行的程序. 可以选择修改或重写新的错误处理函数.
 - 本实验允许对 handout 目录进行任意修改. 例如为了模块化可以将缓存实现在文件 `cache.c` 和对应的头文件 `cache.h` 中 (记得同时修改 `Makefile` 文件).
@@ -2472,7 +2468,7 @@ HTTP 请求的定义:
   - host 要么是一个域名, 要么是一个点分十进制格式的 IP.
 
 - HTTP 版本的定义:
-  
+
   ```text
        HTTP-Version   = "HTTP" "/" 1*DIGIT "." 1*DIGIT
   ```
